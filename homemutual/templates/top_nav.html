@@ -1,0 +1,107 @@
+<!-- templates\top_nav.html -->
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
+	<!-- Navbar Brand-->
+	<a class="navbar-brand ps-3" href="{% url 'home' %}">MaaSoft</a>
+	
+	<!-- Sidebar Toggle-->
+	<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+	<!-- Contenedor central con fecha y accesos rápidos -->
+	<div class="d-flex align-items-center flex-grow-1 text-white">
+		<!-- Fecha -->
+		<div class="me-3">
+			{{ fecha.date|date:"d/m/Y" }}
+		</div>
+
+		<!-- Dropdown Accesos Rápidos -->
+		<div class="dropdown me-3">
+			<a class="btn btn-sm btn-primary dropdown-toggle text-light" href="#" role="button" id="dropdownAccesosRapidos" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="fas fa-th-large me-1"></i> Accesos Rápidos
+			</a>
+			<ul class="dropdown-menu dropdown-menu-start shadow-sm" aria-labelledby="dropdownAccesosRapidos">
+				<li><a class="dropdown-item" href=""><i class="fas fa-file-invoice-dollar text-info me-2"></i>Varios</a></li>
+				
+			</ul>
+		</div>
+
+		<div class="me-3">
+			{% if empresa.ws_modo == 1 %}
+				Modo ARCA: HOMOLOGACIÓN
+			{% endif %}
+		</div>
+	</div>
+
+	<!-- Contenedor derecho: Usuario autenticado + menú -->
+	<div class="d-flex align-items-center text-white me-3">
+		<!-- Usuario autenticado -->
+		<div class="me-3">
+			{% if user.is_authenticated %}
+				{{ request.session.sucursal }}-{{ request.session.punto_venta }}-
+				{% if request.session.first_name %}
+					{{ request.session.first_name }} {{ request.session.last_name }}
+				{% else %}
+					{{ request.session.username }}
+				{% endif %}
+			{% endif %}
+		</div>
+
+		<!-- Menú de usuario -->
+		<div class="dropdown">
+			<a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<i class="fas fa-user fa-fw"></i>
+			</a>
+			<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+				<li>
+					<a class="dropdown-item" href="#!">
+						<i class="fas fa-cogs text-primary me-2"></i>Configuración
+					</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#!">
+						<i class="fas fa-clipboard-list text-success me-2"></i>Registro de Actividad
+					</a>
+				</li>
+				{% if request.session.is_staff or request.session.is_superuser %}
+					<li>
+						<a class="dropdown-item" href="{% url 'grupo_listar' %}">
+							<i class="fas fa-users-cog text-warning me-2"></i>Grupos
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{% url 'usuario_listar' %}">
+							<i class="fas fa-user-friends text-secondary me-2"></i>Usuarios
+						</a>
+					</li>
+
+					<!-- Línea separadora -->
+					<li><hr class="dropdown-divider"></li>
+					
+					<!-- Opciones de Gestión del Menú -->
+					<li>
+						<a class="dropdown-item" href="{% url 'menu:heading_list' %}">
+							<i class="fas fa-heading text-primary me-2"></i>Encabezados del Menú
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{% url 'menu:item_list' %}">
+							<i class="fas fa-list text-success me-2"></i>Items del Menú
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{% url 'menu:menu_tree' %}">
+							<i class="fas fa-sitemap text-info me-2"></i>Árbol del Menú
+						</a>
+					</li>
+
+				{% endif %}
+				<li><hr class="dropdown-divider" /></li>
+				<li>
+					<a class="dropdown-item" href="{% url 'cerrar_sesion' %}">
+						<i class="fas fa-sign-out-alt text-danger me-2"></i>Cerrar Sesión
+					</a>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</nav>

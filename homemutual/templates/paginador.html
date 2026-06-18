@@ -1,0 +1,95 @@
+<!-- neumatic\templates\paginador.html -->
+<!-- Paginador ajustado con conservación de filtros dinámicos -->
+<nav aria-label="Page navigation example">
+	<div class="row">
+		<div class="col col-8">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+					<li class="page-item">
+						<a class="page-link" href="?page=1&{{ query_params }}" aria-label="First" title="Primera página">
+							<span aria-hidden="true">&laquo;&laquo;</span>
+						</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ query_params }}" aria-label="Previous" title="Página anterior">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+				{% endif %}
+				
+				{% for i in page_obj.paginator.page_range|slice:":5" %}
+					<li class="page-item {% if page_obj.number == i %}active{% endif %}">
+						<a class="page-link" href="?page={{ i }}&{{ query_params }}">{{ i }}</a>
+					</li>
+				{% endfor %}
+				
+				{% if page_obj.paginator.num_pages > 5 %}
+					<li class="page-item disabled">
+						<span class="page-link">...</span>
+					</li>
+					{% for i in page_obj.paginator.page_range|slice:"-5:" %}
+						<li class="page-item {% if page_obj.number == i %}active{% endif %}">
+							<a class="page-link" href="?page={{ i }}&{{ query_params }}">{{ i }}</a>
+						</li>
+					{% endfor %}
+				{% endif %}
+				
+				{% if page_obj.has_next %}
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ query_params }}" aria-label="Next" title="Página siguiente">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&{{ query_params }}" aria-label="Last" title="Última página">
+							<span aria-hidden="true">&raquo;&raquo;</span>
+						</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+		
+		<div class="col col-3 justify-content-end">
+			<label for="pagination">Registros por página:</label>
+		</div>
+		
+		<div class="col col-1">
+			<form method="get" id="paginationForm">
+				<select class="form-select" name="paginate_by" id="pagination">
+					{% for option in pagination_options %}
+						<option value="{{ option }}" {% if selected_pagination == option %}selected{% endif %}>
+							{{ option }}
+						</option>
+					{% endfor %}
+				</select>
+				<!-- Mantener otros parámetros dinámicos EXCEPTO 'page' -->
+				{% for key, value in request.GET.items %}
+					{% if key != 'paginate_by' and key != 'page' %}
+						<input type="hidden" name="{{ key }}" value="{{ value }}">
+					{% endif %}
+				{% endfor %}
+			</form>
+		</div>
+	</div>
+</nav>
+
+<!-- Script para manejar el cambio de paginación -->
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		const paginationSelect = document.getElementById('pagination');
+		const paginationForm = document.getElementById('paginationForm');
+		
+		if (paginationSelect && paginationForm) {
+			paginationSelect.addEventListener('change', function() {
+				// Remover explícitamente cualquier parámetro 'page' del formulario
+				const pageInputs = paginationForm.querySelectorAll('input[name="page"]');
+				pageInputs.forEach(input => {
+					input.parentNode.removeChild(input);
+				});
+				
+				// Enviar el formulario (irá a la página 1 automáticamente)
+				paginationForm.submit();
+			});
+		}
+	});
+</script>

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Block Title  -->
+{% block title %}
+	Inicio
+{% endblock title %}
+
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock header %}
+
+<!-- Block Main -->
+{% block main %}
+	{% block sidebar %}
+		{% if user.is_authenticated %} 
+			{% include 'sidebar.html' %}
+		{% endif %} 
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		
+		<!-- Main principalcomponent Start -->
+		{% block principalcomponent %}
+			{% include 'dashboard.html' %}
+		{% endblock principalcomponent %}
+		<!-- Main principalcomponent End -->
+	{% endblock maincomponent %}
+{% endblock main %}
+
+<!-- Block Fotter -->
+{% block footer %}
+{% endblock footer %}

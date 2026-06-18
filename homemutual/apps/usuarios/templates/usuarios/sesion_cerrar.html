@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	body {
+		position: relative;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	body::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		/* background: url('Analyzing Business Data.jpg') no-repeat center center fixed; */
+		/* background: url('3553341.jpg') no-repeat center center fixed; */ 
+		/* background: url('6204046.jpg') no-repeat center center fixed; */
+		/* background: url('Login003.jpg') no-repeat center center fixed; */
+		background: url("{% static 'img/logout_01.jpeg' %}") no-repeat center center fixed; 
+		background-size: cover;
+		filter: blur(0.5px); /* Adjust the blur effect as needed */
+		z-index: -1;
+	}
+	.card-body {
+		backdrop-filter: blur(10px); /* Apply blur effect to the card body */
+	}	
+{% endblock style %}
+
+<!-- Block Title  ------------------------------------------------------------>
+{% block title %}
+	Cerrar Sessión
+{% endblock title %}
+
+<!-- Block Header ------------------------------------------------------------>
+{% block header %}
+{% endblock header %}
+
+
+{% comment %} Block Main {% endcomment %}
+{% block main %}
+		{% block sidebar %}
+
+		{% endblock sidebar %}
+		
+		{% block maincomponent %}
+			
+			{% block principalcomponent %}
+			<div class="container">
+				<div class="row justify-content-center mt-5">
+					<div class="col col-md-4">
+						
+						<div class="card border-2 border border-light rounded-4" style="background-color: #D1FBFA;">
+							<div class="card-header text-center text-black">
+								<h2>Cierre de Sesión</h2>
+							</div>
+
+							<div class="card-body text-center">
+								<h5 class="card-title text-black">Atención!</h5>
+								<p class="card-text text-black">¿Desea cerrar la sesión de usuario?</p>
+								
+								<form method="POST" action="{% url 'cerrar_sesion' %}">
+									{% csrf_token %}
+									<input type="hidden" name="confirm_logout" value="true">
+									<button type="submit" class="btn btn-primary">Cerrar Sesión</button>
+									<a class="btn btn-outline-primary text-black" href="{% url 'home' %}">Cancelar</a>
+								</form>
+							
+							</div>
+							
+						</div>
+												
+					</div>
+				</div>
+			</div>
+			{% endblock principalcomponent %}
+			
+		{% endblock maincomponent %}
+	
+{% endblock main %}

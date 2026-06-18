@@ -1,0 +1,247 @@
+{% extends 'menu/base_menu.html' %}
+
+{% block title %}{{ title }} - Sistema de Menú{% endblock %}
+{% block breadcrumb %}{{ title }}{% endblock %}
+{% block card_title %}{{ title }}{% endblock %}
+
+{% block card_content %}
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.heading.label_tag }}
+                {{ form.heading }}
+                {% if form.heading.errors %}
+                <div class="text-danger small">{{ form.heading.errors }}</div>
+                {% endif %}
+                <div class="form-text">*Encabezado al que pertenece este item</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.parent.label_tag }}
+                {{ form.parent }}
+                {% if form.parent.errors %}
+                <div class="text-danger small">{{ form.parent.errors }}</div>
+                {% endif %}
+                <div class="form-text">Item padre (para submenús)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}
+                <div class="text-danger small">{{ form.name.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                {{ form.order.label_tag }}
+                {{ form.order }}
+                
+                {% if form.order.errors %}
+                <div class="text-danger small">{{ form.order.errors }}</div>
+                {% endif %}
+                <div class="form-text">Dejar en blanco para colocar al final automáticamente</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="mb-3">
+                <label for="current_children_count">Último Orden</label>
+                <input type="text" id="current_children_count" class="form-control" readonly 
+                        style="max-width: 200px;" placeholder="Calculando...">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.url_name.label_tag }}
+                {{ form.url_name }}
+                {% if form.url_name.errors %}
+                <div class="text-danger small">{{ form.url_name.errors }}</div>
+                {% endif %}
+                <div class="form-text">Nombre de la URL Django (ej: 'cliente_list')</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.query_params.label_tag }}
+                {{ form.query_params }}
+                {% if form.query_params.errors %}
+                <div class="text-danger small">{{ form.query_params.errors }}</div>
+                {% endif %}
+                <div class="form-text">Parámetros GET (ej: '?proceso=actualizar')</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.icon.label_tag }}
+                {{ form.icon }}
+                {% if form.icon.errors %}
+                <div class="text-danger small">{{ form.icon.errors }}</div>
+                {% endif %}
+                <div class="form-text">Clase de FontAwesome (ej: 'fas fa-home')</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label">{{ form.groups.label }}</label>
+                <div class="border rounded p-3 bg-light" style="max-height: 200px; overflow-y: auto;">
+                    {% for checkbox in form.groups %}
+                    <div class="form-check">
+                        {{ checkbox.tag }}
+                        <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                            {{ checkbox.choice_label }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% if form.groups.errors %}
+                <div class="text-danger small">{{ form.groups.errors }}</div>
+                {% endif %}
+                <div class="form-text mt-2">
+                    <i class="fas fa-info-circle text-info me-1"></i>
+                    Seleccione los grupos que pueden ver este item. Si no selecciona ninguno, solo los superusuarios podrán verlo.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="mb-3 form-check form-switch">
+                {{ form.is_collapse }}
+                <label class="form-check-label" for="{{ form.is_collapse.id_for_label }}">
+                    {{ form.is_collapse.label }}
+                </label>
+                {% if form.is_collapse.errors %}
+                <div class="text-danger small">{{ form.is_collapse.errors }}</div>
+                {% endif %}
+                <div class="form-text">Marcar si este item tiene sub-items</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 border-top pt-3">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save me-1"></i> Guardar
+        </button>
+        <a href="{% url 'menu:item_list' %}" class="btn btn-secondary">
+            <i class="fas fa-times me-1"></i> Cancelar
+        </a>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const orderField = document.getElementById('id_order');
+        const headingField = document.getElementById('id_heading');
+        const parentField = document.getElementById('id_parent');
+        const childrenCountField = document.getElementById('current_children_count');
+        
+        // Verificación de elementos
+        if (!orderField || !headingField || !parentField || !childrenCountField) {
+            console.log('🚫 Elementos faltantes');
+            return;
+        }
+        
+        // Función para obtener el conteo REAL desde el servidor
+        async function updateChildrenInfo() {
+            const headingId = headingField.value;
+            const parentId = parentField.value;
+            
+            let selectionType = "Sin selección";
+            
+            // Determinar qué estamos contando
+            if (headingId && !parentId) {
+                selectionType = "Encabezado";
+            } else if (parentId) {
+                selectionType = "Item Padre";
+            } else {
+                selectionType = "Sin ubicación";
+                childrenCountField.value = `${selectionType} - 0 hijo(s)`;
+                if (!orderField.value) orderField.placeholder = 'Auto → 1';
+                return;
+            }
+            
+            // Mostrar "cargando..."
+            childrenCountField.value = `${selectionType} - Calculando...`;
+            
+            try {
+                // Hacer petición al servidor
+                const response = await fetch(`/menu/get-children-count/?heading_id=${headingId || ''}&parent_id=${parentId || ''}`);
+                const data = await response.json();
+                
+                const childCount = data.count;
+                
+                // Actualizar interfaz
+                childrenCountField.value = `${selectionType} - ${childCount} hijo(s)`;
+                
+                // Actualizar placeholder para orden automático
+                if (!orderField.value) {
+                    orderField.placeholder = 'Auto → ' + (childCount + 1);
+                }
+                
+                console.log('Conteo actualizado:', data);
+                
+            } catch (error) {
+                console.error('Error al obtener conteo:', error);
+                childrenCountField.value = `${selectionType} - Error`;
+            }
+        }
+        
+        // INICIALIZAR - Esperar un poco para que el DOM esté completamente listo
+        setTimeout(() => {
+            updateChildrenInfo();
+        }, 100);
+        
+        // EVENT LISTENERS
+        // headingField.addEventListener('change', updateChildrenInfo);
+        // parentField.addEventListener('change', updateChildrenInfo);
+        
+        orderField.addEventListener('blur', function() {
+            if (this.value === '') {
+                updateChildrenInfo();
+            }
+        });
+
+        ///
+        // EVENT LISTENERS DIRECTOS
+        headingField.addEventListener('change', function() {
+            if (this.value && this.value !== '') {
+                parentField.value = '';
+                console.log('✅ Heading seleccionado, parent limpiado');
+            }
+            updateChildrenInfo();
+        });
+
+        parentField.addEventListener('change', function() {
+            if (this.value && this.value !== '') {
+                headingField.value = '';
+                console.log('✅ Parent seleccionado, heading limpiado');
+            }
+            updateChildrenInfo();
+        });        
+        ///
+        
+        console.log('✅ Menu Form Manager inicializado');
+    });
+
+</script>
+{% endblock script %}

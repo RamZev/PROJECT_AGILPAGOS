@@ -1,0 +1,171 @@
+<!-- neumatic\apps\usuarios\templates\usuarios\sesion_iniciar.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+	body {
+		position: relative;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+	}
+	body::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		/* background: url('Analyzing Business Data.jpg') no-repeat center center fixed; */
+		/* background: url('3553341.jpg') no-repeat center center fixed; */ 
+		/* background: url('6204046.jpg') no-repeat center center fixed; */
+		/* background: url('Login003.jpg') no-repeat center center fixed; */
+		background: url("{% static 'img/candado_01.jpeg' %}") no-repeat center center fixed; 
+		background-size: cover;
+		filter: blur(0.5px); /* Adjust the blur effect as needed */
+		z-index: -1;
+	}
+	.card-body {
+		backdrop-filter: blur(10px); /* Apply blur effect to the card body */
+	}	
+{% endblock style %}
+
+<!-- Block Title  ------------------------------------------------------------>
+{% block title %}
+	Iniciar Sessión
+{% endblock title %}
+
+<!-- Block Header ------------------------------------------------------------>
+{% block header %}
+	{% if user.is_authenticated %}
+		{% include 'top_nav.html' %}
+	{% endif %}
+{% endblock header %}
+
+<!-- Block Main - ------------------------------------------------------------>
+{% block main %}
+	{% block sidebar %}
+		{% if user.is_authenticated %}
+			{% include 'sidebar.html' %}
+		{% endif %}
+	{% endblock sidebar %}
+		
+	{% block maincomponent %}
+		
+		{% block principalcomponent %}
+			
+			{% comment %}
+			<!-- Limpiar messages que no son de login -->
+			{% if messages %}
+				<div class="alert alert-info alert-dismissible fade show">
+					{% for message in messages %}
+						<div class="alert alert-{{ message.tags }} mb-1">
+							{{ message }}
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+			{% endcomment %}
+			
+			<section class="py-3 py-md-5 py-xl-8">
+				<div class="container">
+					<div class="row gy-4 align-items-center">
+						<div class="col-12 col-md-6 col-xl-7">
+							<div class="d-flex justify-content-center text-primary">
+								<div class="col-12 col-xl-9">
+									<!-- <img class="img-fluid rounded mb-4" loading="lazy" src="./assets/img/bsb-logo-light.svg" width="245" height="80" alt="BootstrapBrain Logo"> -->
+									<h1><strong>Sistema ERP</strong></h1>
+									<hr class="border-primary mb-4">
+									<h2 class="mb-4 text-black rounded-4 px-4 py-4">Impulsamos tu Negocio!</h2>
+									<div class="text-endx">
+										<img src="{% static 'img/logo_01.png' %}" alt="Logo" style="width: 50%; height: auto;">
+								</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-12 col-md-6 col-xl-5">
+							<div class="card border-2 border border-light rounded-4" style="background-color: #D1FBFA; opacity: 0.8;">
+								<div class="card-body p-2 p-md-3 p-xl-4">
+									<div class="row">
+										<div class="col-6">
+											<div class="mb-4 text-black">
+												<h3>Iniciar Sesión</h3>
+												<p>No tienes una cuenta? <a href="#!" class="text-black">Regístrarse</a></p>
+											</div>
+										</div>
+										
+										<div class="col-6">
+											<div class="col-12 d-flex justify-content-center">
+												<img src="{% static 'img/escudo_01.png' %}" alt="Escudo" style="width: 40%; height: auto;">
+											</div>
+										</div>
+									</div>
+									
+									<!-- ********************************************************** -->
+									{% if messages %}
+										<div class="alert alert-danger alert-dismissible fade show">
+											<ul>
+												{% for message in messages %}
+													<li class="text-danger">{{ message }}</li>
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
+									<!-- ********************************************************** -->
+									
+									<form method="post" novalidate>
+										{% csrf_token %}
+										
+										<div class="row gy-3 overflow-hidden">
+											<div class="col-12">
+												<div class="form-floating mb-3">
+												<input type="text" class="form-control" name="username" id="usuario" placeholder="Nombre de Usuario" required>
+												<label for="usuario" class="form-label">Usuario</label>
+												</div>
+											</div>
+											
+											<div class="col-12">
+												<div class="form-floating mb-3">
+												<input type="password" class="form-control" name="password" id="password" value="" placeholder="Contraseña" required>
+												<label for="password" class="form-label">Contraseña</label>
+												</div>
+											</div>
+											
+											<div class="col-12">
+												<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" name="remember_me" id="remember_me">
+												<label class="form-check-label text-black" for="remember_me">
+													Mantener la sesión iniciada
+												</label>
+												</div>
+											</div>
+											
+											<div class="col-12">
+												<div class="d-grid">
+												<button type="submit" class="btn btn-primary btn-lg" type="submit">Iniciar Sesión Ahora</button>
+												</div>
+											</div>
+										</div>
+									</form>
+									
+									<div class="row">
+										<div class="col-12">
+											<div class="d-flex gap-2 gap-md-4 flex-column flex-md-row justify-content-md-end mt-4">
+												<a href="{% url 'password_reset' %}" class="text-black">Olvidó su contraseña?</a>
+											</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>   
+			<!--  -->
+		{% endblock principalcomponent %}
+		
+	{% endblock maincomponent %}
+	
+{% endblock main %}

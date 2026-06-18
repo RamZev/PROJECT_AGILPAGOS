@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Block Title  ------------------------------------------------------------>
+{% block title %}
+	Iniciar Sessión
+{% endblock title %}
+
+<!-- Block Header ------------------------------------------------------------>
+{% block header %}
+{% endblock header %}
+
+
+{% comment %} <!-- Block Main - -------------------------------------------------------------> {% endcomment %}
+{% block main %}
+	<div class="wrapper">
+		
+		{% block sidebar %}
+			{% if user.is_authenticated %}
+				{% include 'sidebar.html' %}
+			{% endif %}
+		{% endblock sidebar %}
+		
+		{% block maincomponent %}
+			<div class="main">
+			
+			{% block buttonsidebartoggle %}
+				{% if user.is_authenticated %}
+					{% include 'buttonsidebartoggle.html' %}
+				{% endif %}
+			{% endblock buttonsidebartoggle %}
+			
+			{% block principalcomponent %}
+				<div class="row justify-content-center mt-5">
+					<div class="col col-md-4">
+						<div class="card">
+							<div class="card-body">
+								<h3 class="card-title text-center">Inicio de sesión</h3>
+								<div class="card-text">
+									{% if error %}
+										<div class="alert alert-danger alert-dismissible fade show">{{ error }}</div>
+									{% endif %}
+									<form method="post">
+										{% csrf_token %}
+										<div class="form-group">
+											<label for="usuario">Usuario</label>
+											<input type="text" class="form-control form-control-sm" id="usuario" name="username"
+												tabindex="1">
+										</div>
+										<br>
+										<div class="form-group">
+											<label for="password">Contraseña</label>
+											<input type="password" class="form-control form-control-sm" id="password" 
+											name="password" tabindex="2">
+										</div>
+										<a href="#" style="float:right;font-size:12px;">
+											Olvidó la contraseña?
+										</a>
+										<button type="submit" class="btn btn-primary btn-block my-3" tabindex="3">
+											Iniciar	sesión
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endblock principalcomponent %}
+			
+			</div>
+		{% endblock maincomponent %}
+	
+	</div>
+{% endblock main %}
+
+{% comment %} <!-- Block Fotter -------------------------------------------------------------> {% endcomment %}
+{% block footer %}
+{% endblock footer %}

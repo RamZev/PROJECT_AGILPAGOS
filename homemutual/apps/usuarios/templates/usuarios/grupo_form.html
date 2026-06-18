@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+<!-- Block Title  ----------------------------------------------------------->
+{% block title %}
+	Grupos de usuarios
+{% endblock %}
+
+{% debug %}
+
+<!-- Block Header ----------------------------------------------------------->
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock %}
+
+<!-- Block Main - ----------------------------------------------------------->
+{% block main %}
+		
+	{% block sidebar %}
+		{% if user.is_authenticated %} 
+			{% include 'sidebar.html' %}
+		{% endif %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		
+		{% block principalcomponent %}
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid tbl-container">
+						
+						<div class="card border-secondary mb-3 mt-2">
+							
+							<div class="card-header bg-primary bg-opacity-25 text-dark d-flex justify-content-between p-1">
+								<h4>{{ accion }}</h4>
+								<!-- Botón cerrar lista -->
+								<button type="button" class="btn-close btn-close-blue" 
+									aria-label="Close"
+									onclick="window.location.href='{% url list_view_name %}'">
+								</button>
+							</div>
+							
+							<div class="card-body">
+								{% if form.errors %}
+									<div class="alert alert-danger alert-dismissible fade show mt-3">{{ form.errors }}</div>
+								{% endif %}
+								
+								<form method="post">
+									{% csrf_token %}
+									
+									<div class="row">
+										<div class="col-md-6">
+											<label for="grupo" class="form-label">Nombre del grupo</label>
+											<input type="text" class="form-control" id="grupo" name="name" placeholder="Grupo..."
+												value="{{ form.name.value | default:'' }}" autocomplete="off">
+										</div>
+									</div>
+									
+									<div class="row mt-3">
+										
+										<div class="col-md-5 mt-3">
+											<label for="permisos-disponibles" class="form-label">Permisos Disponibles</label>
+											<input type="text" id="filtro-permisos-disponibles" class="form-control my-2" placeholder="Filtrar..." autocomplete="off">
+											<select class="form-select" multiple name="permisos-disponibles" id="permisos-disponibles">
+												{% for permiso in permisos_disponibles %}
+													<option value="{{ permiso.id }}">{{ permiso.content_type }} - {{ permiso.name }}</option>
+												{% endfor %}
+											</select>
+										</div>
+										
+										<div class="col-md-1 botones-permisos align-content-center mt-1">
+											<!-- Íconos para pantallas grandes -->
+											<a id="perm-asignar-todos" class="d-none d-md-block"><i class="bi bi-chevron-double-right"></i></a>
+											<a id="perm-asignar-selec" class="d-none d-md-block"><i class="bi bi-chevron-right"></i></a>
+											<a id="perm-quitar-selec" class="d-none d-md-block"><i class="bi bi-chevron-left"></i></a>
+											<a id="perm-quitar-todos" class="d-none d-md-block"><i class="bi bi-chevron-double-left"></i></a>
+											<!-- Íconos para pantallas pequeñas -->
+											<a id="perm-asignar-todos-sm" class="d-md-none"><i class="bi bi-chevron-double-down"></i></a>
+											<a id="perm-asignar-selec-sm" class="d-md-none"><i class="bi bi-chevron-down"></i></a>
+											<a id="perm-quitar-selec-sm" class="d-md-none"><i class="bi bi-chevron-up"></i></a>
+											<a id="perm-quitar-todos-sm" class="d-md-none"><i class="bi bi-chevron-double-up"></i></a>
+										</div>
+										
+										<div class="col-md-5 mt-3">
+											<label for="permisos_asignados" class="form-label">Permisos Asignados</label>
+											<input type="text" id="filtro-permisos-asignados" class="form-control my-2" placeholder="Filtrar..." autocomplete="off">
+											<select class="form-select" multiple name="permisos_asignados" id="permisos_asignados">
+												{% for permiso in permisos_asignados %}
+													<option value="{{ permiso.id }}">{{ permiso.content_type }} - {{ permiso.name }}</option>
+												{% endfor %}
+											</select>
+										</div>
+										
+									</div>
+							
+									<div class="mt-3">
+										<button type="submit" class="btn btn-primary" id="botonGuardar">Guardar</button>
+										<a class="btn btn-secondary" href="{% url 'grupo_listar' %}">Salir</a>
+									</div>
+								</form>
+							</div> <!-- /End Body -->
+							
+						</div>
+						
+					</div>
+				</main>
+			</div>
+		{% endblock principalcomponent %}
+		
+	{% endblock maincomponent %}
+	
+{% endblock main %}
+
+<!-- Block Fotter ----------------------------------------------------------->
+{% block footer %}
+{% endblock footer %}
+
+<!-- Block script ----------------------------------------------------------->
+{% block script %}
+	<script src="{% static 'js/grp_perm.js' %}"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			// Obtener referencias a los selectores.
+			let permisosDisponibles = document.getElementById('permisos-disponibles');
+			let permisosAsignados = document.getElementById('permisos_asignados');
+			let filtroPermisosDisponibles = document.getElementById('filtro-permisos-disponibles');
+			let filtroPermisosAsignados = document.getElementById('filtro-permisos-asignados');
+			
+			let botonGuardar = document.getElementById('botonGuardar');
+			
+			// Asignar eventos a los elementos.
+			// Permisos:
+			document.getElementById("perm-asignar-todos").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosTodos(permisosDisponibles, permisosAsignados);
+			});
+			document.getElementById("perm-asignar-todos-sm").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosTodos(permisosDisponibles, permisosAsignados);
+			});
+			
+			document.getElementById("perm-asignar-selec").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosSeleccionados(permisosDisponibles, permisosAsignados);
+			});
+			document.getElementById("perm-asignar-selec-sm").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosSeleccionados(permisosDisponibles, permisosAsignados);
+			});
+			
+			document.getElementById("perm-quitar-selec").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosSeleccionados(permisosAsignados, permisosDisponibles);
+			});
+			document.getElementById("perm-quitar-selec-sm").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosSeleccionados(permisosAsignados, permisosDisponibles);
+			});
+			
+			document.getElementById("perm-quitar-todos").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosTodos(permisosAsignados, permisosDisponibles);
+			});
+			document.getElementById("perm-quitar-todos-sm").addEventListener("click", function (e) {
+				e.preventDefault();
+				moverElementosTodos(permisosAsignados, permisosDisponibles);
+			});
+			
+			// Función para filtrar opciones del combobox Permisos Disponibles.
+			filtroPermisosDisponibles.addEventListener('input', function () {
+				let filtro = filtroPermisosDisponibles.value.toLowerCase();
+				for (let i = 0; i < permisosDisponibles.options.length; i++) {
+					let opcion = permisosDisponibles.options[i];
+					let texto = opcion.text.toLowerCase();
+					opcion.style.display = texto.includes(filtro) ? '' : 'none';
+				}
+			});
+			
+			// Función para filtrar opciones del combobox Permisos Asignados.
+			filtroPermisosAsignados.addEventListener('input', function () {
+				let filtro = filtroPermisosAsignados.value.toLowerCase();
+				for (let i = 0; i < permisosAsignados.options.length; i++) {
+					let opcion = permisosAsignados.options[i];
+					let texto = opcion.text.toLowerCase();
+					opcion.style.display = texto.includes(filtro) ? '' : 'none';
+				}
+			});
+			
+			document.getElementById("botonGuardar").addEventListener("click", function () {
+				for (var i = 0; i < permisosAsignados.options.length; i++) {
+					permisosAsignados.options[i].selected = true;
+				}
+			});
+			
+			filtrarAsignados(permisosAsignados, permisosDisponibles);
+			
+		});
+	</script>
+{% endblock script %}

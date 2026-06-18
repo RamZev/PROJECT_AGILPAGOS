@@ -1,0 +1,40 @@
+{% extends 'menu/base_menu.html' %}
+
+{% block menu_title %}{{ title }}{% endblock %}
+{% block card_title %}{{ title }}{% endblock %}
+
+{% block card_content %}
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}
+                <div class="text-danger">{{ form.name.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                {{ form.order.label_tag }}
+                {{ form.order }}
+                {% if form.order.errors %}
+                <div class="text-danger">{{ form.order.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save me-1"></i> Guardar
+        </button>
+        <a href="{% url 'menu:heading_list' %}" class="btn btn-secondary">
+            <i class="fas fa-times me-1"></i> Cancelar
+        </a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,250 @@
+/* neumatic\static\css\reportes.css */
+/*-- Estilos para reportes en pantalla --*/
+
+body {
+	font-family: Arial, sans-serif;
+	font-size: 12pt;
+	margin: 0;
+	padding: 0;
+	display: block;
+	height: 100%;
+	max-width: 90%;
+	margin: auto;
+}
+header {
+	/* height: 100px; */
+	min-height: 100px;
+	padding: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-sizing: border-box; /* Esto incluye el padding dentro del ancho total */
+}
+
+@page {
+	size: A4;
+	margin: 0.5cm 0.5cm 1.0cm 0.5cm;
+	
+	/* Footer en cada página */
+	@bottom-left {
+		border-top: 1px solid black;
+		width: 25%;
+		content: "M.A.A.S Soft";
+		font-size: 8pt;
+		text-align: left;
+		font-style: italic;
+		height: 20px;
+	}
+	
+	@bottom-center {
+		border-top: 1px solid black;
+		width: 75%;
+		content: "Página " counter(page) " de " counter(pages);
+		font-size: 8pt;
+		text-align: center;
+		height: 20px;
+	}
+	
+	@bottom-right {
+		border-top: 1px solid black;
+		content: " ";
+		width: 25%;
+		height: 20px;
+	}
+	/* @bottom-right {
+		content: "Página " counter(page) " de " counter(pages);
+		font-size: 8pt;
+		text-align: right;
+	} */
+	/* 	
+	@bottom-right {
+		content: "Generado: " attr(data-date);
+		font-size: 8pt;
+		text-align: right;
+	}
+	*/
+}
+
+main {
+	margin-bottom: 80px; /* Ajuste para el footer */
+	line-height: 1.1;
+	margin-left: 1cm;
+	margin-right: 1cm;
+}
+main p {
+	line-height: 1.1;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+th, td {
+	text-align: left;
+}
+th {
+	font-size: 10px;
+	padding: 5px 2px;
+}
+td {
+	vertical-align: top; /* Alinea el contenido al inicio de la celda */
+	word-wrap: break-word;
+	word-break: break-word;
+}
+table th, table td {
+	text-align: left;
+	font-size: 12px;
+	/* line-height: 1.0; */
+	white-space: nowrap; /* Mantiene el texto en una sola línea */
+	overflow: hidden;
+}
+table th.numeric, table td.numeric {
+	text-align: right;
+}
+table th.pl-15, table td.pl-15 {
+	padding-left: 15px;
+}
+table th.pl-10, table td.pl-10 {
+	padding-left: 10px;
+}
+table th.pr-15, table td.pr-15 {
+	padding-right: 15px;
+}
+table th.pr-10, table td.pr-10 {
+	padding-right: 10px;
+}
+.compact-line-spacing {
+	line-height: 1.1;
+}
+
+/* Estructura del Header (header-top y header-bottom) */
+.header-top, .header-bottom {
+	display: flex;
+	width: 100%;
+	padding: 0;
+	box-sizing: border-box;
+}
+/* Sección Header-top */
+.header-top {
+	height: 50px;
+	display: flex;
+}
+
+.header-bottom {
+	height: auto; /* Ajusta la altura dependiendo del contenido */
+	justify-content: space-between;
+	align-items: flex-start;
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	padding: 5px;
+}
+.logo-section {
+	width: 25%;
+	height: 50px;
+	flex-grow: 0; /* No crece más allá del 25% */
+	display: flex;
+	align-items: center; /* Centra verticalmente */
+	justify-content: flex-start;
+}
+
+.logo {
+	max-height: 40px;
+	max-width: 100%; /* Asegura que el logo no desborde */
+	object-fit: contain; /* Evita que se recorte el logo */
+}
+
+.title-section {
+	width: 75%;
+	flex-grow: 1; /* Permite que el título crezca para ocupar el espacio restante */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-end;
+	height: 100%; /* Asegura que ocupe toda la altura disponible */
+}
+
+.title-section p, .right-content p {
+	margin: 0;
+	width: 100%; /* Asegura que el párrafo ocupe todo el ancho disponible */
+	text-align: right;
+}
+.left-content p {
+	margin: 0;
+	width: 100%; /* Asegura que el párrafo ocupe todo el ancho disponible */
+	text-align: left;
+}
+
+.title-section h2 {
+	margin: 0;
+	width: 100%; /* Asegura que el título ocupe todo el ancho disponible */
+	text-align: right;
+}
+
+/* Secciones del header-bottom */
+.header-bottom-left, .header-bottom-right {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	box-sizing: border-box;
+	height: auto; /* Permite que la altura se ajuste al contenido */
+}
+.header-bottom-left p, .header-bottom-right p {
+	margin: 0; /* Elimina márgenes en los párrafos */
+	padding: 0; /* Elimina padding extra */
+}
+
+
+/*--- Estilos para fijar los títulos de las columnas de la tabla (Sticky) ---*/
+/* Contenedor para la tabla con scroll */
+.table-container {
+	max-height: 80vh;
+	overflow-y: auto;
+	overflow-x: auto;
+	position: relative;
+	width: 100%;
+	max-width: none;
+	margin: 0;
+}
+
+/* Opcional: ajustar el ancho de la tabla */
+.table-container table {
+	width: auto;
+	min-width: 100%;
+	table-layout: auto;
+}
+
+/* Agregar espacio a la primera columna */
+table thead th:first-child,
+table tbody td:first-child {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/* Espacio en la última columna */
+table thead th:last-child,
+table tbody td:last-child {
+	padding-right: 10px;
+}
+
+/* Fijar el encabezado */
+table thead th {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
+	background-color: #c5c5c5ff;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 8px solid transparent;
+}
+
+/* Asegurar que la primera columna también sea sticky si es necesario */
+table thead th:first-child {
+	left: 0;
+	z-index: 20;
+}
+/*---------------------------------------------------------------------------*/

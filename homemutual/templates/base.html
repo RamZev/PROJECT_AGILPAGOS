@@ -1,0 +1,82 @@
+<!-- templates\base.html -->
+{% load static %}
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		
+		<title>
+			{% block title %}
+			{% endblock title %}
+		</title>
+		
+		<link rel="icon" href="{% static 'img/favicon.png' %}" type="image/x-icon">
+		
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/logins/login-9/assets/css/login-9.css">
+
+		<!-- Select2 jQuery-->
+		<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+		<link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
+		
+		<style>
+			{% block style %}
+			{% endblock style %}
+		</style>
+		
+		<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+		<link rel="stylesheet" href="{% static 'css/botones.css' %}">
+		<script src="{% static 'js/control_list.js' %}"></script>
+	</head>
+	
+	<body class="sb-nav-fixed">
+		
+		{% block header %}
+		{% endblock header %}
+		
+		<div id="layoutSidenav">
+			{% block main %}
+				
+				{% block sidebar %}
+				{% endblock sidebar %}
+				
+				{% block maincomponent %}
+					{% block principalcomponent %}
+					{% endblock principalcomponent %}
+				{% endblock maincomponent %}
+				
+			{% endblock main %}
+		</div>
+		
+		{% block modals %}
+		{% endblock modals %}
+		
+		{% block footer %}
+		{% endblock footer %}
+		
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+		<script src="{% static 'assets/demo/chart-area-demo.js' %}"></script>
+		<script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
+		<script src="{% static 'js/datatables-simple-demo.js' %}"></script>
+		<script src="{% static 'js/scripts.js' %}" defer></script>
+		<script src="{% static 'js/neumatic_scripts.js' %}"></script>
+
+		<!-- Select2 jQuery-->
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/es.js"></script>
+		<script src="{% static 'js/select2_config_cliente.js' %}"></script>
+		
+		{% block script %}
+		{% endblock script %}
+		
+	</body>
+</html>

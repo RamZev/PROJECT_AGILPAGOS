@@ -1,0 +1,127 @@
+{% extends 'menu/base_menu.html' %}
+
+{% block title %}Items de Menú - Sistema de Menú{% endblock %}
+{% block breadcrumb %}Items de Menú{% endblock %}
+{% block card_title %}Lista de Items de Menú***{% endblock %}
+
+{% block card_tools %}
+<div class="d-flex flex-wrap gap-2">
+    <a href="{% url 'menu:item_create' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus me-1"></i> Nuevo Item
+    </a>
+    <a href="{% url 'menu:heading_list' %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-list me-1"></i> Encabezados
+    </a>
+    <a href="{% url 'menu:menu_tree' %}" class="btn btn-info btn-sm">
+        <i class="fas fa-sitemap me-1"></i> Árbol
+    </a>
+</div>
+{% endblock %}
+
+{% block card_content %}
+<div class="table-responsive" style="font-size: 0.85rem;">
+    <table class="table table-striped table-hover table-sm">
+        <thead class="table-light">
+            <tr>
+                <th class="py-2" style="width: 60px;">Orden</th>
+                <th class="py-2">Nombre</th>
+                <th class="py-2">Ubicación</th>
+                <th class="py-2">URL</th>
+                <th class="py-2 text-center" style="width: 100px;">Colapsable</th>
+                <th class="py-2 text-center" style="width: 100px;">Tipo</th>
+                <th class="py-2 text-center" style="width: 80px;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td class="py-2">
+                    <small class="text-muted">{{ item.order }}</small>
+                </td>
+                <td class="py-2">
+                    <div class="fw-medium">{{ item.name }}</div>
+                    {% if item.children.exists %}
+                        <small class="text-info">
+                            <i class="fas fa-sitemap me-1"></i>{{ item.children.count }} hijo{{ item.children.count|pluralize }}
+                        </small>
+                    {% endif %}
+                </td>
+                <td class="py-2">
+                    <small class="text-muted">
+                        {% if item.parent %}
+                            {% if item.parent.heading %}
+                                {{ item.parent.heading.name }} › {{ item.parent.name }}
+                            {% else %}
+                                {{ item.parent.name }}
+                            {% endif %}
+                        {% elif item.heading %}
+                            {{ item.heading.name }}
+                        {% else %}
+                            <em class="text-warning">Sin ubicación</em>
+                        {% endif %}
+                    </small>
+                </td>
+                <td class="py-2">
+                    {% if item.url_name %}
+                        <code class="small bg-light px-1 rounded">{{ item.url_name }}</code>
+                    {% else %}
+                        <span class="text-muted small">-</span>
+                    {% endif %}
+                </td>
+                <td class="py-2 text-center">
+                    {% if item.is_collapse %}
+                        <span class="badge bg-success badge-sm">Sí</span>
+                    {% else %}
+                        <span class="badge bg-secondary badge-sm">No</span>
+                    {% endif %}
+                </td>
+                <td class="py-2 text-center">
+                    {% if item.is_collapse %}
+                        <span class="badge bg-primary badge-sm">Grupo*</span>
+                    {% else %}
+                        <span class="badge bg-light text-dark badge-sm border">Item*</span>
+                    {% endif %}
+                </td>
+                <td class="py-2 text-center">
+                    <div class="btn-group btn-group-sm">
+                        <a href="{% url 'menu:item_update' item.pk %}" class="btn btn-outline-warning" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        {% if item.is_collapse and item.children.exists %}
+                            <button class="btn btn-outline-secondary" disabled>
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        {% else %}
+                            <a href="{% url 'menu:item_delete' item.pk %}" class="btn btn-outline-danger" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </td>
+
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center py-3">
+                    <div class="text-muted">
+                        <i class="fas fa-inbox fa-2x mb-2"></i><br>
+                        No hay items de menú registrados
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Agregar estilos para badges más pequeños -->
+<style>
+.badge-sm {
+    font-size: 0.7em;
+    padding: 0.25em 0.5em;
+}
+.table-sm {
+    font-size: 0.8rem;
+}
+</style>
+{% endblock %}

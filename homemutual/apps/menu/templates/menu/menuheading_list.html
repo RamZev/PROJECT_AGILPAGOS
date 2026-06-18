@@ -1,0 +1,47 @@
+{% extends 'menu/base_menu.html' %}
+
+{% block menu_title %}Encabezados de Menú{% endblock %}
+{% block card_title %}Lista de Encabezados de Menú{% endblock %}
+
+{% block card_tools %}
+    <a href="{% url 'menu:heading_create' %}" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus me-1"></i> Nuevo Encabezado
+    </a>
+    <a href="{% url 'menu:item_list' %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-list me-1"></i> Ver Items
+    </a>
+{% endblock %}
+
+{% block card_content %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for heading in headings %}
+            <tr>
+                <td>{{ heading.order }}</td>
+                <td>{{ heading.name }}</td>
+                <td>
+                    <a href="{% url 'menu:heading_update' heading.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'menu:heading_delete' heading.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center">No hay encabezados de menú registrados</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

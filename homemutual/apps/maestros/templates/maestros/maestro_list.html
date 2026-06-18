@@ -1,0 +1,250 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load custom_tags %}
+
+<!-- Block Title -->
+{% block title %}
+	{{ master_title }}
+{% endblock title %}
+
+{% block style %}
+	body {
+		background-color: rgb(0, 204, 255);
+	}
+	
+	.tbl-container {
+		
+	}
+	
+	.tbl-fixed {
+		overflow-x: scroll;
+		overflow-y: scroll;
+		height: fit-content;
+		max-height: 60vh;
+		margin-top: 0px;
+		font-size: 80%;
+	}
+	table {
+		min-width: max-content;
+	}
+	table th {
+		position: sticky;
+		top: 0px;
+	}
+	
+	.decimal {
+		text-align: right;
+		font-familily: monospace;
+	}
+{% endblock style %}
+
+{% debug %}
+
+<!-- Block Header -->
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock header %}
+
+<!-- Block Main -->
+{% block main %}
+	{% block sidebar %}
+		{% if user.is_authenticated %} 
+			{% include 'sidebar.html' %}
+		{% endif %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+	<!-- Main Component Start -->
+			
+		<!-- Main principalcomponent Start -->
+		{% block principalcomponent %}
+		<div id="layoutSidenav_content">
+			<main>	
+				<div class="container-fluid tbl-container">
+					<div class="card border-secondary mb-3 mt-2">
+						<div class="card-header bg-primary bg-opacity-25 text-dark d-flex 
+								justify-content-between p-1">
+							<h4>{{ master_title }}</h4>
+							<!-- Botón cerrar lista -->
+							<button type="button" class="btn-close btn-close-blue" 
+								aria-label="Close"
+								onclick="window.location.href='{% url home_view_name %}'">
+							</button>
+						</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="col col-10">
+									{% include 'buscador.html' %}
+								</div>
+								
+								<div class="col col-2">
+									<a href="{% url create_view_name %}" 
+											class="btn btn-primary opacity-75">
+										Nuevo
+									</a>
+								</div>
+							</div>
+							
+							<div class="row tbl-fixed my-2 mx-1">
+								<!-- Inicio Tabla de Maestro -->
+								<table class="table table-bordered table-striped table-hover">
+									<thead class="table-primary">
+										{% for key, value in table_headers.items %}
+											<th class="col-{{ value.0 }}">
+												<a href="{% url list_view_name %}?order_by={{ key }}">
+													{{ value.1 }}
+													{% if key == order_by %}
+														▲
+													{% endif %}
+												</a>
+											</th>
+										{% endfor %}
+									</thead>
+									
+									<tbody>
+										{% for objeto in objetos %}
+											<tr>
+												{% for data_info in table_data %}
+													{% with objeto|get_attribute:data_info.field_name as field_value %}
+														{% if field_value|get_type == 'bool' %}
+															<td>
+																{% if field_value %}
+																	<i class="fa fa-check text-success"></i> <!-- Ícono de check verde -->
+																{% else %}
+																	<i class="fa fa-times text-danger"></i> <!-- Ícono de "X" roja -->
+																{% endif %}
+															</td>
+														{% elif field_value|get_type == 'float' or field_value|get_type == 'Decimal' %}
+															<td class="decimal">{{ objeto|get_attribute:data_info.field_name|formato_es_ar }}</td>
+														{% elif field_value|get_type == 'int' %}
+															<td>{{ objeto|get_attribute:data_info.field_name }}</td>
+														{% else %}
+															{% if data_info.date_format %}
+																<td>{{ objeto|get_attribute:data_info.field_name|default:"" |date:data_info.date_format }}</td>
+															{% else %}
+																<td>{{ objeto|get_attribute:data_info.field_name|default:"" }}</td>
+															{% endif %}
+														{% endif %}
+													{% endwith %}
+												{% endfor %}
+												
+												<td class="text-center" style="padding-left: 0.1rem; padding-right: 0.1rem;">
+													<!-- Botón Actualizar -->
+													<button type="button" class="btn btn-outline-primary btn-sm btn-edit boton-oculto" data-form-index="{{ forloop.counter0 }}"
+															onclick="window.location.href='{% url update_view_name objeto.pk %}'" 
+															data-bs-toggle="tooltip" data-bs-placement="top" title="Actualizar Registro"
+															style="font-size: 70%; padding: 0.1rem 0.3rem;">
+														<i class="fa fa-edit"></i>
+													</button>
+													
+													<!-- Botón Eliminar -->
+													<button type="button" class="btn btn-outline-danger btn-sm btn-delete boton-oculto" 
+															data-bs-toggle="modal" title="Eliminar Registro" data-bs-target="#deleteModal" 
+															data-bs-whatever-url="{% url delete_view_name objeto.pk %}" data-bs-whatever-name="{{ objeto }}"
+															style="font-size: 70%; padding: 0.1rem 0.3rem;">
+														<i class="fa fa-trash-alt"></i>
+													</button>
+													
+													<!-- Botón Ver -->
+													<button type="button" class="btn btn-outline-success btn-sm btn-view boton-oculto"
+															data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Registro"
+															style="font-size: 70%; padding: 0.1rem 0.3rem;">
+														<i class="fa fa-eye"></i>
+													</button>
+													
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+								<!-- Final Tabla de Maestro -->
+							</div>
+							
+							{% block paginador %}
+								{% include 'paginador.html' %}
+							{% endblock paginador %}
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+		{% endblock principalcomponent %}
+		<!-- Main principalcomponent End -->
+		
+	{% endblock maincomponent %}
+	
+{% endblock main %}
+
+{% block modals %}
+	<!-- Modal para confirmar eliminación -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog d-flex align-items-center">
+			<div class="modal-content border border-white">
+				<div class="modal-header bg-primary bg-opacity-25">
+					<h1 class="modal-title fs-5" id="deleteModalLabel">Confirmar Eliminación</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Se eliminará: <strong id="deleteItemName"></strong></p>
+					¿Estás seguro que eliminar el registro?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<form id="deleteForm" method="post" class="d-inline">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-danger">Sí, eliminar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal para mensajes de error on_delete=models.PROTECT -->
+	<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger bg-opacity-25">
+					<h5 class="modal-title" id="errorModalLabel">Error</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="errorModalBody">
+					<!-- Aquí se mostrará el mensaje de error -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>	
+{% endblock modals %}
+
+{% block script %}
+	<script>
+		var exampleModal = document.getElementById('deleteModal')
+		exampleModal.addEventListener('show.bs.modal', function (event) {
+			var button = event.relatedTarget
+			var recipient = button.getAttribute('data-bs-whatever-name')
+			var url = button.getAttribute('data-bs-whatever-url')
+			
+			var modalTitle = exampleModal.querySelector('.modal-title')
+			var modalBodyInput = exampleModal.querySelector('.modal-body strong')
+			var form = exampleModal.querySelector('#deleteForm')
+			
+			modalTitle.textContent = 'Eliminar ' + recipient
+			modalBodyInput.textContent = recipient
+			form.action = url
+		})
+		
+		// Obtener el mensaje de error de la cola de mensajes de Django
+		const errorMessage = "{% if messages %}{% for message in messages %}{{ message }}{% if not forloop.last %}<br>{% endif %}{% endfor %}{% else %} {% endif %}";
+		// Verificar si hay un mensaje de error
+		if (errorMessage.trim() !== '') {
+			// Mostrar el modal con el mensaje de error
+			const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+			document.getElementById('errorModalBody').innerText = errorMessage;
+			modal.show();
+		}
+	</script>
+	
+{% endblock script %}

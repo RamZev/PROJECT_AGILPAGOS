@@ -1,0 +1,103 @@
+{% extends 'menu/base_menu.html' %}
+
+{% block menu_title %}Árbol del Menú{% endblock %}
+{% block card_title %}Árbol Completo del Menú{% endblock %}
+
+{% block card_tools %}
+    <a href="{% url 'menu:heading_list' %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-list me-1"></i> Encabezados
+    </a>
+    <a href="{% url 'menu:item_list' %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-list me-1"></i> Items
+    </a>
+{% endblock %}
+
+{% block card_content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Estructura del Menú</h5>
+            </div>
+            <div class="card-body">
+                {% for heading in headings %}
+                    <div class="mb-4">
+                        <h6 class="text-primary mb-2">
+                            <i class="fas fa-folder me-1"></i>
+                            {{ heading.name }} (Orden: {{ heading.order }})
+                        </h6>
+                        
+                        <div class="ms-4">
+                            {% for item in heading.menuitem_set.all %}
+                                {% if item.parent == None %}
+                                    <div class="mb-2">
+                                        {% if item.is_collapse %}
+                                            <span class="text-success">
+                                                <i class="fas fa-folder me-1"></i>
+                                                <strong>{{ item.name }}</strong> (Orden: {{ item.order }})
+                                            </span>
+                                            
+                                            <div class="ms-4">
+                                                {% for child in item.children.all %}
+                                                    {% if child.is_collapse %}
+                                                        <div class="mb-1">
+                                                            <span class="text-warning">
+                                                                <i class="fas fa-folder-open me-1"></i>
+                                                                {{ child.name }} (Orden: {{ child.order }})
+                                                            </span>
+                                                            
+                                                            <div class="ms-4">
+                                                                {% for grandchild in child.children.all %}
+                                                                    <div class="mb-1">
+                                                                        <span class="text-dark">
+                                                                            <i class="fas fa-file me-1"></i>
+                                                                            {{ grandchild.name }} 
+                                                                            {% if grandchild.url_name %}
+                                                                                → <code>{{ grandchild.url_name }}</code>
+                                                                            {% endif %}
+                                                                            (Orden: {{ grandchild.order }})
+                                                                        </span>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="mb-1">
+                                                            <span class="text-dark">
+                                                                <i class="fas fa-file me-1"></i>
+                                                                {{ child.name }}
+                                                                {% if child.url_name %}
+                                                                    → <code>{{ child.url_name }}</code>
+                                                                {% endif %}
+                                                                (Orden: {{ child.order }})
+                                                            </span>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            <span class="text-dark">
+                                                <i class="fas fa-file me-1"></i>
+                                                {{ item.name }}
+                                                {% if item.url_name %}
+                                                    → <code>{{ item.url_name }}</code>
+                                                {% endif %}
+                                                (Orden: {{ item.order }})
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% empty %}
+                                <p class="text-muted">No hay items en este encabezado</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% empty %}
+                    <p class="text-muted">No hay encabezados de menú definidos</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

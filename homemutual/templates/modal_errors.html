@@ -1,0 +1,78 @@
+<!-- neumatic\templates\modal_errors.html **-->
+<!-- Modal modal_errors.html es para mostrar errores de validación del formulario y transacciones (templates base) -->
+
+<div class="modal fade" id="errorModal" tabindex="-1" data-has-errors="{% if form.errors %}true{% else %}false{% endif %}" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header alert alert-danger">
+                <h5 class="modal-title text-dark" id="errorModalLabel">Errores en el formulario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body overflow-auto" style="max-height: 400px;">
+                <!-- Errores específicos de validación de campos -->
+                {% for field in form %}
+                    {% if field.errors %}
+                    <div class="mb-3">
+                        <h6 class="text-dark mb-2">
+                            <i class="bi bi-input-cursor-text me-1"></i>
+                            {{ field.label }}
+                        </h6>
+                        <ul class="list-unstyled ms-3">
+                            {% for error in field.errors %}
+                            <li class="text-secondary">
+                                <i class="bi bi-arrow-return-right me-1 text-muted"></i>
+                                {{ error }}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                
+                <!-- Errores no específicos -->
+                {% if form.non_field_errors %}
+                <div class="mb-3">
+                    <h6 class="text-dark mb-2">
+                        <i class="bi bi-exclamation-octagon me-1"></i>
+                        Errores generales
+                    </h6>
+                    <ul class="list-unstyled ms-3">
+                        {% for error in form.non_field_errors %}
+                        <li class="text-secondary">
+                            <i class="bi bi-arrow-return-right me-1 text-muted"></i>
+                            {{ error|linebreaksbr }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                
+                <!-- Errores de transacciones -->
+                {% if transaction_error %}
+                <div class="mb-3">
+                    <h6 class="text-dark mb-2">
+                        <i class="bi bi-lightning-charge me-1"></i>
+                        Error de transacción
+                    </h6>
+                    <ul class="list-unstyled ms-3">
+                        <li class="text-secondary">
+                            <i class="bi bi-arrow-return-right me-1 text-muted"></i>
+                            {{ transaction_error }}
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                    <i class="bi bi-check-circle me-1"></i>
+                    Entendido
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</div>

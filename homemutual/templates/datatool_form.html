@@ -1,0 +1,41 @@
+<!-- neumatic\templates\datatool_form.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Block Title  -------------------------------------------------------- -->
+{% block title %}
+	{{ titulo }}
+{% endblock title %}
+
+<!-- Block Header  ------------------------------------------------------- -->
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock header %}
+
+{% block main %}
+	{% block sidebar %}
+		{% include 'sidebar.html' %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		{% block principalcomponent %}
+		{% endblock principalcomponent %}
+	{% endblock maincomponent %}
+{% endblock main %}
+
+<!-- Block Modals -------------------------------------------------------- -->
+{% block modals %}
+	<!-- Modal para mostrar errores -->
+	{% include 'modal_errors.html' %}
+	
+{% endblock modals %}
+
+<!-- Block Footer -------------------------------------------------------- -->
+{% block footer %}
+	{{ block.super }}
+{% endblock footer %}
+
+<!-- Block JavaScrip ----------------------------------------------------- -->
+{% block script %}
+	{{ block.super }}
+{% endblock script %}

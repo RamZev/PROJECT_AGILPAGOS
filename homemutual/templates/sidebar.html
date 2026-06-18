@@ -1,0 +1,101 @@
+<!-- neumatic/templates/sidebar_simple.html -->
+<!-- neumatic/templates/sidebar_collapsible.html -->
+<div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-blue" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                {% for heading, items in menu_tree.items %}
+                    <!-- Nivel 1: Heading (siempre colapsable) -->
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseL1{{ heading.id_menu_heading }}" aria-expanded="false" aria-controls="collapseL1{{ heading.id_menu_heading }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        {{ heading.name }}
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    
+                    <div class="collapse" id="collapseL1{{ heading.id_menu_heading }}" aria-labelledby="heading{{ heading.id_menu_heading }}" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav accordion">
+                            
+                            {% for entry in items %}
+                                {% with item=entry.item children=entry.children %}
+                                    
+                                    {% if item.is_collapse %}
+                                        <!-- Nivel 2: Item Colapsable -->
+                                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseL2{{ item.id_menu_item }}" aria-expanded="false" aria-controls="collapseL2{{ item.id_menu_item }}">
+                                            {{ item.name }}
+                                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                        </a>
+                                        
+                                        <div class="collapse" id="collapseL2{{ item.id_menu_item }}" aria-labelledby="heading{{ item.id_menu_item }}" data-bs-parent="#collapseL1{{ heading.id_menu_heading }}">
+                                            <nav class="sb-sidenav-menu-nested nav accordion">
+                                                
+                                                {% for child_entry in children %}
+                                                    {% with child=child_entry.item grandchildren=child_entry.children %}
+                                                        
+                                                        {% if child.is_collapse %}
+                                                            <!-- Nivel 3: Sub-Item Colapsable -->
+                                                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseL3{{ child.id_menu_item }}" aria-expanded="false" aria-controls="collapseL3{{ child.id_menu_item }}">
+                                                                {{ child.name }}
+                                                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                                            </a>
+                                                            
+                                                            <div class="collapse" id="collapseL3{{ child.id_menu_item }}" aria-labelledby="heading{{ child.id_menu_item }}" data-bs-parent="#collapseL2{{ item.id_menu_item }}">
+                                                                <nav class="sb-sidenav-menu-nested nav">
+                                                                    
+                                                                    {% for grandchild_entry in grandchildren %}
+                                                                        {% with grandchild=grandchild_entry.item %}
+                                                                            <!-- Nivel 4: Sub-Sub-Item Final -->
+                                                                            {% if grandchild.url_name %}
+                                                                                <a class="nav-link" href="{% url grandchild.url_name %}?{{ grandchild.query_params|default:'' }}">
+                                                                                    {{ grandchild.name }}
+                                                                                </a>
+                                                                            {% else %}
+                                                                                <a class="nav-link" href="#">
+                                                                                    {{ grandchild.name }}
+                                                                                </a>
+                                                                            {% endif %}
+                                                                        {% endwith %}
+                                                                    {% endfor %}
+                                                                    
+                                                                </nav>
+                                                            </div>
+                                                        {% else %}
+                                                            <!-- Nivel 3: Sub-Item Final -->
+                                                            {% if child.url_name %}
+                                                                <a class="nav-link" href="{% url child.url_name %}?{{ child.query_params|default:'' }}">
+                                                                    {{ child.name }}
+                                                                </a>
+                                                            {% else %}
+                                                                <a class="nav-link" href="#">
+                                                                    {{ child.name }}
+                                                                </a>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        
+                                                    {% endwith %}
+                                                {% endfor %}
+                                                
+                                            </nav>
+                                        </div>
+                                    {% else %}
+                                        <!-- Nivel 2: Item Final -->
+                                        {% if item.url_name %}
+                                            <a class="nav-link" href="{% url item.url_name %}?{{ item.query_params|default:'' }}">
+                                                {{ item.name }}
+                                            </a>
+                                        {% else %}
+                                            <a class="nav-link" href="#">
+                                                {{ item.name }}
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
+                                    
+                                {% endwith %}
+                            {% endfor %}
+                            
+                        </nav>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </nav>
+</div>

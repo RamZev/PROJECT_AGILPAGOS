@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Block Header  ---------------------------------------------------------->
+{% block header %}
+    {% include 'top_nav.html' %}
+{% endblock header %}
+
+{% comment %} Block Main {% endcomment %}
+{% block main %}
+	{% block sidebar %}
+		{% include 'sidebar.html' %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		{% block principalcomponent %}
+		{% endblock principalcomponent %}
+	{% endblock maincomponent %}
+{% endblock main %}
+
+{% block modals %}
+	<!-- Modal para mostrar errores -->
+	{% include 'modal_errors.html' %}
+	
+	{% comment %}
+	<!-- Modal para confirmar eliminación -->
+	<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog d-flex align-items-center">
+			<div class="modal-content border border-white">
+				<div class="modal-header bg-primary bg-opacity-25">
+					<h1 class="modal-title fs-5" id="deleteModalLabel">Confirmar Eliminación</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Se eliminará: <strong id="deleteItemName"></strong></p>
+					¿Estás seguro que eliminar el registro?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<form id="deleteForm" method="post" class="d-inline">
+						{% csrf_token %}
+						<button type="submit" class="btn btn-danger">Sí, eliminar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal para mensajes de error on_delete=models.PROTECT -->
+	<div class="modal fade" id="errorModalx" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger bg-opacity-25">
+					<h5 class="modal-title" id="errorModalLabel">Error</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="errorModalBody">
+					<!-- Aquí se mostrará el mensaje de error -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% endcomment %}
+	
+{% endblock modals %}
+
+{% block footer %}
+{% endblock footer %}
+
+{% block script %}
+	{% comment %}
+	<script>
+		console.log("Carga el JS para el modal de ERRORES")
+		cons exampleModal = document.getElementById('deleteModal')
+		if (!exampleModal) {
+			alert("No se encontró el modal deleteModal");
+		}
+		exampleModal.addEventListener('show.bs.modal', function (event) {
+			const button = event.relatedTarget
+			const recipient = button.getAttribute('data-bs-whatever-name')
+			const url = button.getAttribute('data-bs-whatever-url')
+			
+			const modalTitle = exampleModal.querySelector('.modal-title')
+			const modalBodyInput = exampleModal.querySelector('.modal-body strong')
+			const form = exampleModal.querySelector('#deleteForm')
+			
+			modalTitle.textContent = 'Eliminar ' + recipient
+			modalBodyInput.textContent = recipient
+			form.action = url
+		})
+		
+		// Obtener el mensaje de error de la cola de mensajes de Django
+		const errorMessage = "{% if messages %}{% for message in messages %}{{ message }}{% if not forloop.last %}<br>{% endif %}{% endfor %}{% else %} {% endif %}";
+		console.log("Mensaje de error recibido:", errorMessage);
+		// Verificar si hay un mensaje de error
+		if (errorMessage.trim() !== '') {
+			// Mostrar el modal con el mensaje de error
+			const modal = new bootstrap.Modal(document.getElementById('errorModal'));
+			console.log("!!!!!Mostrando modal de error con mensaje:", errorMessage);
+			document.getElementById('errorModalBody').innerText = errorMessage;
+			modal.show();
+		}
+	</script>
+	{% endcomment %}
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+			const modalElement = document.getElementById('errorModal');
+			const hasErrors = modalElement.dataset.hasErrors === "true";
+			
+			// Mostrar el modal si hay errores
+			if (hasErrors) {
+				errorModal.show();
+			}
+			
+			// Validación en tiempo real: remover clases al escribir (borde rojo de los inputs con error).
+			// Seleccionar inputs y selects.
+			var inputs = document.querySelectorAll('input, select');
+			
+			inputs.forEach(function (input) {
+				// Para los campos de tipo input (text, number, etc.)
+				input.addEventListener('input', function () {
+					if (input.classList.contains('is-invalid')) {
+						// Eliminar la clase de borde rojo (border-danger).
+						input.classList.remove('is-invalid', 'border-danger');
+						// Agregar la clase de borde azul (border-primary).
+						input.classList.add('border-primary');
+					}
+				});
+				// Para los combobox (select)
+				input.addEventListener('change', function () {
+					if (input.classList.contains('is-invalid')) {
+						// Eliminar la clase de borde rojo (border-danger).
+						input.classList.remove('is-invalid', 'border-danger');
+						// Agregar la clase de borde azul (border-primary).
+						input.classList.add('border-primary');
+					}
+				});
+				
+			});
+			
+			// Al cerrar el modal, enfocar el primer campo con error
+			modalElement.addEventListener('hidden.bs.modal', function () {
+				// Buscar el primer campo con la clase 'is-invalid' después de que el modal esté completamente oculto
+				const firstInvalidField = document.querySelector('.is-invalid');
+				if (firstInvalidField) {
+					firstInvalidField.focus(); // Establecer el foco en el primer campo con error
+				}
+			});
+		});
+	</script>
+
+{% endblock script %}

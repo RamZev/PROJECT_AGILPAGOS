@@ -1,0 +1,25 @@
+.botnes-permisos {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+}
+
+.botones-permisos a {
+	display: inline-block;
+	padding: 5px 10px;
+	/* background-color: aqua; */
+	margin: 10px;
+	border-radius: 20%;
+	text-decoration: none;
+	text-align: center;
+	border: 1px solid;
+}
+.botones-permisos a:hover {
+	background-color: rgb(223, 226, 226);
+}
+
+.botones-permisos i {
+	display: block;
+}

@@ -1,0 +1,32 @@
+<!-- neumatic/templates/menu_item_recursive.html -->
+{% load static %}
+
+{% if item.is_collapse %}
+    {% with collapse_id='collapse'|add:item.name|slugify|add:item.id_menu_item|stringformat:"i" %}
+        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#{{ collapse_id }}" aria-expanded="false" aria-controls="{{ collapse_id }}">
+            {{ item.name }}
+            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+        </a>
+        <div class="collapse" id="{{ collapse_id }}" aria-labelledby="heading{{ item.name|slugify }}" 
+             data-bs-parent="#sidenavAccordion{{ item.heading.id_menu_heading|default:0 }}">
+            <nav class="sb-sidenav-menu-nested nav {% if level < 3 %}accordion{% endif %}" 
+                 id="sidenavAccordion{{ item.id_menu_item }}">
+                {% for child_entry in children %}
+                    {% with next_level=level|add:1 %}
+                        {% include "menu_item_recursive.html" with item=child_entry.item children=child_entry.children level=next_level %}
+                    {% endwith %}
+                {% endfor %}
+            </nav>
+        </div>
+    {% endwith %}
+{% else %}
+    {% if item.url_name %}
+        <a class="nav-link" href="{% url item.url_name %}?{{ item.query_params|default:'' }}">
+            {{ item.name }}
+        </a>
+    {% else %}
+        <a class="nav-link" href="#">
+            {{ item.name }}
+        </a>
+    {% endif %}
+{% endif %}

@@ -1,0 +1,88 @@
+<!-- neumatic\templates\maestro_form.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Block Title  -------------------------------------------------------- -->
+{% block title %}
+	{{ accion }}
+{% endblock title %}
+
+<!-- Block Header  ------------------------------------------------------- -->
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock header %}
+
+{% block main %}
+	{% block sidebar %}
+		{% include 'sidebar.html' %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		{% block principalcomponent %}
+		{% endblock principalcomponent %}
+	{% endblock maincomponent %}
+{% endblock main %}
+
+<!-- Block Modals -------------------------------------------------------- -->
+{% block modals %}
+	<!-- Modal para mostrar errores -->
+	{% include 'modal_errors.html' %}
+{% endblock modals %}
+
+<!-- Block Footer -------------------------------------------------------- -->
+{% block footer %}
+	{{ block.super }}
+{% endblock footer %}
+
+<!-- Block JavaScrip ----------------------------------------------------- -->
+{% block script %}
+	{{ block.super }}
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+			const modalElement = document.getElementById('errorModal');
+			const hasErrors = modalElement.dataset.hasErrors === "true";
+			
+			// Mostrar el modal si hay errores
+			if (hasErrors) {
+				errorModal.show();
+			}
+			
+			// Validación en tiempo real: remover clases al escribir.
+			// Seleccionar inputs y selects.
+			const inputs = document.querySelectorAll('input, select');
+			
+			inputs.forEach(function (input) {
+				// Para los campos de tipo input (text, number, etc.)
+				input.addEventListener('input', function () {
+					if (input.classList.contains('is-invalid')) {
+						// Eliminar la clase de borde rojo (border-danger).
+						input.classList.remove('is-invalid', 'border-danger');
+						// Agregar la clase de borde azul (border-primary).
+						input.classList.add('border-primary');
+					}
+				});
+				// Para los combobox (select)
+				input.addEventListener('change', function () {
+					if (input.classList.contains('is-invalid')) {
+						// Eliminar la clase de borde rojo (border-danger).
+						input.classList.remove('is-invalid', 'border-danger');
+						// Agregar la clase de borde azul (border-primary).
+						input.classList.add('border-primary');
+					}
+				});
+				
+			});
+			
+			// Al cerrar el modal, enfocar el primer campo con error
+			modalElement.addEventListener('hidden.bs.modal', function () {
+				// Buscar el primer campo con la clase 'is-invalid' después de que el modal esté completamente oculto
+				const firstInvalidField = document.querySelector('.is-invalid');
+				if (firstInvalidField) {
+					firstInvalidField.focus(); // Establecer el foco en el primer campo con error
+				}
+			});
+		});
+	</script>
+{% endblock script %}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+<!-- Block Title  ----------------------------------------------------------->
+{% block title %}
+	Usuarios
+{% endblock %}
+
+<!-- Block Header ----------------------------------------------------------->
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock %}
+
+<!-- Block Main - ----------------------------------------------------------->
+{% block main %}
+	
+	{% block sidebar %}
+		{% if user.is_authenticated %} 
+			{% include 'sidebar.html' %}
+		{% endif %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		
+		{% block principalcomponent %}
+			
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid tbl-container">
+						
+						<div class="card border-secondary mb-3 mt-2">
+							<div class="card-header bg-primary bg-opacity-25 text-dark d-flex 
+									justify-content-between p-1">
+								<h4>{{ accion }}</h4>
+								<!-- Botón cerrar lista -->
+								<button type="button" class="btn-close btn-close-blue" 
+									aria-label="Close"
+									onclick="window.location.href='{% url list_view_name %}'">
+								</button>
+							</div>
+							
+							<div class="card-body">
+								<!-- <h3 class="card-title text-center">Registro de Usuario</h3> -->
+								
+								<div class="card-text">
+									{% if form.errors %}
+										<div class="alert alert-danger alert-dismissible fade show">
+											<ul>
+												{% for field in form %}
+													{% if field.errors %}
+														<li class="text-danger">{{ field.label }}:
+															<ul>
+																{% for error in field.errors %}
+																	<li class="text-danger">{{ error }}</li>
+																{% endfor %}
+															</ul>
+														</li>
+													{% endif %}
+												{% endfor %}
+											</ul>
+										</div>
+									{% endif %}
+									
+									<form method="post" novalidate>
+										{% csrf_token %}
+										
+										<div class="row mt-3">
+											
+											<div class="col-md-6">
+												<label class="form-label text-primary mb-0">
+													{{ form.username.label }}
+												</label>
+												{{ form.username }}
+												<div class="form-text">
+													<ul class="mb-0">
+														<li>Campo requerido.</li>
+														<li>150 carácteres como máximo. Únicamente letras, dígitos y @/./+/-/_</li>
+													</ul>
+												</div>
+											</div>
+										
+											<div class="col-md-6">
+												<label class="form-label text-primary mb-0">
+													{{ form.email.label }}
+												</label>
+												{{ form.email }}
+												<div class="form-text">
+													<ul class="mb-0">
+														<li>Campo requerido.</li>
+														<li>150 carácteres como máximo. Únicamente letras, dígitos y @/./+/-/_</li>
+													</ul>
+												</div>
+											</div>
+											
+										</div>
+										
+										<div class="row mt-3">
+											
+											<div class="col-md-6">
+												<label class="form-label text-primary mb-0">
+													{{ form.password1.label }}
+												</label>
+												{{ form.password1 }}
+												<div class="form-text">
+													<ul class="mb-0">
+														<li>Su contraseña no puede asemejarse tanto a su otra información personal.</li>
+														<li>Su contraseña debe contener al menos 8 caracteres.</li>
+														<li>Su contraseña no puede ser una clave utilizada comúnmente.</li>
+														<li>Su contraseña no puede ser completamente numérica.</li>
+													</ul>
+												</div>
+											</div>
+											
+											<div class="col-md-6">
+												<label class="form-label text-primary mb-0">
+													{{ form.password2.label }}
+												</label>
+												{{ form.password2 }}
+												<div class="form-text">
+													<ul class="mb-0">
+														<li>Su contraseña no puede asemejarse tanto a su otra información personal.</li>
+														<li>Su contraseña debe contener al menos 8 caracteres.</li>
+														<li>Su contraseña no puede ser una clave utilizada comúnmente.</li>
+														<li>Su contraseña no puede ser completamente numérica.</li>
+													</ul>
+												</div>
+											</div>
+											
+										</div>
+										
+										<button type="submit" class="btn btn-primary btn-block mt-2">Registrar</button>
+										<a href="{% url 'usuario_listar' %}" class="btn btn-secondary mt-2">Cancelar</a>
+										
+									</form>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</main>
+			</div>
+		{% endblock principalcomponent %}
+		
+	{% endblock maincomponent %}
+	
+{% endblock main %}
+
+<!-- Block Fotter ----------------------------------------------------------->
+{% block footer %}
+{% endblock footer %}
+
+<!-- Block script ----------------------------------------------------------->
+{% block script %}
+{% endblock script %}
