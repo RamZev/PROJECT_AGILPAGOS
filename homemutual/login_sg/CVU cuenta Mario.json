@@ -1,0 +1,21 @@
+{
+  "usuario": [
+    "3292162e-ecc4-4caf-9264-cedfa8de83d2"
+  ],
+  "cuentas": [
+    {
+      "cvu": "0000242600000000150200",
+      "alias": "CIRCO.PUMA.RUSIA",
+      "estado": "Activo",
+      "nroCuentaEntidad": "1004471",
+      "favorita": true,
+      "titulares": [
+        {
+          "tipoPersona": "FISICA",
+          "cuit": "20207882950",
+          "nombre": "AGENO Mario Andres"
+        }
+      ]
+    }
+  ]
+}

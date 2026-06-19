@@ -1,0 +1,17 @@
+{
+    "nombre": "Mario Andres",
+    "apellido": "AGENO",
+    "razonSocial": null,
+    "sexo": "M",
+    "idEntidadTipoDocumento": "CAE2882B-493C-4E1A-A6E7-B5E2BD25F808",
+    "numeroDocumento": "20788295",
+    "fechaNacimiento": "1969-05-11T19:36:05.735Z",
+    "cuit": 20207882950,
+    "email": "mario@maasoft.com.ar",
+    "caracteristicaPaisTelefono": "54",
+    "codigoAreaTelefono": "3498",
+    "numeroTelefono": "680413",
+    "idTipoPersona": "20EB9127-7CA8-49E0-9E0B-CA8293218ACA",
+    "numeroCuentaEntidad": "1004471",
+    "idTipoCuenta": "D2483A34-78BE-40A2-B8CB-07AD4BCF6F61"
+  }

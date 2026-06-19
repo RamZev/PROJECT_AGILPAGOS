@@ -1,0 +1,261 @@
+{% extends 'maestro_form.html' %}
+{% load static %}
+<!-- -------------------------------------------------------------------- -->
+{% block maincomponent %}
+	{% block principalcomponent %}
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid">
+					
+					<div class="card border-light mb-3 mt-2">
+						<div class="card-header text-white bg-primary opacity-75 d-flex 
+									justify-content-between">
+							{{ accion }}
+							<div class="flex align-items-center">
+								<a 
+									class="me-2 text-white" 
+									data-bs-toggle="modal" 
+									data-bs-target="#helpModal" 
+									style="cursor: pointer;">
+									<i class="bi bi-question-lg"></i></a>
+								
+								<button type="button" class="btn-close btn-close-white" 
+									aria-label="Close"
+									onclick="window.location.href='{% url list_view_name %}'">
+								</button>
+							</div>
+						</div>
+						
+						<div class="card-body bg-body-secondary">
+							<form method="post" enctype="multipart/form-data" novalidate>
+								{% csrf_token %}
+								<div class="accordion" id="accordionPanelsStayOpenExample">
+									<!-- Estructura generada -->
+									
+									<div class="accordion-item">
+										<h2 class="accordion-header">
+											<button 
+												class="accordion-button py-2 " 
+												type="button" 
+												data-bs-toggle="collapse" 
+												data-bs-target="#Información_Cuenta_Mutual" 
+												aria-expanded="true" 
+												aria-controls="Información_Cuenta_Mutual">
+												<strong>Información Cuenta Mutual</strong>
+											</button>
+										</h2>
+										<div class="accordion-collapse collapse show"
+											id="Información_Cuenta_Mutual">
+											<div class="accordion-body bg-secondary-subtle">
+												
+												<div class="row">
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.estatus_cuenta_mutual.label }}
+														</label>
+														{{ form.estatus_cuenta_mutual }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_sucursal.label }}
+														</label>
+														{{ form.id_sucursal }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_socio.label }}
+														</label>
+														{{ form.id_socio }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.cuenta.label }}
+														</label>
+														{{ form.cuenta }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.documento.label }}
+														</label>
+														{{ form.documento }}
+													</div>
+												</div>										
+												<div class="row">
+													
+													<div class="col-md-3">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_sg_usuario.label }}
+														</label>
+														{{ form.id_sg_usuario }}
+													</div>
+													
+													<div class="col-md-3">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_sg_cuenta.label }}
+														</label>
+														{{ form.id_sg_cuenta }}
+													</div>
+													
+													<div class="col-md-3">
+														<label class="form-label text-primary mb-0">
+															{{ form.cvu.label }}
+														</label>
+														{{ form.cvu }}
+													</div>
+													
+													<div class="col-md-3">
+														<label class="form-label text-primary mb-0">
+															{{ form.alias.label }}
+														</label>
+														{{ form.alias }}
+													</div>
+												</div>										
+												<div class="row">
+													
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_user.label }}
+														</label>
+														{{ form.id_user }}
+													</div>
+												</div>										
+												<div class="row">
+													
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">
+															{{ form.razon_social.label }}
+														</label>
+														{{ form.razon_social }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.cuit.label }}
+														</label>
+														{{ form.cuit }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.sexo.label }}
+														</label>
+														{{ form.sexo }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.fecha_nacimiento.label }}
+														</label>
+														{{ form.fecha_nacimiento }}
+													</div>
+												</div>										
+												<div class="row">
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.caracteristica_pais_telefono.label }}
+														</label>
+														{{ form.caracteristica_pais_telefono }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.codigo_area_telefono.label }}
+														</label>
+														{{ form.codigo_area_telefono }}
+													</div>
+													
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">
+															{{ form.numero_telefono.label }}
+														</label>
+														{{ form.numero_telefono }}
+													</div>
+												</div>										
+												<div class="row">
+													
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_entidad_tipo_documento.label }}
+														</label>
+														{{ form.id_entidad_tipo_documento }}
+													</div>
+													
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_tipo_persona.label }}
+														</label>
+														{{ form.id_tipo_persona }}
+													</div>
+													
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">
+															{{ form.id_tipo_cuenta.label }}
+														</label>
+														{{ form.id_tipo_cuenta }}
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>								
+								</div>
+
+								<div class="container mt-3">
+									<button class="btn btn-primary" type="submit" id="guardarBtn">
+										Guardar
+									</button>
+									<a class="btn btn-secondary" href="{% url list_view_name %}">
+										Cancelar
+									</a>
+
+									{% if form.instance.pk and not form.instance.id_sg_usuario %}
+									<button class="btn btn-warning"
+											type="submit" 
+											name="crear_sg" 
+											value="1" >
+										Crear en SG
+									</button>
+
+									{% endif %}
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	{% endblock principalcomponent %}
+{% endblock maincomponent %}
+<!-- -------------------------------------------------------------------- -->
+{% block modals %}
+	<!-- Modal para mostrar errores -->
+	{% include 'maestros/modal_errors.html' %}
+	
+	<!-- Modal para mostrar los requerimientos de los campos -->
+	{% include 'maestros/modal_fields_requirements.html' %}
+{% endblock modals %}
+<!-- -------------------------------------------------------------------- -->
+ {% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const suc = document.getElementById('id_id_sucursal');
+  const socio = document.getElementById('id_id_socio');
+  const cuenta = document.getElementById('id_cuenta');
+
+  function recalc() {
+    const s = parseInt(suc?.value || 0, 10);
+    const so = parseInt(socio?.value || 0, 10);
+    if (s && so && cuenta) cuenta.value = (s * 1000000 + so).toString();
+  }
+  suc?.addEventListener('change', recalc);
+  socio?.addEventListener('input', recalc);
+  recalc();
+});
+</script>
+{% endblock extra_js %}

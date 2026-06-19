@@ -1,0 +1,131 @@
+{# templates/maestros/sg_provincia_form.html #}
+{% extends 'maestro_form.html' %}
+{% load static %}
+
+{% block maincomponent %}
+    {% block principalcomponent %}
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+                    
+                    <div class="card border-light mb-3 mt-2">
+                        <div class="card-header text-white bg-primary opacity-75 d-flex 
+                                    justify-content-between">
+                            {{ accion }}
+                            <div class="flex align-items-center">
+                                <a 
+                                    class="me-2 text-white" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#helpModal" 
+                                    style="cursor: pointer;">
+                                    <i class="bi bi-question-lg"></i>
+                                </a>
+                                
+                                <button type="button" class="btn-close btn-close-white" 
+                                    aria-label="Close"
+                                    onclick="window.location.href='{% url list_view_name %}'">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body bg-body-secondary">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 1: DATOS DE PROVINCIA          -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#DatosProvincia" 
+                                                aria-expanded="true" 
+                                                aria-controls="DatosProvincia">
+                                                <strong>Datos de Provincia</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show"
+                                            id="DatosProvincia">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <!-- Estatus: primero y más angosto -->
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.estatus_sg_provincia.label }}
+                                                        </label>
+                                                        {{ form.estatus_sg_provincia }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_sg_provincia.label }}
+                                                        </label>
+                                                        {{ form.id_sg_provincia }}
+                                                        <div class="form-text">{{ form.id_sg_provincia.help_text }}</div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.codigo_iso.label }}
+                                                        </label>
+                                                        {{ form.codigo_iso }}
+                                                        <div class="form-text">{{ form.codigo_iso.help_text }}</div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.nombre_provincia.label }}
+                                                        </label>
+                                                        {{ form.nombre_provincia }}
+                                                        <div class="form-text">{{ form.nombre_provincia.help_text }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_pais.label }}
+                                                        </label>
+                                                        {{ form.id_pais }}
+                                                        <div class="form-text">{{ form.id_pais.help_text }}</div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.nombre_pais.label }}
+                                                        </label>
+                                                        {{ form.nombre_pais }}
+                                                        <div class="form-text">{{ form.nombre_pais.help_text }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- End accordion -->
+
+                                <div class="container mt-3">
+                                    <button class="btn btn-primary" type="submit" id="guardarBtn">
+                                        Guardar
+                                    </button>
+                                    <a class="btn btn-secondary" href="{% url list_view_name %}">
+                                        Cancelar
+                                    </a>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    {% endblock principalcomponent %}
+{% endblock maincomponent %}
+
+{% block modals %}
+    <!-- Modal para mostrar errores -->
+    {% include 'maestros/modal_errors.html' %}
+    
+    <!-- Modal para mostrar los requerimientos de los campos -->
+    {% include 'maestros/modal_fields_requirements.html' %}
+{% endblock modals %}

@@ -1,0 +1,17 @@
+{
+    "nombre": "Nicolas",
+    "apellido": "Aquino",
+    "razonSocial": null,
+    "sexo": "M",
+    "idEntidadTipoDocumento": "CAE2882B-493C-4E1A-A6E7-B5E2BD25F808",
+    "numeroDocumento": "40451860",
+    "fechaNacimiento": "1997-09-11T19:36:05.735Z",
+    "cuit": 20404518608,
+    "email": "nico@hotmail.com",
+    "caracteristicaPaisTelefono": "54",
+    "codigoAreaTelefono": "348",
+    "numeroTelefono": "3489517",
+    "idTipoPersona": "20EB9127-7CA8-49E0-9E0B-CA8293218ACA",
+    "numeroCuentaEntidad": "1003650",
+    "idTipoCuenta": "D2483A34-78BE-40A2-B8CB-07AD4BCF6F61"
+  }

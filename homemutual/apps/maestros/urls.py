@@ -4,6 +4,8 @@ from django.urls import path
 #-- Tablas
 from .views.cuenta_mutual_views import *
 from .views.sucursal_views import *
+from .views.sg_nacionalidad_views import *
+from .views.sg_provincia_views import *
 
 urlpatterns = [
 	#-- Tablas:
@@ -19,4 +21,15 @@ urlpatterns = [
 	path('sucursal/<int:pk>/editar/', SucursalUpdateView.as_view(), name='sucursal_update'),
 	path('sucursal/<int:pk>/eliminar/', SucursalDeleteView.as_view(), name='sucursal_delete'),
 
+	#-- Sg Nacionalidad.
+    path('sg-nacionalidad/', SgNacionalidadListView.as_view(), name='sg_nacionalidad_list'),
+    path('sg-nacionalidad/nueva/', SgNacionalidadCreateView.as_view(), name='sg_nacionalidad_create'),
+    path('sg-nacionalidad/<int:pk>/editar/', SgNacionalidadUpdateView.as_view(), name='sg_nacionalidad_update'),
+    path('sg-nacionalidad/<int:pk>/eliminar/', SgNacionalidadDeleteView.as_view(), name='sg_nacionalidad_delete'),
+    
+	#-- Sg Provincia.  ← NUEVO
+    path('sg-provincia/', SgProvinciaListView.as_view(), name='sg_provincia_list'),
+    path('sg-provincia/nueva/', SgProvinciaCreateView.as_view(), name='sg_provincia_create'),
+    path('sg-provincia/<int:pk>/editar/', SgProvinciaUpdateView.as_view(), name='sg_provincia_update'),
+    path('sg-provincia/<int:pk>/eliminar/', SgProvinciaDeleteView.as_view(), name='sg_provincia_delete'),
 ]

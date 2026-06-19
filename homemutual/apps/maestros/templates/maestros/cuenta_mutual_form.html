@@ -2,260 +2,623 @@
 {% load static %}
 <!-- -------------------------------------------------------------------- -->
 {% block maincomponent %}
-	{% block principalcomponent %}
-		<div id="layoutSidenav_content">
-			<main>
-				<div class="container-fluid">
-					
-					<div class="card border-light mb-3 mt-2">
-						<div class="card-header text-white bg-primary opacity-75 d-flex 
-									justify-content-between">
-							{{ accion }}
-							<div class="flex align-items-center">
-								<a 
-									class="me-2 text-white" 
-									data-bs-toggle="modal" 
-									data-bs-target="#helpModal" 
-									style="cursor: pointer;">
-									<i class="bi bi-question-lg"></i></a>
-								
-								<button type="button" class="btn-close btn-close-white" 
-									aria-label="Close"
-									onclick="window.location.href='{% url list_view_name %}'">
-								</button>
-							</div>
-						</div>
-						
-						<div class="card-body bg-body-secondary">
-							<form method="post" enctype="multipart/form-data" novalidate>
-								{% csrf_token %}
-								<div class="accordion" id="accordionPanelsStayOpenExample">
-									<!-- Estructura generada -->
-									
-									<div class="accordion-item">
-										<h2 class="accordion-header">
-											<button 
-												class="accordion-button py-2 " 
-												type="button" 
-												data-bs-toggle="collapse" 
-												data-bs-target="#Información_Cuenta_Mutual" 
-												aria-expanded="true" 
-												aria-controls="Información_Cuenta_Mutual">
-												<strong>Información Cuenta Mutual</strong>
-											</button>
-										</h2>
-										<div class="accordion-collapse collapse show"
-											id="Información_Cuenta_Mutual">
-											<div class="accordion-body bg-secondary-subtle">
-												
-												<div class="row">
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.estatus_cuenta_mutual.label }}
-														</label>
-														{{ form.estatus_cuenta_mutual }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_sucursal.label }}
-														</label>
-														{{ form.id_sucursal }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_socio.label }}
-														</label>
-														{{ form.id_socio }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.cuenta.label }}
-														</label>
-														{{ form.cuenta }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.documento.label }}
-														</label>
-														{{ form.documento }}
-													</div>
-												</div>										
-												<div class="row">
-													
-													<div class="col-md-3">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_sg_usuario.label }}
-														</label>
-														{{ form.id_sg_usuario }}
-													</div>
-													
-													<div class="col-md-3">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_sg_cuenta.label }}
-														</label>
-														{{ form.id_sg_cuenta }}
-													</div>
-													
-													<div class="col-md-3">
-														<label class="form-label text-primary mb-0">
-															{{ form.cvu.label }}
-														</label>
-														{{ form.cvu }}
-													</div>
-													
-													<div class="col-md-3">
-														<label class="form-label text-primary mb-0">
-															{{ form.alias.label }}
-														</label>
-														{{ form.alias }}
-													</div>
-												</div>										
-												<div class="row">
-													
-													<div class="col-md-4">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_user.label }}
-														</label>
-														{{ form.id_user }}
-													</div>
-												</div>										
-												<div class="row">
-													
-													<div class="col-md-4">
-														<label class="form-label text-primary mb-0">
-															{{ form.razon_social.label }}
-														</label>
-														{{ form.razon_social }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.cuit.label }}
-														</label>
-														{{ form.cuit }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.sexo.label }}
-														</label>
-														{{ form.sexo }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.fecha_nacimiento.label }}
-														</label>
-														{{ form.fecha_nacimiento }}
-													</div>
-												</div>										
-												<div class="row">
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.caracteristica_pais_telefono.label }}
-														</label>
-														{{ form.caracteristica_pais_telefono }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.codigo_area_telefono.label }}
-														</label>
-														{{ form.codigo_area_telefono }}
-													</div>
-													
-													<div class="col-md-2">
-														<label class="form-label text-primary mb-0">
-															{{ form.numero_telefono.label }}
-														</label>
-														{{ form.numero_telefono }}
-													</div>
-												</div>										
-												<div class="row">
-													
-													<div class="col-md-4">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_entidad_tipo_documento.label }}
-														</label>
-														{{ form.id_entidad_tipo_documento }}
-													</div>
-													
-													<div class="col-md-4">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_tipo_persona.label }}
-														</label>
-														{{ form.id_tipo_persona }}
-													</div>
-													
-													<div class="col-md-4">
-														<label class="form-label text-primary mb-0">
-															{{ form.id_tipo_cuenta.label }}
-														</label>
-														{{ form.id_tipo_cuenta }}
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>								
-								</div>
+    {% block principalcomponent %}
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+                    
+                    <div class="card border-light mb-3 mt-2">
+                        <div class="card-header text-white bg-primary opacity-75 d-flex 
+                                    justify-content-between">
+                            {{ accion }}
+                            <div class="flex align-items-center">
+                                <a 
+                                    class="me-2 text-white" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#helpModal" 
+                                    style="cursor: pointer;">
+                                    <i class="bi bi-question-lg"></i></a>
+                                
+                                <button type="button" class="btn-close btn-close-white" 
+                                    aria-label="Close"
+                                    onclick="window.location.href='{% url list_view_name %}'">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body bg-body-secondary">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 1: INFORMACIÓN CUENTA MUTUAL    -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Informacion_Cuenta" 
+                                                aria-expanded="true" 
+                                                aria-controls="Informacion_Cuenta">
+                                                <strong>Información Cuenta Mutual</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show"
+                                            id="Informacion_Cuenta">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.estatus_cuenta_mutual.label }}
+                                                        </label>
+                                                        {{ form.estatus_cuenta_mutual }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_sucursal.label }}
+                                                        </label>
+                                                        {{ form.id_sucursal }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_socio.label }}
+                                                        </label>
+                                                        {{ form.id_socio }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.cuenta.label }}
+                                                        </label>
+                                                        {{ form.cuenta }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_user.label }}
+                                                        </label>
+                                                        {{ form.id_user }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-								<div class="container mt-3">
-									<button class="btn btn-primary" type="submit" id="guardarBtn">
-										Guardar
-									</button>
-									<a class="btn btn-secondary" href="{% url list_view_name %}">
-										Cancelar
-									</a>
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 2: DATOS PERSONALES             -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#DatosPersonales" 
+                                                aria-expanded="false" 
+                                                aria-controls="DatosPersonales">
+                                                <strong>Datos Personales</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="DatosPersonales">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.nombre.label }}
+                                                        </label>
+                                                        {{ form.nombre }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.apellido.label }}
+                                                        </label>
+                                                        {{ form.apellido }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.razon_social.label }}
+                                                        </label>
+                                                        {{ form.razon_social }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.genero.label }}
+                                                        </label>
+                                                        {{ form.genero }}
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.fecha_nacimiento.label }}
+                                                        </label>
+                                                        {{ form.fecha_nacimiento }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-									{% if form.instance.pk and not form.instance.id_sg_usuario %}
-									<button class="btn btn-warning"
-											type="submit" 
-											name="crear_sg" 
-											value="1" >
-										Crear en SG
-									</button>
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 3: DOCUMENTO Y CUIT             -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Documento" 
+                                                aria-expanded="false" 
+                                                aria-controls="Documento">
+                                                <strong>Documento y CUIT</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="Documento">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.numero_documento.label }}
+                                                        </label>
+                                                        {{ form.numero_documento }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.numero_tramite_documento.label }}
+                                                        </label>
+                                                        {{ form.numero_tramite_documento }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.cuit.label }}
+                                                        </label>
+                                                        {{ form.cuit }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_entidad_tipo_documento.label }}
+                                                        </label>
+                                                        {{ form.id_entidad_tipo_documento }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-									{% endif %}
-								</div>
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 4: CONTACTO                     -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Contacto" 
+                                                aria-expanded="false" 
+                                                aria-controls="Contacto">
+                                                <strong>Contacto</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="Contacto">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.email.label }}
+                                                        </label>
+                                                        {{ form.email }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.caracteristica_pais_telefono.label }}
+                                                        </label>
+                                                        {{ form.caracteristica_pais_telefono }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.codigo_area_telefono.label }}
+                                                        </label>
+                                                        {{ form.codigo_area_telefono }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.numero_telefono.label }}
+                                                        </label>
+                                                        {{ form.numero_telefono }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-							</form>
-						</div>
-					</div>
-				</div>
-			</main>
-		</div>
-	{% endblock principalcomponent %}
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 5: NACIONALIDAD                 -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Nacionalidad" 
+                                                aria-expanded="false" 
+                                                aria-controls="Nacionalidad">
+                                                <strong>Nacionalidad</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="Nacionalidad">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_nacionalidad.label }}
+                                                        </label>
+                                                        {{ form.id_nacionalidad }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_pais_nacimiento.label }}
+                                                        </label>
+                                                        {{ form.id_pais_nacimiento }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_pais_domicilio.label }}
+                                                        </label>
+                                                        {{ form.id_pais_domicilio }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 6: DOMICILIO                    -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Domicilio" 
+                                                aria-expanded="false" 
+                                                aria-controls="Domicilio">
+                                                <strong>Domicilio</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="Domicilio">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_provincia.label }}
+                                                        </label>
+                                                        {{ form.id_provincia }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.localidad.label }}
+                                                        </label>
+                                                        {{ form.localidad }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.cp.label }}
+                                                        </label>
+                                                        {{ form.cp }}
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.calle.label }}
+                                                        </label>
+                                                        {{ form.calle }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.altura.label }}
+                                                        </label>
+                                                        {{ form.altura }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.piso.label }}
+                                                        </label>
+                                                        {{ form.piso }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.departamento.label }}
+                                                        </label>
+                                                        {{ form.departamento }}
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-12">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.observaciones_domicilio.label }}
+                                                        </label>
+                                                        {{ form.observaciones_domicilio }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 7: SITUACIÓN FISCAL Y LEGAL     -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#FiscalLegal" 
+                                                aria-expanded="false" 
+                                                aria-controls="FiscalLegal">
+                                                <strong>Situación Fiscal y Legal</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="FiscalLegal">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_condicion_fiscal.label }}
+                                                        </label>
+                                                        {{ form.id_condicion_fiscal }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_estado_civil.label }}
+                                                        </label>
+                                                        {{ form.id_estado_civil }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_ocupacion.label }}
+                                                        </label>
+                                                        {{ form.id_ocupacion }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_tipo_persona.label }}
+                                                        </label>
+                                                        {{ form.id_tipo_persona }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 8: CUMPLIMIENTO NORMATIVO       -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Normativo" 
+                                                aria-expanded="false" 
+                                                aria-controls="Normativo">
+                                                <strong>Cumplimiento Normativo</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="Normativo">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.es_pep.label }}
+                                                        </label>
+                                                        {{ form.es_pep }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_motivo_pep.label }}
+                                                        </label>
+                                                        {{ form.id_motivo_pep }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.es_uif.label }}
+                                                        </label>
+                                                        {{ form.es_uif }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.ley_fatca.label }}
+                                                        </label>
+                                                        {{ form.ley_fatca }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 9: DATOS TÉCNICOS              -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#Tecnicos" 
+                                                aria-expanded="false" 
+                                                aria-controls="Tecnicos">
+                                                <strong>Datos Técnicos</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="Tecnicos">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_tipo_cuenta.label }}
+                                                        </label>
+                                                        {{ form.id_tipo_cuenta }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.numero_cuenta_entidad.label }}
+                                                        </label>
+                                                        {{ form.numero_cuenta_entidad }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.fecha_alta.label }}
+                                                        </label>
+                                                        {{ form.fecha_alta }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 10: IDENTIFICADORES SG          -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2 collapsed" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#IdentificadoresSG" 
+                                                aria-expanded="false" 
+                                                aria-controls="IdentificadoresSG">
+                                                <strong>Identificadores SG</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse"
+                                            id="IdentificadoresSG">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_sg_usuario.label }}
+                                                        </label>
+                                                        {{ form.id_sg_usuario }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_sg_cuenta.label }}
+                                                        </label>
+                                                        {{ form.id_sg_cuenta }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.cvu.label }}
+                                                        </label>
+                                                        {{ form.cvu }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.alias.label }}
+                                                        </label>
+                                                        {{ form.alias }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- End accordion -->
+
+                                <div class="container mt-3">
+                                    <button class="btn btn-primary" type="submit" id="guardarBtn">
+                                        Guardar
+                                    </button>
+                                    <a class="btn btn-secondary" href="{% url list_view_name %}">
+                                        Cancelar
+                                    </a>
+
+                                    {% if form.instance.pk and not form.instance.id_sg_usuario %}
+                                    <button class="btn btn-warning"
+                                            type="submit" 
+                                            name="crear_sg" 
+                                            value="1">
+                                        Crear en SG
+                                    </button>
+                                    {% endif %}
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    {% endblock principalcomponent %}
 {% endblock maincomponent %}
 <!-- -------------------------------------------------------------------- -->
 {% block modals %}
-	<!-- Modal para mostrar errores -->
-	{% include 'maestros/modal_errors.html' %}
-	
-	<!-- Modal para mostrar los requerimientos de los campos -->
-	{% include 'maestros/modal_fields_requirements.html' %}
+    <!-- Modal para mostrar errores -->
+    {% include 'maestros/modal_errors.html' %}
+    
+    <!-- Modal para mostrar los requerimientos de los campos -->
+    {% include 'maestros/modal_fields_requirements.html' %}
 {% endblock modals %}
 <!-- -------------------------------------------------------------------- -->
- {% block extra_js %}
+{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const suc = document.getElementById('id_id_sucursal');
-  const socio = document.getElementById('id_id_socio');
-  const cuenta = document.getElementById('id_cuenta');
+    const suc = document.getElementById('id_id_sucursal');
+    const socio = document.getElementById('id_id_socio');
+    const cuenta = document.getElementById('id_cuenta');
 
-  function recalc() {
-    const s = parseInt(suc?.value || 0, 10);
-    const so = parseInt(socio?.value || 0, 10);
-    if (s && so && cuenta) cuenta.value = (s * 1000000 + so).toString();
-  }
-  suc?.addEventListener('change', recalc);
-  socio?.addEventListener('input', recalc);
-  recalc();
+    function recalc() {
+        const s = parseInt(suc?.value || 0, 10);
+        const so = parseInt(socio?.value || 0, 10);
+        if (s && so && cuenta) {
+            cuenta.value = (s * 1000000 + so).toString();
+        }
+    }
+    suc?.addEventListener('change', recalc);
+    socio?.addEventListener('input', recalc);
+    recalc();
+
+    // ---- Mostrar/ocultar campo motivo PEP ----
+    const esPep = document.getElementById('id_es_pep');
+    const motivoPep = document.getElementById('id_id_motivo_pep');
+    
+    function toggleMotivoPep() {
+        if (esPep) {
+            const val = esPep.value;
+            if (motivoPep) {
+                motivoPep.closest('.col-md-4').style.display = (val === 'true' || val === 'True') ? 'block' : 'none';
+            }
+        }
+    }
+    
+    esPep?.addEventListener('change', toggleMotivoPep);
+    toggleMotivoPep();
 });
 </script>
 {% endblock extra_js %}
