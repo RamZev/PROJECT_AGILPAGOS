@@ -6,6 +6,7 @@ from .views.cuenta_mutual_views import *
 from .views.sucursal_views import *
 from .views.sg_nacionalidad_views import *
 from .views.sg_provincia_views import *
+from .views.sg_estado_civil_views import *
 
 urlpatterns = [
 	#-- Tablas:
@@ -27,9 +28,15 @@ urlpatterns = [
     path('sg-nacionalidad/<int:pk>/editar/', SgNacionalidadUpdateView.as_view(), name='sg_nacionalidad_update'),
     path('sg-nacionalidad/<int:pk>/eliminar/', SgNacionalidadDeleteView.as_view(), name='sg_nacionalidad_delete'),
     
-	#-- Sg Provincia.  ← NUEVO
+	#-- Sg Provincia.  
     path('sg-provincia/', SgProvinciaListView.as_view(), name='sg_provincia_list'),
     path('sg-provincia/nueva/', SgProvinciaCreateView.as_view(), name='sg_provincia_create'),
     path('sg-provincia/<int:pk>/editar/', SgProvinciaUpdateView.as_view(), name='sg_provincia_update'),
     path('sg-provincia/<int:pk>/eliminar/', SgProvinciaDeleteView.as_view(), name='sg_provincia_delete'),
+    
+	 #-- Sg Estado Civil. 
+    path('sg-estado-civil/', SgEstadoCivilListView.as_view(), name='sg_estado_civil_list'),
+    path('sg-estado-civil/nueva/', SgEstadoCivilCreateView.as_view(), name='sg_estado_civil_create'),
+    path('sg-estado-civil/<int:pk>/editar/', SgEstadoCivilUpdateView.as_view(), name='sg_estado_civil_update'),
+    path('sg-estado-civil/<int:pk>/eliminar/', SgEstadoCivilDeleteView.as_view(), name='sg_estado_civil_delete'),
 ]
