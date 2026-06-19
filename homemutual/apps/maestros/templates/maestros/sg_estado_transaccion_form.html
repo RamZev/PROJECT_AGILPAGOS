@@ -1,0 +1,124 @@
+{# templates/maestros/sg_estado_transaccion_form.html #}
+{% extends 'maestro_form.html' %}
+{% load static %}
+
+{% block maincomponent %}
+    {% block principalcomponent %}
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+                    
+                    <div class="card border-light mb-3 mt-2">
+                        <div class="card-header text-white bg-primary opacity-75 d-flex 
+                                    justify-content-between">
+                            {{ accion }}
+                            <div class="flex align-items-center">
+                                <a 
+                                    class="me-2 text-white" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#helpModal" 
+                                    style="cursor: pointer;">
+                                    <i class="bi bi-question-lg"></i>
+                                </a>
+                                
+                                <button type="button" class="btn-close btn-close-white" 
+                                    aria-label="Close"
+                                    onclick="window.location.href='{% url list_view_name %}'">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body bg-body-secondary">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="accordion" id="accordionPanelsStayOpenExample">
+                                    
+                                    <!-- ======================================== -->
+                                    <!-- SECCIÓN 1: DATOS DE ESTADO TRANSACCIÓN -->
+                                    <!-- ======================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button 
+                                                class="accordion-button py-2" 
+                                                type="button" 
+                                                data-bs-toggle="collapse" 
+                                                data-bs-target="#DatosEstadoTransaccion" 
+                                                aria-expanded="true" 
+                                                aria-controls="DatosEstadoTransaccion">
+                                                <strong>Datos de Estado Transacción</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show"
+                                            id="DatosEstadoTransaccion">
+                                            <div class="accordion-body bg-secondary-subtle">
+                                                
+                                                <div class="row">
+                                                    <!-- Estatus: primero y más angosto -->
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.estatus_sg_estado_transaccion.label }}
+                                                        </label>
+                                                        {{ form.estatus_sg_estado_transaccion }}
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_sg_estado_transaccion.label }}
+                                                        </label>
+                                                        {{ form.id_sg_estado_transaccion }}
+                                                        <div class="form-text">{{ form.id_sg_estado_transaccion.help_text }}</div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.codigo.label }}
+                                                        </label>
+                                                        {{ form.codigo }}
+                                                        <div class="form-text">{{ form.codigo.help_text }}</div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.descripcion.label }}
+                                                        </label>
+                                                        {{ form.descripcion }}
+                                                        <div class="form-text">{{ form.descripcion.help_text }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.es_final.label }}
+                                                        </label>
+                                                        {{ form.es_final }}
+                                                        <div class="form-text">{{ form.es_final.help_text }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div> <!-- End accordion -->
+
+                                <div class="container mt-3">
+                                    <button class="btn btn-primary" type="submit" id="guardarBtn">
+                                        Guardar
+                                    </button>
+                                    <a class="btn btn-secondary" href="{% url list_view_name %}">
+                                        Cancelar
+                                    </a>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    {% endblock principalcomponent %}
+{% endblock maincomponent %}
+
+{% block modals %}
+    <!-- Modal para mostrar errores -->
+    {% include 'maestros/modal_errors.html' %}
+    
+    <!-- Modal para mostrar los requerimientos de los campos -->
+    {% include 'maestros/modal_fields_requirements.html' %}
+{% endblock modals %}
