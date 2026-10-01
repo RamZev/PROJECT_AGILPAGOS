@@ -82,6 +82,9 @@ class MaestroListView(ListView):
 		#-- Para pasar la fecha a la lista del maestro.
 		context['fecha'] = timezone.now()
 
+		#-- NUEVO: Determinar el tipo de PK y pasarlo al contexto
+		context['pk_type'] = self._get_pk_type()
+
 		return context
 	
 	def get(self, request, *args, **kwargs):
@@ -104,6 +107,30 @@ class MaestroListView(ListView):
 	def get_paginate_by(self, queryset):
 		#-- Utilizar el valor actualizado de paginate_by.
 		return self.paginate_by
+	
+	def _get_pk_type(self):
+		"""
+		Determina el tipo de campo de la clave primaria del modelo.
+		
+		Returns:
+			str: 'int' si la PK es numérica, 'str' si es alfanumérica (CharField o UUIDField)
+		"""
+		try:
+			# Obtener el campo de clave primaria del modelo
+			pk_field = self.model._meta.pk
+			
+			# Obtener el tipo interno del campo
+			internal_type = pk_field.get_internal_type()
+			
+			# Verificar si es un campo de tipo string (CharField o UUIDField)
+			if internal_type in ['CharField', 'UUIDField']:
+				return 'str'
+			else:
+				# Para IntegerField, AutoField, BigAutoField, etc.
+				return 'int'
+		except Exception:
+			# En caso de error, asumir que es entero (comportamiento por defecto)
+			return 'int'	
 
 
 @method_decorator(login_required, name='dispatch')
@@ -172,13 +199,40 @@ class MaestroCreateView(PermissionRequiredMixin, CreateView):
 		
 		#-- Para pasar la fecha a la lista del maestro.
 		context['fecha'] = timezone.now()
+
+		#-- NUEVO: Determinar el tipo de PK y pasarlo al contexto
+		context['pk_type'] = self._get_pk_type()
 		
 		return context
 	
 	#-- Método que agrega mensaje cuando no tiene permiso de crear.
 	def handle_no_permission(self):
 		messages.error(self.request, 'No tienes permiso para realizar esta acción.')
-		return redirect(self.list_view_name)	
+		return redirect(self.list_view_name)
+
+	def _get_pk_type(self):
+		"""
+		Determina el tipo de campo de la clave primaria del modelo.
+		
+		Returns:
+			str: 'int' si la PK es numérica, 'str' si es alfanumérica (CharField o UUIDField)
+		"""
+		try:
+			# Obtener el campo de clave primaria del modelo
+			pk_field = self.model._meta.pk
+			
+			# Obtener el tipo interno del campo
+			internal_type = pk_field.get_internal_type()
+			
+			# Verificar si es un campo de tipo string (CharField o UUIDField)
+			if internal_type in ['CharField', 'UUIDField']:
+				return 'str'
+			else:
+				# Para IntegerField, AutoField, BigAutoField, etc.
+				return 'int'
+		except Exception:
+			# En caso de error, asumir que es entero (comportamiento por defecto)
+			return 'int'	
 
 
 @method_decorator(login_required, name='dispatch')
@@ -239,6 +293,9 @@ class MaestroUpdateView(PermissionRequiredMixin, UpdateView):
 		
 		#-- Para pasar la fecha a la lista del maestro.
 		context['fecha'] = timezone.now()
+
+		#-- NUEVO: Determinar el tipo de PK y pasarlo al contexto
+		context['pk_type'] = self._get_pk_type()
 		
 		return context
 	
@@ -246,6 +303,30 @@ class MaestroUpdateView(PermissionRequiredMixin, UpdateView):
 	def handle_no_permission(self):
 		messages.error(self.request, 'No tienes permiso para realizar esta acción.')
 		return redirect(self.list_view_name)
+
+	def _get_pk_type(self):
+		"""
+		Determina el tipo de campo de la clave primaria del modelo.
+		
+		Returns:
+			str: 'int' si la PK es numérica, 'str' si es alfanumérica (CharField o UUIDField)
+		"""
+		try:
+			# Obtener el campo de clave primaria del modelo
+			pk_field = self.model._meta.pk
+			
+			# Obtener el tipo interno del campo
+			internal_type = pk_field.get_internal_type()
+			
+			# Verificar si es un campo de tipo string (CharField o UUIDField)
+			if internal_type in ['CharField', 'UUIDField']:
+				return 'str'
+			else:
+				# Para IntegerField, AutoField, BigAutoField, etc.
+				return 'int'
+		except Exception:
+			# En caso de error, asumir que es entero (comportamiento por defecto)
+			return 'int'
 
 
 @method_decorator(login_required, name='dispatch')

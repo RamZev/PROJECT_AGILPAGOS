@@ -29,6 +29,7 @@
                         <div class="card-body bg-body-secondary">
                             <form method="post" enctype="multipart/form-data" novalidate>
                                 {% csrf_token %}
+                                <input type="hidden" id="instance_pk" value="{{ form.instance.pk|default:'' }}">
                                 <div class="accordion" id="accordionPanelsStayOpenExample">
                                     
                                     <!-- ======================================== -->
@@ -43,7 +44,7 @@
                                                 data-bs-target="#Informacion_Cuenta" 
                                                 aria-expanded="true" 
                                                 aria-controls="Informacion_Cuenta">
-                                                <strong>Información Cuenta Mutual</strong>
+                                                <strong>Información Cuenta Mutual y Datos Personales</strong>
                                             </button>
                                         </h2>
                                         <div class="accordion-collapse collapse show"
@@ -63,6 +64,17 @@
                                                         </label>
                                                         {{ form.id_sucursal }}
                                                     </div>
+
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.cuit.label }}
+                                                        </label>
+                                                        {{ form.cuit }}
+                                                        <div id="cuit-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Validando...
+                                                        </div>
+                                                    </div>
+
                                                     <div class="col-md-2">
                                                         <label class="form-label text-primary mb-0">
                                                             {{ form.id_socio.label }}
@@ -75,36 +87,22 @@
                                                         </label>
                                                         {{ form.cuenta }}
                                                     </div>
+
                                                     <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.fecha_alta.label }}
+                                                        </label>
+                                                        {{ form.fecha_alta }}
+                                                    </div>
+                                                    
+                                                    {% comment %} <div class="col-md-2">
                                                         <label class="form-label text-primary mb-0">
                                                             {{ form.id_user.label }}
                                                         </label>
                                                         {{ form.id_user }}
-                                                    </div>
+                                                    </div> {% endcomment %}
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- ======================================== -->
-                                    <!-- SECCIÓN 2: DATOS PERSONALES             -->
-                                    <!-- ======================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button 
-                                                class="accordion-button py-2 collapsed" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#DatosPersonales" 
-                                                aria-expanded="false" 
-                                                aria-controls="DatosPersonales">
-                                                <strong>Datos Personales</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse"
-                                            id="DatosPersonales">
-                                            <div class="accordion-body bg-secondary-subtle">
-                                                
                                                 <div class="row">
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">
@@ -118,7 +116,7 @@
                                                         </label>
                                                         {{ form.apellido }}
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-2">
                                                         <label class="form-label text-primary mb-0">
                                                             {{ form.razon_social.label }}
                                                         </label>
@@ -130,37 +128,22 @@
                                                         </label>
                                                         {{ form.genero }}
                                                     </div>
-                                                    <div class="col-md-1">
+                                                    <div class="col-md-2">
                                                         <label class="form-label text-primary mb-0">
                                                             {{ form.fecha_nacimiento.label }}
                                                         </label>
                                                         {{ form.fecha_nacimiento }}
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- ======================================== -->
-                                    <!-- SECCIÓN 3: DOCUMENTO Y CUIT             -->
-                                    <!-- ======================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button 
-                                                class="accordion-button py-2 collapsed" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#Documento" 
-                                                aria-expanded="false" 
-                                                aria-controls="Documento">
-                                                <strong>Documento y CUIT</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse"
-                                            id="Documento">
-                                            <div class="accordion-body bg-secondary-subtle">
-                                                
                                                 <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.id_entidad_tipo_documento.label }}
+                                                        </label>
+                                                        {{ form.id_entidad_tipo_documento }}
+                                                    </div>
+                                                    
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">
                                                             {{ form.numero_documento.label }}
@@ -175,46 +158,21 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">
-                                                            {{ form.cuit.label }}
+                                                            {{ form.id_estado_civil.label }}
                                                         </label>
-                                                        {{ form.cuit }}
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">
-                                                            {{ form.id_entidad_tipo_documento.label }}
-                                                        </label>
-                                                        {{ form.id_entidad_tipo_documento }}
+                                                        {{ form.id_estado_civil }}
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <!-- ======================================== -->
-                                    <!-- SECCIÓN 4: CONTACTO                     -->
-                                    <!-- ======================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button 
-                                                class="accordion-button py-2 collapsed" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#Contacto" 
-                                                aria-expanded="false" 
-                                                aria-controls="Contacto">
-                                                <strong>Contacto</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse"
-                                            id="Contacto">
-                                            <div class="accordion-body bg-secondary-subtle">
-                                                
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">
                                                             {{ form.email.label }}
                                                         </label>
                                                         {{ form.email }}
+                                                        <div id="email-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Validando...
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label class="form-label text-primary mb-0">
@@ -233,30 +191,11 @@
                                                             {{ form.numero_telefono.label }}
                                                         </label>
                                                         {{ form.numero_telefono }}
+                                                        <div id="telefono-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Validando...
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- ======================================== -->
-                                    <!-- SECCIÓN 5: NACIONALIDAD                 -->
-                                    <!-- ======================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button 
-                                                class="accordion-button py-2 collapsed" 
-                                                type="button" 
-                                                data-bs-toggle="collapse" 
-                                                data-bs-target="#Nacionalidad" 
-                                                aria-expanded="false" 
-                                                aria-controls="Nacionalidad">
-                                                <strong>Nacionalidad</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse"
-                                            id="Nacionalidad">
-                                            <div class="accordion-body bg-secondary-subtle">
                                                 
                                                 <div class="row">
                                                     <div class="col-md-4">
@@ -278,12 +217,13 @@
                                                         {{ form.id_pais_domicilio }}
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- ======================================== -->
-                                    <!-- SECCIÓN 6: DOMICILIO                    -->
+                                    <!-- SECCIÓN 2: DOMICILIO                    -->
                                     <!-- ======================================== -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
@@ -360,7 +300,7 @@
                                     </div>
 
                                     <!-- ======================================== -->
-                                    <!-- SECCIÓN 7: SITUACIÓN FISCAL Y LEGAL     -->
+                                    <!-- SECCIÓN 3: SITUACIÓN FISCAL Y LEGAL     -->
                                     <!-- ======================================== -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
@@ -387,12 +327,6 @@
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">
-                                                            {{ form.id_estado_civil.label }}
-                                                        </label>
-                                                        {{ form.id_estado_civil }}
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">
                                                             {{ form.id_ocupacion.label }}
                                                         </label>
                                                         {{ form.id_ocupacion }}
@@ -409,7 +343,7 @@
                                     </div>
 
                                     <!-- ======================================== -->
-                                    <!-- SECCIÓN 8: CUMPLIMIENTO NORMATIVO       -->
+                                    <!-- SECCIÓN 4: CUMPLIMIENTO NORMATIVO       -->
                                     <!-- ======================================== -->
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
@@ -489,12 +423,7 @@
                                                         </label>
                                                         {{ form.numero_cuenta_entidad }}
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">
-                                                            {{ form.fecha_alta.label }}
-                                                        </label>
-                                                        {{ form.fecha_alta }}
-                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -586,39 +515,308 @@
     {% include 'maestros/modal_fields_requirements.html' %}
 {% endblock modals %}
 <!-- -------------------------------------------------------------------- -->
-{% block extra_js %}
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const suc = document.getElementById('id_id_sucursal');
-    const socio = document.getElementById('id_id_socio');
-    const cuenta = document.getElementById('id_cuenta');
 
-    function recalc() {
-        const s = parseInt(suc?.value || 0, 10);
-        const so = parseInt(socio?.value || 0, 10);
-        if (s && so && cuenta) {
-            cuenta.value = (s * 1000000 + so).toString();
-        }
-    }
-    suc?.addEventListener('change', recalc);
-    socio?.addEventListener('input', recalc);
-    recalc();
+{% block script %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // ===== FUNCIONES EXISTENTES (se mantienen) =====
+            const suc = document.getElementById('id_id_sucursal');
+            const socio = document.getElementById('id_id_socio');
+            const cuenta = document.getElementById('id_cuenta');
 
-    // ---- Mostrar/ocultar campo motivo PEP ----
-    const esPep = document.getElementById('id_es_pep');
-    const motivoPep = document.getElementById('id_id_motivo_pep');
-    
-    function toggleMotivoPep() {
-        if (esPep) {
-            const val = esPep.value;
-            if (motivoPep) {
-                motivoPep.closest('.col-md-4').style.display = (val === 'true' || val === 'True') ? 'block' : 'none';
+            function recalc() {
+                const s = parseInt(suc?.value || 0, 10);
+                const so = parseInt(socio?.value || 0, 10);
+                if (s && so && cuenta) {
+                    cuenta.value = (s * 1000000 + so).toString();
+                }
             }
-        }
-    }
-    
-    esPep?.addEventListener('change', toggleMotivoPep);
-    toggleMotivoPep();
-});
-</script>
-{% endblock extra_js %}
+            suc?.addEventListener('change', recalc);
+            socio?.addEventListener('input', recalc);
+            recalc();
+
+            const esPep = document.getElementById('id_es_pep');
+            const motivoPep = document.getElementById('id_id_motivo_pep');
+            function toggleMotivoPep() {
+                if (esPep) {
+                    const val = esPep.value;
+                    if (motivoPep) {
+                        motivoPep.closest('.col-md-4').style.display = (val === 'true' || val === 'True') ? 'block' : 'none';
+                    }
+                }
+            }
+            esPep?.addEventListener('change', toggleMotivoPep);
+            toggleMotivoPep();
+
+            // ===== NUEVAS VALIDACIONES FRONTEND =====
+            const container = document.getElementById('message-container');
+            const inputCuit = document.getElementById('id_cuit');
+            const inputEmail = document.getElementById('id_email');
+            const inputTelefono = document.getElementById('id_numero_telefono');
+            const cuitLoading = document.getElementById('cuit-loading');
+            const emailLoading = document.getElementById('email-loading');
+            const telefonoLoading = document.getElementById('telefono-loading');
+            const instancePk = document.getElementById('instance_pk')?.value || '';
+
+            // Función para mostrar mensajes en el contenedor (no se usa para CUIT, pero se mantiene para email/teléfono)
+            function mostrarMensaje(mensaje, tipo = 'info') {
+                if (!container) return;
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${tipo} alert-dismissible fade show`;
+                alert.role = 'alert';
+                alert.innerHTML = mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                container.appendChild(alert);
+                setTimeout(() => { if (alert.parentNode) alert.remove(); }, 5000);
+            }
+
+            // Función genérica para validar unicidad (email / teléfono)
+            function validarCampo(url, valor, loadingElement, inputElement, mensajeError) {
+                if (!valor || valor.length < 3) return;
+                loadingElement.style.display = 'inline';
+                fetch(`${url}?${new URLSearchParams({ [inputElement.name]: valor, exclude: instancePk })}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.exists) {
+                            mostrarMensaje(mensajeError, 'danger');
+                            inputElement.value = '';
+                            inputElement.focus();
+                        }
+                    })
+                    .catch(() => mostrarMensaje('Error al validar', 'danger'))
+                    .finally(() => loadingElement.style.display = 'none');
+            }
+
+            ///////
+            // ================================================================
+            // VALIDACIÓN CUIT y AUTOCARGA DE DATOS
+            // ================================================================
+            if (inputCuit) {
+                inputCuit.addEventListener('blur', function() {
+                    const cuit = this.value.trim();
+
+                    // 1. Validar formato (11 dígitos)
+                    const cuitLimpio = cuit.replace(/\D/g, '');
+                    if (cuitLimpio.length !== 11) {
+                        alert('❌ El CUIT debe tener exactamente 11 dígitos.');
+                        this.value = '';
+                        this.focus();
+                        return;
+                    }
+
+                    // Mostrar indicador de carga
+                    cuitLoading.style.display = 'inline';
+
+                    // 2. Validar existencia en Agilpagos (evitar duplicados)
+                    fetch(`/maestros/api/validar-cuit-existencia/?cuit=${cuitLimpio}`)
+                        .then(res => res.json())
+                        .then(dataAgil => {
+                            if (dataAgil.exists) {
+                                alert('❌ Este CUIT ya está registrado en Agilpagos. No se puede duplicar.');
+                                inputCuit.value = '';
+                                inputCuit.focus();
+                                cuitLoading.style.display = 'none';
+                                return;
+                            }
+
+                            // 3. Si no existe en Agilpagos, consultar en la mutual (Maasoft)
+                            fetch(`/maestros/api/consultar-socio/?cuit=${cuitLimpio}`)
+                                .then(res => res.json())
+                                .then(dataMaasoft => {
+                                    cuitLoading.style.display = 'none';
+
+                                    if (dataMaasoft.success) {
+                                        const datos = dataMaasoft.data;
+                                        asignarDatosSocio(datos);
+                                        // Mostrar mensaje de éxito (opcional)
+                                        mostrarMensaje('✅ Datos del socio cargados automáticamente.', 'success');
+                                    } else {
+                                        // No existe en la mutual
+                                        alert('❌ El CUIT no está registrado en la mutual. No se puede continuar.');
+                                        inputCuit.value = '';
+                                        inputCuit.focus();
+                                    }
+                                })
+                                .catch(error => {
+                                    cuitLoading.style.display = 'none';
+                                    alert('❌ Error al consultar la mutual. Intente más tarde.');
+                                    console.error('Error en consulta a mutual:', error);
+                                });
+                        })
+                        .catch(error => {
+                            cuitLoading.style.display = 'none';
+                            alert('❌ Error al validar en Agilpagos. Intente más tarde.');
+                            console.error('Error en consulta a Agilpagos:', error);
+                        });
+                });
+            } else {
+                console.warn('⚠️ No se encontró el campo inputCuit en el DOM.');
+            }
+
+            // ================================================================
+            // FUNCIÓN PARA ASIGNAR LOS DATOS DEL SOCIO AL FORMULARIO
+            // ================================================================
+            function asignarDatosSocio(datos) {
+                // Mapeo de Estado Civil
+                const estadoCivilMap = {
+                    'C': '13e36b73-183f-4575-8d18-5c94543d2e07',
+                    'D': 'a2dc98b4-49bf-40a5-be97-e7e3e5decb2c',
+                    'S': 'b2b68f22-e903-4303-a4c3-713d2fe67785',
+                    'V': '868f94c9-f9c0-4701-8173-30376584497a'
+                };
+                // Mapeo de Condición Fiscal
+                const condicionFiscalMap = {
+                    'CF': 'ba933f3f-d18e-4aed-8585-dfa73e27da11',
+                    'EXE': '60d88f7f-23fa-4884-9814-0371e4f60323',
+                    'RI': 'f0ea813a-e3e7-4eae-ba1d-02b3917ca59a',
+                    'RMT': '6c1a3604-63c7-44a5-b66c-17c6cb4266ab',
+                    'RNI': '0a98394f-0453-4f3d-b51f-9b59b5a2b963'
+                };
+
+                // ---- Asignaciones básicas ----
+                setFieldValue('id_id_socio', datos.id_socio || '');
+                setFieldValue('id_apellido', datos.apellido || '');
+                setFieldValue('id_nombre', datos.nombre || '');
+                setFieldValue('id_genero', datos.genero || '');
+                setFieldValue('id_calle', datos.domicilio || '');
+                setFieldValue('id_cp', datos.codigo_postal || '');
+                setFieldValue('id_numero_documento', datos.numero_documento || '');
+                setFieldValue('id_fecha_nacimiento', datos.fecha_nacimiento || '');
+                setFieldValue('id_fecha_alta', datos.fecha_ingreso || '');
+                setFieldValue('id_email', datos.email || '');
+
+                // ---- Teléfono: desglose ----
+                const telefonoRaw = datos.telefono || datos.movil || '';
+                const telefonoLimpio = telefonoRaw.replace(/\D/g, '');
+                let codigoArea = '';
+                let numeroTelefono = '';
+                if (telefonoLimpio.length === 10) {
+                    codigoArea = telefonoLimpio.substring(0, 4);
+                    numeroTelefono = telefonoLimpio.substring(4);
+                } else if (telefonoLimpio.length === 6) {
+                    codigoArea = '3483';
+                    numeroTelefono = telefonoLimpio;
+                }
+                setFieldValue('id_codigo_area_telefono', codigoArea);
+                setFieldValue('id_numero_telefono', numeroTelefono);
+
+                // ---- Número de trámite: documento + dígitos aleatorios hasta 11 ----
+                const docStr = String(datos.numero_documento || '');
+                let tramite = docStr;
+                if (docStr.length < 11) {
+                    const faltantes = 11 - docStr.length;
+                    let aleatorios = '';
+                    for (let i = 0; i < faltantes; i++) {
+                        aleatorios += Math.floor(Math.random() * 10);
+                    }
+                    tramite = docStr + aleatorios;
+                }
+                setFieldValue('id_numero_tramite_documento', tramite);
+
+                // ---- Sucursal fija 1 ----
+                const sucursalSelect = document.getElementById('id_id_sucursal');
+                if (sucursalSelect) {
+                    for (let opt of sucursalSelect.options) {
+                        if (opt.value === '1') {
+                            sucursalSelect.value = '1';
+                            break;
+                        }
+                    }
+                    sucursalSelect.dispatchEvent(new Event('change'));
+                }
+
+                // ---- Tipo de documento fijo DNI ----
+                setSelectValue('id_id_entidad_tipo_documento', '209C1CAA-C56D-4E03-BB40-E9EF2F319A3F');
+
+                // ---- Estado Civil ----
+                const estadoCivilGuid = estadoCivilMap[datos.estado_civil] || '';
+                setSelectValue('id_id_estado_civil', estadoCivilGuid);
+
+                // ---- Condición Fiscal ----
+                const condicionFiscalGuid = condicionFiscalMap[datos.condicion_fiscal] || '';
+                setSelectValue('id_id_condicion_fiscal', condicionFiscalGuid);
+
+                // ---- Nacionalidad (solo Argentina) ----
+                if (datos.nacionalidad && datos.nacionalidad.toUpperCase() === 'ARGENTINA') {
+                    setSelectValue('id_id_nacionalidad', '76b19e61-b8dc-40f4-bfab-422cbffe5002');
+                } else {
+                    setSelectValue('id_id_nacionalidad', '');
+                }
+
+                // ---- Es PEP ----
+                const esPep = datos.es_pep === true ? 'True' : 'False';
+                setSelectValue('id_es_pep', esPep);
+
+                // ---- Es UIF ----
+                const esUif = datos.sujeto_obligado_uif && datos.sujeto_obligado_uif.trim() !== '' ? 'True' : 'False';
+                setSelectValue('id_es_uif', esUif);
+
+                // ---- VALORES FIJOS (NUEVO) ----
+                // Ocupación fija
+                setSelectValue('id_id_ocupacion', 'd0ce590e-ab68-4044-b184-3f2063845ed5');
+                // Tipo persona fijo (Persona Física)
+                setSelectValue('id_id_tipo_persona', '20EB9127-7CA8-49E0-9E0B-CA8293218ACA');
+                // Tipo cuenta fijo
+                setSelectValue('id_id_tipo_cuenta', 'D2483A34-78BE-40A2-B8CB-07AD4BCF6F61');
+
+                // ---- Forzar recálculo de la cuenta ----
+                recalc();
+            }            
+
+            // ================================================================
+            // FUNCIONES AUXILIARES PARA ASIGNAR VALORES SEGUROS
+            // ================================================================
+            function setFieldValue(elementId, value) {
+                const el = document.getElementById(elementId);
+                if (el) {
+                    el.value = value;
+                }
+            }
+
+            function setSelectValue(elementId, value) {
+                const el = document.getElementById(elementId);
+                if (el) {
+                    // Buscar la opción con el value exacto
+                    let found = false;
+                    for (let opt of el.options) {
+                        if (opt.value === value) {
+                            el.value = value;
+                            found = true;
+                            break;
+                        }
+                    }
+                    // Si no se encuentra, seleccionar la opción vacía (si existe)
+                    if (!found) {
+                        el.value = '';
+                    }
+                    // Disparar evento change para posibles efectos secundarios
+                    el.dispatchEvent(new Event('change'));
+                }
+            }
+            ///////
+            // ================================================================
+            // VALIDACIÓN EMAIL (se mantiene igual)
+            // ================================================================
+            if (inputEmail) {
+                inputEmail.addEventListener('blur', function() {
+                    const email = this.value.trim();
+                    if (!email) return;
+                    const url = `/maestros/api/validar-email/`;
+                    validarCampo(url, email, emailLoading, this, 'Este email ya está registrado.');
+                });
+            }
+
+            // ================================================================
+            // VALIDACIÓN TELÉFONO (se mantiene igual)
+            // ================================================================
+            if (inputTelefono) {
+                inputTelefono.addEventListener('blur', function() {
+                    const tel = this.value.trim();
+                    if (!tel) return;
+                    const url = `/maestros/api/validar-telefono/`;
+                    validarCampo(url, tel, telefonoLoading, this, 'Este teléfono ya está registrado.');
+                });
+            }
+        });
+    </script>
+{% endblock script %}

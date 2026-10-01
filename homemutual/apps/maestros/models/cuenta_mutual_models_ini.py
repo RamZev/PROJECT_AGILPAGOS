@@ -1,3 +1,4 @@
+# homemutual\apps\maestros\models\cuenta_mutual_models.py
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -168,10 +169,7 @@ class CuentaMutual(ModeloBaseGenerico):
     )
 
     # ---- 2.8 Datos Técnicos ----
-    fecha_alta = models.DateField("Fecha de Alta", 
-                                  auto_now_add=True,
-                                  blank=True, null=True
-    )
+    fecha_alta = models.DateField("Fecha Alta", blank=True, null=True)
     numero_cuenta_entidad = models.CharField(
         "Número de Cuenta Entidad", 
         max_length=50, 
@@ -234,6 +232,7 @@ class CuentaMutual(ModeloBaseGenerico):
             return suc * 1_000_000 + int(socio)
         return self.cuenta
 
+    ###########################
     def clean(self):
         super().clean()
         
@@ -256,7 +255,6 @@ class CuentaMutual(ModeloBaseGenerico):
 
         # Validar que si es Persona Física, tenga nombre y apellido
         if self.id_tipo_persona:
-            # Asumiendo que el GUID de Persona Física es: 20EB917-7CA8-49E0-9E0B-CA8293218ACA
             if str(self.id_tipo_persona.id_sg_tipo_persona).upper() == '20EB917-7CA8-49E0-9E0B-CA8293218ACA':
                 if not self.nombre or not self.apellido:
                     raise ValidationError({
@@ -264,16 +262,22 @@ class CuentaMutual(ModeloBaseGenerico):
                         'apellido': 'Nombre y apellido son obligatorios para Persona Física'
                     })
 
-        # Bloquear edición de campos SG una vez asignados
-        if self.pk:
-            original = type(self).objects.get(pk=self.pk)
-            locked_fields = ['id_sg_usuario', 'id_sg_cuenta', 'cvu', 'alias']
-            for f in locked_fields:
-                old = getattr(original, f)
-                new = getattr(self, f)
-                if old and new != old:
-                    raise ValidationError({f: 'Este campo no puede modificarse una vez asignado.'})
-
+        # Bloquear edición de campos SG una vez asignados (SOLO EN ACTUALIZACIÓN)
+        if self.pk and not self._state.adding:   # <--- NUEVO: solo si es actualización
+            try:
+                original = type(self).objects.get(pk=self.pk)
+            except type(self).DoesNotExist:
+                # Si el objeto no existe (caso de creación con pk ficticia), no hacemos nada
+                pass
+            else:
+                locked_fields = ['id_sg_usuario', 'id_sg_cuenta', 'cvu', 'alias']
+                for f in locked_fields:
+                    old = getattr(original, f)
+                    new = getattr(self, f)
+                    if old and new != old:
+                        raise ValidationError({f: 'Este campo no puede modificarse una vez asignado.'})
+    ###########################    
+    
     def save(self, *args, **kwargs):
         # Asegurar el cálculo SIEMPRE del lado del servidor
         self.cuenta = self.compute_cuenta()
@@ -304,6 +308,76 @@ class CuentaMutual(ModeloBaseGenerico):
     def es_persona_juridica(self):
         """Indica si es Persona Jurídica."""
         return not self.es_persona_fisica
+    
+    def to_agilpagos_payload(self):
+        """
+        Convierte la instancia actual en el payload JSON esperado por Agilpagos.
+        Útil para depuración y mapeo de datos.
+        """
+        def _fk_pk(field):
+            return getattr(field, 'pk', None) if field else None
+
+        # Asegurar que la característica del país tenga el prefijo "+"
+        caracteristica = self.caracteristica_pais_telefono or "54"
+        if not caracteristica.startswith("+"):
+            caracteristica = f"+{caracteristica}"
+
+        payload = {
+            # Datos personales
+            "nombre": self.nombre or "",
+            "apellido": self.apellido or "",
+            "genero": self.genero or "",
+            "fechaNacimiento": self.fecha_nacimiento.isoformat() if self.fecha_nacimiento else None,
+
+            # Nacionalidad
+            "idNacionalidad": _fk_pk(self.id_nacionalidad) or "",
+            "idPaisNacimiento": _fk_pk(self.id_pais_nacimiento) or "",
+
+            # Documento
+            "idTipoDocumento": _fk_pk(self.id_entidad_tipo_documento) or "",
+            "numeroDocumento": self.numero_documento or "",
+            "numeroTramiteDocumento": self.numero_tramite_documento or "",
+            "cuit": self.cuit or "",
+
+            # Contacto
+            "email": self.email or "",
+            "caracteristicaPais": caracteristica,
+            "codigoArea": self.codigo_area_telefono or "",
+            "numeroTelefono": self.numero_telefono or "",
+
+            # Situación fiscal y legal
+            "idEstadoCivil": _fk_pk(self.id_estado_civil) or "",
+            "idCondicionFiscal": _fk_pk(self.id_condicion_fiscal) or "",
+            "idOcupacion": _fk_pk(self.id_ocupacion) or "",
+            "esPep": self.es_pep or False,
+            "idMotivoPep": _fk_pk(self.id_motivo_pep) if self.es_pep else None,
+            "esUIF": self.es_uif or False,
+            "leyFATCA": self.ley_fatca or False,
+
+            # Domicilio
+            "idPaisDomicilio": self.id_pais_domicilio or "76B19E61-B8DC-40F4-BFAB-422CBFFE5002",
+            "idProvincia": _fk_pk(self.id_provincia) or "",
+            "localidad": self.localidad or "",
+            "calle": self.calle or "",
+            "altura": self.altura or "",
+            "cp": self.cp or "",
+            "piso": self.piso or "",
+            "departamento": self.departamento or "",
+            "observaciones": self.observaciones_domicilio or "",
+
+            # Datos técnicos
+            "fechaAlta": self.fecha_alta.isoformat() if self.fecha_alta else None,
+            # "numeroCuentaEntidad": self.numero_cuenta_entidad or "",
+            "numeroCuentaEntidad": str(self.cuenta) if self.cuenta else "",
+
+            # Catálogos SG
+            "idEntidadTipoDocumento": _fk_pk(self.id_entidad_tipo_documento) or "",
+            "idTipoPersona": _fk_pk(self.id_tipo_persona) or "",
+            "idTipoCuenta": _fk_pk(self.id_tipo_cuenta) or "",
+        }
+
+        # Eliminar campos con valor None para no enviarlos
+        return {k: v for k, v in payload.items() if v is not None}    
 
     class Meta:
         db_table = 'cuenta_mutual'

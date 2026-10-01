@@ -1,0 +1,59 @@
+import httpx
+import json
+
+client = httpx.Client()
+
+reqUrl = "http://186.189.231.237:8081/onboarding/usuario/alta"
+
+
+# Token dura 5 muinutos
+headersList = {
+  "Accept": "application/json",
+  "Content-Type": "application/json",
+}
+
+
+payload = json.dumps(
+  {
+    "nombre": "MARIA JOSE",
+    "apellido": "AYALA",
+    "genero": "M",
+    "fechaNacimiento": "1971-12-11",
+    "idNacionalidad": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
+    "idPaisNacimiento": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
+    "idTipoDocumento": "209C1CAA-C56D-4E03-BB40-E9EF2F319A3F",
+    "numeroDocumento": "22017562",
+    "numeroTramiteDocumento": "22017562472",
+    "cuit": "27220175621",
+    "email": "mariaayala@gmail.com",
+    "caracteristicaPais": "+54",
+    "codigoArea": "3483",
+    "numeroTelefono": "451996",
+    "idEstadoCivil": "13e36b73-183f-4575-8d18-5c94543d2e07",
+    "idCondicionFiscal": "ba933f3f-d18e-4aed-8585-dfa73e27da11",
+    "idOcupacion": "d0ce590e-ab68-4044-b184-3f2063845ed5",
+    "esPep": True,
+    "idMotivoPep": "129dfb31-ec0b-49f5-9140-7102eadfde9a",
+    "esUIF": False,
+    "leyFATCA": False,
+    "idPaisDomicilio": "76B19E61-B8DC-40F4-BFAB-422CBFFE5002",
+    "idProvincia": "dbe55b61-0c49-49ac-9a3d-47bc67dd89c2",
+    "localidad": "Localidad",
+    "calle": "CTDA ENRIQUE FUMIS S/N",
+    "altura": "Altura",
+    "cp": "3050",
+    "piso": "Piso",
+    "departamento": "Dep",
+    "observaciones": "",
+    "fechaAlta": "2022-03-18",
+    "numeroCuentaEntidad": "1004071",
+    "idEntidadTipoDocumento": "209C1CAA-C56D-4E03-BB40-E9EF2F319A3F",
+    "idTipoPersona": "20EB9127-7CA8-49E0-9E0B-CA8293218ACA",
+    "idTipoCuenta": "D2483A34-78BE-40A2-B8CB-07AD4BCF6F61"
+  }
+)
+
+data = client.post(reqUrl, data=payload, headers=headersList)
+
+print(data.text)
+

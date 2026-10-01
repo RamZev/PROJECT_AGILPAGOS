@@ -42,3 +42,12 @@ MESES = [
 		('11', 'Noviembre'),
 		('12', 'Diciembre'),
 	]
+
+SEXO_CHOICES = (
+    ('M', 'Masculino'),
+    ('F', 'Femenino'),
+    ('X', 'No binario'),
+)
+
+# GUID fijo de Argentina como país de domicilio (según la API de Agilpagos).
+PAIS_DOMICILIO_ARGENTINA = '76b19e61-b8dc-40f4-bfab-422cbffe5002'

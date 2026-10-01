@@ -8,7 +8,9 @@ class MaestrosConfig(AppConfig):
 
     def ready(self):
         import apps.maestros.models.base_gen_models
-        import apps.maestros.models.cuenta_mutual_models
+        import apps.maestros.models.socio_models
+        import apps.maestros.models.cuenta_cvu_models
+        import apps.maestros.models.cvu_alias_historial_models
         import apps.maestros.models.sucursal_models
         import apps.maestros.models.sg_catalogo_models
         import apps.maestros.models.empresa_models

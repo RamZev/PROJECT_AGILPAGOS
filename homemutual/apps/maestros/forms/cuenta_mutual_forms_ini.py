@@ -1,4 +1,5 @@
 import re
+import requests
 from django import forms
 from django.db.models import Q
 from .crud_forms_generics import CrudGenericForm
@@ -81,6 +82,114 @@ class CuentaMutualForm(CrudGenericForm):
         required=False, empty_label="-- Seleccionar --",
         widget=forms.Select(attrs={**formclassselect})
     )
+    # ---- Campo PEP como Select con opciones "Verdadero / Falso" ----
+    es_pep = forms.ChoiceField(
+        choices=(
+            (True, 'SI'),
+            (False, 'NO'),
+        ),
+        required=True,
+        initial=False,
+        label="PEP",
+        widget=forms.Select(attrs={**formclassselect}),
+    )
+    es_uif = forms.ChoiceField(
+        choices=(
+            (True, 'SI'),
+            (False, 'NO'),
+        ),
+        required=True,
+        initial=False,
+        label="UIF",
+        widget=forms.Select(attrs={**formclassselect}),
+    )
+    ley_fatca = forms.ChoiceField(
+        choices=(
+            (True, 'SI'),
+            (False, 'NO'),
+        ),
+        required=True,
+        initial=False,
+        label="FATCA",
+        widget=forms.Select(attrs={**formclassselect}),
+    )
+
+    def clean_cuit(self):
+        cuit = self.cleaned_data.get('cuit')
+        if cuit is None:
+            return ''
+        cuit = cuit.strip()
+        if not cuit:
+            return cuit
+
+        # 1. Limpiar y validar formato
+        cuit_limpio = re.sub(r'\D', '', cuit)
+        if len(cuit_limpio) != 11:
+            raise ValidationError('El CUIT debe tener 11 dígitos.')
+
+        # 2. Validación LOCAL: evitar duplicados en la base de datos
+        qs = CuentaMutual.objects.filter(cuit=cuit_limpio)
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise ValidationError('Este CUIT ya está registrado en otra cuenta local.')
+
+        # 3. Validación EXTERNA: consultar existencia en Agilpagos
+        try:
+            url = f'http://186.189.231.237:8081/onboarding/usuario/{cuit_limpio}'
+            response = requests.get(url, headers={'Accept': 'application/json'}, timeout=5)
+
+            if response.status_code == 200:
+                data = response.json()
+                # Si la API devuelve un string con "No existe CVU asociado" → no existe, permitido
+                if isinstance(data, str) and "No existe CVU asociado" in data:
+                    return cuit_limpio
+                # Si la respuesta tiene estructura de usuario → ya existe, bloqueamos
+                if isinstance(data, dict) and 'usuario' in data:
+                    raise ValidationError('Este CUIT ya está registrado en Agilpagos.')
+                # Cualquier otra respuesta inesperada, bloqueamos por seguridad
+                raise ValidationError('No se pudo validar el CUIT. Intente nuevamente.')
+            elif response.status_code == 404:
+                # 404 = no existe → permitido
+                return cuit_limpio
+            else:
+                # Otros errores (500, etc.) bloqueamos
+                raise ValidationError('Error al consultar el CUIT. Intente más tarde.')
+        except requests.exceptions.RequestException:
+            # Error de red o timeout
+            raise ValidationError('No se pudo conectar al servidor de validación. Intente más tarde.')
+
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if email is None:
+            return ''
+        email = email.strip()
+        if not email:
+            return email
+
+        qs = CuentaMutual.objects.filter(email__iexact=email)
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise ValidationError('Este email ya está registrado en otra cuenta.')
+        return email
+
+    def clean_numero_telefono(self):
+        telefono = self.cleaned_data.get('numero_telefono')
+        if telefono is None:
+            return ''
+        telefono = telefono.strip()
+        if not telefono:
+            return telefono
+
+        qs = CuentaMutual.objects.filter(numero_telefono=telefono)
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise ValidationError('Este número de teléfono ya está registrado en otra cuenta.')
+        return telefono
+
 
     class Meta:
         model = CuentaMutual
@@ -121,13 +230,8 @@ class CuentaMutualForm(CrudGenericForm):
             'departamento': forms.TextInput(attrs={**formclasstext}),
             'observaciones_domicilio': forms.Textarea(attrs={**formclasstext, 'rows': 2}),
             
-            # ---- Cumplimiento Normativo ----
-            'es_pep': forms.Select(attrs={**formclassselect}),
-            'es_uif': forms.Select(attrs={**formclassselect}),
-            'ley_fatca': forms.Select(attrs={**formclassselect}),
-            
             # ---- Datos Técnicos ----
-            'fecha_alta': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
+            'fecha_alta': forms.TextInput(attrs={'type': 'date', **formclassdate}),
             'numero_cuenta_entidad': forms.TextInput(attrs={**formclasstext}),
             
             # ---- Identificadores SG (solo lectura) ----
@@ -160,6 +264,20 @@ class CuentaMutualForm(CrudGenericForm):
         self.fields["id_estado_civil"].label_from_instance = lambda o: o.descripcion
         self.fields["id_ocupacion"].label_from_instance = lambda o: o.descripcion
         self.fields["id_motivo_pep"].label_from_instance = lambda o: o.descripcion
+
+        # ---- NUEVO: Establecer valor por defecto para id_sucursal ----
+        # Solo si es un formulario de creación (no tiene instancia o no tiene pk)
+        if not self.instance or not self.instance.pk:
+            try:
+                # Intentar obtener la sucursal con ID = 1
+                from ..models.sucursal_models import Sucursal
+                sucursal_default = Sucursal.objects.filter(id_sucursal=1).first()
+                if sucursal_default:
+                    self.fields['id_sucursal'].initial = sucursal_default.pk
+                    self.fields['id_sucursal'].empty_label = None  # Opcional: ocultar el "-- Seleccionar --"
+            except Exception as e:
+                # Si no existe la sucursal o hay error, simplemente no se establece
+                pass
 
         # ---- Campo cuenta: no editable y NO requerido ----
         if 'cuenta' in self.fields:
@@ -230,16 +348,14 @@ class CuentaMutualForm(CrudGenericForm):
         return cleaned
 
     def clean_numero_documento(self):
-        doc = self.cleaned_data.get("numero_documento", "")
-        d = re.sub(r"\D+", "", str(doc or ""))
+        doc = self.cleaned_data.get("numero_documento")
+        if doc is None:
+            return ''
+        doc = str(doc)
+        d = re.sub(r"\D+", "", doc)
         if d:
             d = d.zfill(8)
         return d
-
-    def clean_cuit(self):
-        cuit = self.cleaned_data.get("cuit", "")
-        c = re.sub(r"\D+", "", str(cuit or ""))
-        return c
 
     def save(self, commit=True):
         """Asegura que cuenta quede seteado antes de persistir."""

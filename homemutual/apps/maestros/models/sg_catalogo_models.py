@@ -302,6 +302,11 @@ class SgEstadoTransaccion(ModeloBaseGenerico):
         default=False,
         help_text="Indica si es un estado final (terminó el proceso)"
     )
+    es_exitoso = models.BooleanField(
+            "Es Exitoso", 
+            default=False,
+            help_text="Indica si es un estado exitoso (el proceso terminó correctamente)"
+        )
 
     class Meta:
         db_table = 'sg_estado_transaccion'
@@ -352,3 +357,166 @@ class SgConceptoTransaccion(ModeloBaseGenerico):
 
     def __str__(self):
         return f"{self.codigo} - {self.descripcion}"
+    
+# ============================================
+# Nuevos Modelos para SG CATALOGO
+# ============================================
+
+# CREATE TABLE tipo_impuesto
+class SgTipoImpuesto(ModeloBaseGenerico):
+    id_sg_tipo_impuesto = models.CharField(
+            primary_key=True, 
+            max_length=36,
+            verbose_name="ID SG Tipo Impuesto"
+        )
+    estatus_sg_tipo_impuesto = models.BooleanField(
+            "Estatus", 
+            default=True, 
+            choices=ESTATUS_GEN
+        )
+    descripcion = models.CharField(
+            "Descripción", 
+            max_length=60,
+            help_text="Descripción del tipo de impuesto (ej: Impuesto SIRCUPA, Impuesto Ley 25.413, etc.)"
+        )
+    
+    class Meta:
+            db_table = 'sg_tipo_impuesto'
+            verbose_name = 'SG Tipo Impuesto'
+            verbose_name_plural = 'SG Tipos Impuestos'
+            ordering = ['descripcion']
+    
+    def __str__(self):
+        return self.descripcion
+
+
+# CREATE TABLE tipo_operacion_aviso
+class SgTipoOperacionAviso(ModeloBaseGenerico):
+    id_sg_tipo_operacion_aviso = models.CharField(
+            primary_key=True, 
+            max_length=36,
+            verbose_name="ID SG Tipo Operación Aviso"
+        )
+    estatus_sg_tipo_operacion_aviso = models.BooleanField(
+            "Estatus", 
+            default=True, 
+            choices=ESTATUS_GEN
+        )
+    descripcion = models.CharField(
+            "Descripción", 
+            max_length=60,
+            help_text="Descripción del tipo de Operación de Aviso"
+        )
+    
+    class Meta:
+            db_table = 'sg_tipo_operacion_aviso'
+            verbose_name = 'SG Tipo Operación Aviso'
+            verbose_name_plural = 'SG Tipos Operación Avisos'
+            ordering = ['descripcion']
+    
+    def __str__(self):
+        return self.descripcion
+
+
+# CREATE TABLE tipo_cuenta_mutual
+class SgTipoCuentaMutual(ModeloBaseGenerico):
+    id_sg_tipo_cuenta_mutual = models.BigIntegerField(
+            primary_key=True, 
+        )
+    estatus_sg_tipo_cuenta_mutual = models.BooleanField(
+            "Estatus", 
+            default=True, 
+            choices=ESTATUS_GEN
+        )
+    codigo_letra = models.CharField(
+            "Código Letra", 
+            max_length=1, 
+            unique=True
+        )
+    descripcion = models.CharField(
+            "Descripción", 
+            max_length=60, 
+        )
+
+    class Meta:
+        db_table = 'sg_tipo_cuenta_mutual'
+        verbose_name = 'SG Tipo Cuenta Mutual'
+        verbose_name_plural = 'SG Tipos Cuentas Mutuales'
+        ordering = ['descripcion']
+
+    def __str__(self):
+        return self.descripcion
+    
+    
+# CREATE TABLE constante_agilpagos
+class SgConstanteAgilpagos(ModeloBaseGenerico):
+    clave = models.CharField(
+            primary_key=True, 
+            max_length=60,
+        )
+    estatus_sg_constante_agilpagos = models.BooleanField(
+            "Estatus", 
+            default=True, 
+            choices=ESTATUS_GEN
+        )    
+    valor = models.CharField(
+                "Valor", 
+                max_length=36, 
+            )
+    descripcion = models.CharField(
+            "Descripción", 
+            max_length=200, 
+        )
+    
+    class Meta:
+            db_table = 'sg_constante_agilpagos'
+            verbose_name = 'SG Constante Agilpagos'
+            verbose_name_plural = 'SG Constantes Agilpagos'
+            ordering = ['descripcion']
+    
+    def __str__(self):
+        return self.descripcion
+
+
+# CREATE TABLE ambiente_agilpagos
+class SgAmbienteAgilpagos(ModeloBaseGenerico):
+    id_sg_ambiente_agilpagos = models.BigIntegerField(
+            primary_key=True, 
+        )
+    estatus_sg_ambiente_agilpagos = models.BooleanField(
+            "Estatus", 
+            default=True, 
+            choices=ESTATUS_GEN
+        )
+    nombre = models.CharField(
+            "Nombre", 
+            max_length=10,
+            unique=True)
+    url_base = models.CharField(
+            "URL Base", 
+            max_length=255,
+        )
+    url_onboarding = models.CharField(
+                "URL Onboarding", 
+                max_length=255,
+            )
+    url_swagger = models.CharField(
+                    "URL Swagger", 
+                    max_length=255,
+                )
+    id_entidad = models.CharField(
+            "ID Entidad",
+            max_length=36,
+        )
+    id_entidad_tipo_documento = models.CharField(
+            "ID Entidad Tipo Documento",
+            max_length=36,
+        )
+    class Meta:
+            db_table = 'sg_ambiente_agilpagos'
+            verbose_name = 'SG Ambiente Agilpagos'
+            verbose_name_plural = 'SG Ambientes Agilpagos'
+            ordering = ['nombre']
+        
+    def __str__(self):
+        return self.nombre
