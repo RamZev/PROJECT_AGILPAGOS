@@ -51,3 +51,11 @@ SEXO_CHOICES = (
 
 # GUID fijo de Argentina como país de domicilio (según la API de Agilpagos).
 PAIS_DOMICILIO_ARGENTINA = '76b19e61-b8dc-40f4-bfab-422cbffe5002'
+
+TIPO_MOVIMIENTO_CHOICES = [
+	("CASH_OUT", "CASH_OUT"),
+	("CASH_IN", "CASH_IN"),
+	("REVERSA", "REVERSA"),
+	("IMPUESTO", "IMPUESTO"),
+	("AJUSTE", "AJUSTE"),
+]
