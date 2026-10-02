@@ -1,0 +1,183 @@
+{% extends 'maestro_form.html' %}
+{% load static %}
+
+{% block maincomponent %}
+    {% block principalcomponent %}
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+
+                    <div class="card border-light mb-3 mt-2">
+                        <div class="card-header text-white bg-primary opacity-75 d-flex
+                                    justify-content-between">
+                            {{ accion }}
+                            <div class="flex align-items-center">
+                                <a class="me-2 text-white" data-bs-toggle="modal"
+                                   data-bs-target="#helpModal" style="cursor: pointer;">
+                                    <i class="bi bi-question-lg"></i>
+                                </a>
+                                <button type="button" class="btn-close btn-close-white"
+                                    aria-label="Close"
+                                    onclick="window.location.href='{% url list_view_name %}'">
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body bg-body-secondary">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+
+                                <div class="accordion" id="accordionCvu">
+
+                                    <!-- ==================================== -->
+                                    <!-- SECCIÓN 1: DATOS DE LA CVU           -->
+                                    <!-- ==================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button py-2" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#SecCvu"
+                                                    aria-expanded="true">
+                                                <strong>Datos de la CVU</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show" id="SecCvu">
+                                            <div class="accordion-body bg-secondary-subtle">
+
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_socio.label }}</label>
+                                                        {{ form.id_socio }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_tipo_cuenta_mutual.label }}</label>
+                                                        {{ form.id_tipo_cuenta_mutual }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">{{ form.estado_vcu.label }}</label>
+                                                        {{ form.estado_vcu }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">{{ form.fecha_alta.label }}</label>
+                                                        {{ form.fecha_alta }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="row mt-2">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.numero_cuenta_entidad.label }}</label>
+                                                        {{ form.numero_cuenta_entidad }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.cvu.label }}</label>
+                                                        {{ form.cvu }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.alias.label }}</label>
+                                                        {{ form.alias }}
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="form-label text-primary mb-0">{{ form.favorita.label }}</label>
+                                                        {{ form.favorita }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">{{ form.bloqueada_compliance.label }}</label>
+                                                        {{ form.bloqueada_compliance }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ==================================== -->
+                                    <!-- SECCIÓN 2: BAJA                      -->
+                                    <!-- ==================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button py-2 collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#SecBaja">
+                                                <strong>Baja</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse" id="SecBaja">
+                                            <div class="accordion-body bg-secondary-subtle">
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">{{ form.fecha_baja.label }}</label>
+                                                        {{ form.fecha_baja }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_motivo_baja.label }}</label>
+                                                        {{ form.id_motivo_baja }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-primary mb-0">{{ form.observaciones_baja.label }}</label>
+                                                        {{ form.observaciones_baja }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ==================================== -->
+                                    <!-- SECCIÓN 3: IDENTIFICADORES AGILPAGOS -->
+                                    <!-- ==================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button py-2 collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#SecAgilpagos">
+                                                <strong>Identificadores Agilpagos</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse" id="SecAgilpagos">
+                                            <div class="accordion-body bg-secondary-subtle">
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_cvu.label }}</label>
+                                                        {{ form.id_cvu }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_usuario_entidad_lineas_cuentas.label }}</label>
+                                                        {{ form.id_usuario_entidad_lineas_cuentas }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="container mt-3">
+                                    <button class="btn btn-primary" type="submit" id="guardarBtn">
+                                        Guardar
+                                    </button>
+                                    <a class="btn btn-secondary" href="{% url list_view_name %}">
+                                        Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    {% endblock principalcomponent %}
+{% endblock maincomponent %}
+
+{% block modals %}
+    {% include 'maestros/modal_errors.html' %}
+    {% include 'maestros/modal_fields_requirements.html' %}
+{% endblock modals %}
+
+{% block script %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Validaciones en vivo (opcional)
+        });
+    </script>
+{% endblock script %}

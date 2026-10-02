@@ -30,7 +30,7 @@ class CuentaCvu(ModeloBaseGenerico):
     # ============================================
     # 1. IDENTIFICADORES INTERNOS
     # ============================================
-    id_cvu = models.AutoField(
+    id_cuenta_cvu = models.AutoField(
         primary_key=True,
         verbose_name="ID CVU",
     )
@@ -85,7 +85,7 @@ class CuentaCvu(ModeloBaseGenerico):
     # ============================================
     # 4. IDENTIFICADORES DE AGILPAGOS
     # ============================================
-    id_cvu2 = models.CharField(
+    id_cvu = models.CharField(
         "ID CVU (Agilpagos)",
         max_length=36,
         unique=True,
@@ -219,7 +219,7 @@ class CuentaCvu(ModeloBaseGenerico):
                 pass
             else:
                 locked = [
-                    'id_cvu2',
+                    'id_cvu',
                     'id_usuario_entidad_lineas_cuentas',
                     'cvu',
                 ]
@@ -292,7 +292,7 @@ class CuentaCvu(ModeloBaseGenerico):
         db_table = 'cuenta_cvu'
         verbose_name = 'Cuenta CVU'
         verbose_name_plural = 'Cuentas CVU'
-        ordering = ['id_cvu']
+        ordering = ['id_cuenta_cvu']
         constraints = [
             # Un socio no puede tener 2 CVU del mismo tipo de caja
             models.UniqueConstraint(

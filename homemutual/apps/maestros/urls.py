@@ -11,6 +11,8 @@ from .views.sg_condicion_fiscal_views import *
 from .views.sg_ocupacion_views import *
 from .views.sg_motivo_pep_views import *
 from .views.sg_estado_transaccion_views import *
+from .views.socio_views import *
+from .views.cuenta_cvu_views import *
 
 #-- NUEVO: Vistas de consultas a APIs externas
 # from .views.consulta_maestros_views import (
@@ -78,6 +80,18 @@ urlpatterns = [
     path('sg-estado-transaccion/<str:pk>/editar/', SgEstadoTransaccionUpdateView.as_view(), name='sg_estado_transaccion_update'),
     path('sg-estado-transaccion/<str:pk>/eliminar/', SgEstadoTransaccionDeleteView.as_view(), name='sg_estado_transaccion_delete'),
 
+    #-- Socio
+    path('socio/', SocioListView.as_view(), name='socio_list'),
+    path('socio/nueva/', SocioCreateView.as_view(), name='socio_create'),
+    path('socio/<int:pk>/editar/', SocioUpdateView.as_view(), name='socio_update'),
+    path('socio/<int:pk>/eliminar/', SocioDeleteView.as_view(), name='socio_delete'),
+    
+    #-- Cuenta CVU
+    path('cuenta-cvu/', CuentaCvuListView.as_view(), name='cuenta_cvu_list'),
+    path('cuenta-cvu/nueva/', CuentaCvuCreateView.as_view(), name='cuenta_cvu_create'),
+    path('cuenta-cvu/<int:pk>/editar/', CuentaCvuUpdateView.as_view(), name='cuenta_cvu_update'),
+    path('cuenta-cvu/<int:pk>/eliminar/', CuentaCvuDeleteView.as_view(), name='cuenta_cvu_delete'),
+    
     # ================================================================
     # NUEVO: API para consultas a servicios externos
     # ================================================================
