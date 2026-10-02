@@ -1,0 +1,29 @@
+{
+    "constantes_agilpagos": [
+        {
+            "clave": "ID_NACIONALIDAD_PAIS_DOMICILIO_AR",
+            "valor": "76B19E61-B8DC-40F4-BFAB-422CBFFE5002",
+            "descripcion": "Argentina dentro del catálogo de Nacionalidades. Único valor admitido para idPaisDomicilio, y valor usado para idNacionalidad/idPaisNacimiento cuando corresponde a Argentina (3.0/3.1)."
+        },
+        {
+            "clave": "ID_TIPO_DOCUMENTO_DNI",
+            "valor": "209C1CAA-C56D-4E03-BB40-E9EF2F319A3F",
+            "descripcion": "Valor fijo de idTipoDocumento representando DNI (3.1)."
+        },
+        {
+            "clave": "ID_TIPO_PERSONA_FISICA",
+            "valor": "20EB9127-7CA8-49E0-9E0B-CA8293218ACA",
+            "descripcion": "Valor fijo de idTipoPersona para personas físicas (3.1)."
+        },
+        {
+            "clave": "ID_TIPO_CUENTA_CVU",
+            "valor": "D2483A34-78BE-40A2-B8CB-07AD4BCF6F61",
+            "descripcion": "Valor fijo de idTipoCuenta al dar de alta una CVU (3.1)."
+        },
+        {
+            "clave": "ID_MOTIVO_BAJA_ARREPENTIMIENTO",
+            "valor": "977E860B-368F-4B89-8F17-1DCE5335B9F5",
+            "descripcion": "Valor de idMotivoBaja a usar en el DELETE de CVU / \"botón de arrepentimiento\" (3.3.2)."
+        }
+    ]
+}

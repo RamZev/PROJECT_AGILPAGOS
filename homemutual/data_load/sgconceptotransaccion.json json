@@ -1,0 +1,29 @@
+{
+    "conceptos_transaccion": [
+        {
+            "id_concepto_transferencia": "45D4F58B-46A2-4754-BBFA-FECB8CF88BFC",
+            "codigo": "VAR",
+            "descripcion": "Varios"
+        },
+        {
+            "id_concepto_transferencia": "CC441F51-7531-424E-842A-C3A1DBBBF6CE",
+            "codigo": "ALQ",
+            "descripcion": "Alquileres"
+        },
+        {
+            "id_concepto_transferencia": "06A17DA8-57A5-4104-819A-F46ACE68E25F",
+            "codigo": "EXP",
+            "descripcion": "Expensas"
+        },
+        {
+            "id_concepto_transferencia": "FCEA71F5-7395-4CB0-B816-DA493F0605B5",
+            "codigo": "FAC",
+            "descripcion": "Facturas"
+        },
+        {
+            "id_concepto_transferencia": "B3300CA6-948C-4AB3-857E-4B88C29BE404",
+            "codigo": "HON",
+            "descripcion": "Honorarios"
+        }
+    ]
+}

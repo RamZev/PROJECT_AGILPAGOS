@@ -1,0 +1,46 @@
+{
+    "estados_transaccion": [
+        {
+            "id_estado_transaccion": "FA4B44CA-685B-4625-8C47-81969A6E2598",
+            "descripcion": "Pendiente",
+            "es_final": false,
+            "es_exitoso": false
+        },
+        {
+            "id_estado_transaccion": "E24A00E1-10A4-4E23-8D60-61EB055480AF",
+            "descripcion": "Informado Al Banco",
+            "es_final": false,
+            "es_exitoso": false
+        },
+        {
+            "id_estado_transaccion": "0FFA0273-BC86-4BFA-9144-7FBF415B06EA",
+            "descripcion": "Pendiente Confirmación en Banco",
+            "es_final": false,
+            "es_exitoso": false
+        },
+        {
+            "id_estado_transaccion": "1165CCFC-0E13-427A-86D2-E89782F9B2FF",
+            "descripcion": "Informado Al Banco Con Error",
+            "es_final": true,
+            "es_exitoso": false
+        },
+        {
+            "id_estado_transaccion": "FC3F6A69-BE98-48B9-9842-4AE2C851E2DD",
+            "descripcion": "Pendiente de Informar al integrador",
+            "es_final": false,
+            "es_exitoso": false
+        },
+        {
+            "id_estado_transaccion": "B1CE7121-7802-42DE-8891-64EF6FEB1223",
+            "descripcion": "Error al informar al integrador",
+            "es_final": false,
+            "es_exitoso": false
+        },
+        {
+            "id_estado_transaccion": "5FB79B38-00ED-47B8-B7CE-B760CBEAE9D8",
+            "descripcion": "Procesado",
+            "es_final": true,
+            "es_exitoso": true
+        }
+    ]
+}

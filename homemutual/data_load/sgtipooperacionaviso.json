@@ -1,0 +1,12 @@
+{
+    "tipos_operacion_aviso": [
+        {
+            "id_tipo_operacion_aviso": "883E49C3-7AA2-42B7-A258-DEF8A6C6E838",
+            "descripcion": "Transferencias"
+        },
+        {
+            "id_tipo_operacion_aviso": "CB3F2930-B318-4DDB-8861-3C2926A87CF3",
+            "descripcion": "Operación con QR"
+        }
+    ]
+}

@@ -1,0 +1,1262 @@
+{
+  "nacionalidades": [
+    {
+      "idWeb": "5a09cdb6-b9c0-42cf-a4d0-7257ac2f2f46",
+      "descripcion": "Afganistán"
+    },
+    {
+      "idWeb": "5c023f19-574d-4d02-b51d-f6b665983abe",
+      "descripcion": "Albania"
+    },
+    {
+      "idWeb": "9e59ac1b-13c0-4f14-aa18-f62ba75fe549",
+      "descripcion": "Alemania"
+    },
+    {
+      "idWeb": "d5062069-b06b-4bba-85be-2aff27339c63",
+      "descripcion": "Andorra"
+    },
+    {
+      "idWeb": "3e07d32f-5449-487f-9a2c-ba6a9af96dd3",
+      "descripcion": "Angola"
+    },
+    {
+      "idWeb": "04b9c156-7ea3-4e50-9727-2f3930334379",
+      "descripcion": "Anguilla"
+    },
+    {
+      "idWeb": "92b04e7c-b226-4d18-86da-64969db8b232",
+      "descripcion": "Antartida"
+    },
+    {
+      "idWeb": "21a3cec4-dbe8-4ef4-95e6-cf7b1907d33a",
+      "descripcion": "Antigua y Barbuda"
+    },
+    {
+      "idWeb": "694fa0c2-c98d-4d56-beaa-45991617a741",
+      "descripcion": "Antillas Holandesas"
+    },
+    {
+      "idWeb": "ef0608fd-dbc0-4b52-b33c-2e4e1f3af6b6",
+      "descripcion": "Arabia Saudita"
+    },
+    {
+      "idWeb": "d2bef8ab-f062-4670-b6f8-7bf8ff469be4",
+      "descripcion": "Argelia"
+    },
+    {
+      "idWeb": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
+      "descripcion": "Argentina"
+    },
+    {
+      "idWeb": "62a1ef6f-3144-4a09-bbf3-48fa55c3ce4e",
+      "descripcion": "Armenia"
+    },
+    {
+      "idWeb": "a22e6911-a047-4bc7-8817-d24e672a6ba1",
+      "descripcion": "Aruba"
+    },
+    {
+      "idWeb": "cc484c55-7c25-4895-b8a7-323e29eee695",
+      "descripcion": "Australia"
+    },
+    {
+      "idWeb": "21b8ad6f-2ec5-4e5e-adac-f7edceec676c",
+      "descripcion": "Austria"
+    },
+    {
+      "idWeb": "07d952c4-68d1-4556-b5e2-1e967160bdb5",
+      "descripcion": "Azerbaiyán"
+    },
+    {
+      "idWeb": "5b54b598-7730-44a3-94a2-774bc8d842d4",
+      "descripcion": "Bahamas"
+    },
+    {
+      "idWeb": "9a086ff7-13f1-4add-9fc9-fe135b0fc2bf",
+      "descripcion": "Bahréin"
+    },
+    {
+      "idWeb": "02f930b1-e1a3-405b-ad90-4bc53f65be41",
+      "descripcion": "Bangladesh"
+    },
+    {
+      "idWeb": "031980b2-31a6-475d-a32f-6a859808ee04",
+      "descripcion": "Barbados"
+    },
+    {
+      "idWeb": "c7c88fc1-966f-47de-b326-5b21f2f86e96",
+      "descripcion": "Bélgica"
+    },
+    {
+      "idWeb": "791303df-6d39-405d-a878-065cd82c95cc",
+      "descripcion": "Belice"
+    },
+    {
+      "idWeb": "6fd688fc-9b49-4896-959c-5a148ae16064",
+      "descripcion": "Benín"
+    },
+    {
+      "idWeb": "ede2994f-62a6-4510-b992-e07e5ecab084",
+      "descripcion": "Bermudas"
+    },
+    {
+      "idWeb": "a29121a0-aedf-41a7-b121-0596a86a9dee",
+      "descripcion": "Bhután"
+    },
+    {
+      "idWeb": "6fab2e5f-0757-4ce1-add9-7c409900a6e2",
+      "descripcion": "Bielorrusia"
+    },
+    {
+      "idWeb": "b6ca6dbc-ace3-46bd-98f9-a96eb2d2b600",
+      "descripcion": "Birmania"
+    },
+    {
+      "idWeb": "e2726720-198d-4479-b5dc-0496d7728f60",
+      "descripcion": "Bolivia"
+    },
+    {
+      "idWeb": "1b500b26-0ca0-4e99-ba87-9d33ffd5548a",
+      "descripcion": "Bosnia y Herzegovina"
+    },
+    {
+      "idWeb": "669a875e-28fc-4d95-8985-5b03d530e8a1",
+      "descripcion": "Botswana"
+    },
+    {
+      "idWeb": "b50e9558-bf4b-45fe-9c9d-8acff0dcd564",
+      "descripcion": "Brasil"
+    },
+    {
+      "idWeb": "5392eceb-d673-4bbf-8823-615db84808f9",
+      "descripcion": "Brunéi"
+    },
+    {
+      "idWeb": "a9805340-2a04-4fbe-a147-326805986a2c",
+      "descripcion": "Bulgaria"
+    },
+    {
+      "idWeb": "4d735b33-0d99-485d-b322-ad50dc5f2b43",
+      "descripcion": "Burkina Faso"
+    },
+    {
+      "idWeb": "4ce56615-09c3-41bb-b993-17b7df68f065",
+      "descripcion": "Burundi"
+    },
+    {
+      "idWeb": "3abe04a0-2c73-4c59-9e89-ef0630fa6a22",
+      "descripcion": "Cabo Verde"
+    },
+    {
+      "idWeb": "aa057657-e476-489d-b85e-63b30c97acaf",
+      "descripcion": "Camboya"
+    },
+    {
+      "idWeb": "6bd4d1e0-71ef-4af6-bf4e-4521bfb458e3",
+      "descripcion": "Camerún"
+    },
+    {
+      "idWeb": "c195702a-d8d7-47c2-8cf6-fd9348faa864",
+      "descripcion": "Canadá"
+    },
+    {
+      "idWeb": "c8dbc452-7087-4e4b-b4dc-7b5c0bb9aab3",
+      "descripcion": "Catar"
+    },
+    {
+      "idWeb": "55fb0091-6e95-4c10-97c4-4476a4350866",
+      "descripcion": "Chad"
+    },
+    {
+      "idWeb": "e00858df-71b8-48b8-94b6-d195f05ce39b",
+      "descripcion": "Chile"
+    },
+    {
+      "idWeb": "9d7ca91b-1e5a-4016-8bda-efd6b0a8aff8",
+      "descripcion": "China"
+    },
+    {
+      "idWeb": "427a2635-a44c-466d-b4f7-d8129523c286",
+      "descripcion": "Chipre"
+    },
+    {
+      "idWeb": "e21aeb93-dd66-4af7-bac7-0a7913d04046",
+      "descripcion": "Ciudad del Vaticano"
+    },
+    {
+      "idWeb": "a5651f52-8406-4aa2-9917-4383d754493e",
+      "descripcion": "Colombia"
+    },
+    {
+      "idWeb": "52777391-7182-40ab-a401-a7497166887b",
+      "descripcion": "Comoras"
+    },
+    {
+      "idWeb": "54961ae8-8e37-40ec-80f6-a92b987a8e61",
+      "descripcion": "Congo"
+    },
+    {
+      "idWeb": "bcac94d6-39c8-425c-af43-9eae61894c57",
+      "descripcion": "Corea del Norte"
+    },
+    {
+      "idWeb": "a512ab3f-aba0-43a0-a24d-50ee55b1e7f0",
+      "descripcion": "Corea del Sur"
+    },
+    {
+      "idWeb": "16a2f4f8-7344-4cd7-939b-fa77bbb6fbb9",
+      "descripcion": "Costa de Marfil"
+    },
+    {
+      "idWeb": "076dc899-3db9-4366-b270-d4dd49fd0e17",
+      "descripcion": "Costa Rica"
+    },
+    {
+      "idWeb": "5a219a4b-dcec-4a3f-bc83-1ce73f526ee1",
+      "descripcion": "Croacia"
+    },
+    {
+      "idWeb": "28afd64a-811c-4ef3-83c8-b4009e719820",
+      "descripcion": "Cuba"
+    },
+    {
+      "idWeb": "9f6b72d1-7d72-4a47-ba98-b0d96f235969",
+      "descripcion": "Dinamarca"
+    },
+    {
+      "idWeb": "93892004-977a-4dba-a33b-0229ec97d25b",
+      "descripcion": "Djibouti"
+    },
+    {
+      "idWeb": "b4af9f51-c6d5-40f9-bbb1-69e5ae24041c",
+      "descripcion": "Dominica"
+    },
+    {
+      "idWeb": "2f4d4ff6-2517-49da-86ed-146f96955edc",
+      "descripcion": "Ecuador"
+    },
+    {
+      "idWeb": "c032eeac-a811-4e79-a030-3a6af4ccf329",
+      "descripcion": "Egipto"
+    },
+    {
+      "idWeb": "b3652d5c-ce72-4e7b-b96f-a3c3e70d7597",
+      "descripcion": "El Salvador"
+    },
+    {
+      "idWeb": "d567cd68-c6fa-4597-903b-ac93413c7c03",
+      "descripcion": "El Vaticano"
+    },
+    {
+      "idWeb": "ab1201aa-4ffe-45f8-b4f7-d40bc1ab6219",
+      "descripcion": "Emiratos Árabes Unidos"
+    },
+    {
+      "idWeb": "bfeb5734-61f4-433f-8545-169a011f90b6",
+      "descripcion": "Eritrea"
+    },
+    {
+      "idWeb": "72177573-97b2-4744-a214-3b67fee5522e",
+      "descripcion": "Eslovaquia"
+    },
+    {
+      "idWeb": "90aa03f3-bf73-49e7-a390-76babd567115",
+      "descripcion": "Eslovenia"
+    },
+    {
+      "idWeb": "90f0dd6c-69b9-41f3-8ef6-342928d0ecb0",
+      "descripcion": "España"
+    },
+    {
+      "idWeb": "26523ce0-7e1f-4f79-afda-2b91521a3559",
+      "descripcion": "Estados Unidos"
+    },
+    {
+      "idWeb": "12bb30b7-12bc-4842-9355-9c8b16f28198",
+      "descripcion": "Estonia"
+    },
+    {
+      "idWeb": "bc36636e-999d-4abe-8548-aae273d3d9ea",
+      "descripcion": "Esuatini"
+    },
+    {
+      "idWeb": "9c48aa64-5716-40c1-80f2-99fe0fb792a8",
+      "descripcion": "Etiopía"
+    },
+    {
+      "idWeb": "3ce93f6f-6c7d-451c-b788-d256b8fc247e",
+      "descripcion": "Fiji"
+    },
+    {
+      "idWeb": "92c3939d-858e-48ab-84ec-b293b15a5750",
+      "descripcion": "Filipinas"
+    },
+    {
+      "idWeb": "a11b42ef-23bb-4450-8e20-e426a7f6acd7",
+      "descripcion": "Finlandia"
+    },
+    {
+      "idWeb": "cba2eb98-7ecc-4383-9836-fb2992f049e0",
+      "descripcion": "Francia"
+    },
+    {
+      "idWeb": "729c27b1-f59a-4678-b753-a891dbfeff89",
+      "descripcion": "Gabón"
+    },
+    {
+      "idWeb": "d7b46914-65fa-42dd-964c-c07c9f960d77",
+      "descripcion": "Gambia"
+    },
+    {
+      "idWeb": "a865dce8-e4a7-458d-9f30-c28c14479d6b",
+      "descripcion": "Georgia"
+    },
+    {
+      "idWeb": "42545b2c-560f-43c9-b8d4-2d7950e90a27",
+      "descripcion": "Ghana"
+    },
+    {
+      "idWeb": "0b2f8858-9fcc-4184-a929-91a9d0410a9c",
+      "descripcion": "Gibraltar"
+    },
+    {
+      "idWeb": "ef39a65a-5dad-4921-8941-233d3cf53fe3",
+      "descripcion": "Granada"
+    },
+    {
+      "idWeb": "d9165ec4-e369-41c9-bdb7-26620eccf9fc",
+      "descripcion": "Grecia"
+    },
+    {
+      "idWeb": "800d14d8-87c3-4729-b451-4517afdbe955",
+      "descripcion": "Groenlandia"
+    },
+    {
+      "idWeb": "91d67e7c-2024-45b2-9df9-deb2aa8f31f5",
+      "descripcion": "Guadalupe"
+    },
+    {
+      "idWeb": "63f152e1-31b5-4445-a021-e2fabf7a7c4a",
+      "descripcion": "Guam"
+    },
+    {
+      "idWeb": "9b12d178-f7f4-4c33-896a-4eb34e409902",
+      "descripcion": "Guatemala"
+    },
+    {
+      "idWeb": "195f8904-76f1-43b5-a520-67ed15352372",
+      "descripcion": "Guayana Francesa"
+    },
+    {
+      "idWeb": "3c83cf58-a29c-497c-a396-b2d8ea4f2c3f",
+      "descripcion": "Guinea"
+    },
+    {
+      "idWeb": "550d66f1-2599-4ab0-876e-2427821b0582",
+      "descripcion": "Guinea Ecuatorial"
+    },
+    {
+      "idWeb": "ad16d1ec-c517-403b-aabb-5d6dc4645955",
+      "descripcion": "Guinea-Bisáu"
+    },
+    {
+      "idWeb": "ff75fdcf-1684-4839-a4e1-998834626ef6",
+      "descripcion": "Guyana"
+    },
+    {
+      "idWeb": "0d110af8-6c08-4697-a583-562eaf405e3c",
+      "descripcion": "Haití"
+    },
+    {
+      "idWeb": "9b69a975-ef8e-40e9-a0f0-3c8197aa983c",
+      "descripcion": "Honduras"
+    },
+    {
+      "idWeb": "8864051b-98d9-4d58-8140-08b7fb371808",
+      "descripcion": "Hong Kong"
+    },
+    {
+      "idWeb": "a3b0a01f-27c2-41ef-8770-fddffba9b2e5",
+      "descripcion": "Hungría"
+    },
+    {
+      "idWeb": "d926cf9f-2b43-46ec-a26e-ca5215037328",
+      "descripcion": "India"
+    },
+    {
+      "idWeb": "2e1bccf3-dd3d-4f97-a468-d80476e414e2",
+      "descripcion": "Indonesia"
+    },
+    {
+      "idWeb": "eecff9c4-ee14-4736-98b9-246597e37208",
+      "descripcion": "Irán"
+    },
+    {
+      "idWeb": "3e121fa2-ac1b-4673-a455-ca81dfcd4bd0",
+      "descripcion": "Iraq"
+    },
+    {
+      "idWeb": "70abb0b2-f448-4e57-8234-0782f3b13755",
+      "descripcion": "Irlanda"
+    },
+    {
+      "idWeb": "e3fbf9c2-358b-478f-a899-cf00c8112313",
+      "descripcion": "Isla Bouvet"
+    },
+    {
+      "idWeb": "0813d864-beec-4828-b098-9e892179638f",
+      "descripcion": "Isla de Navidad"
+    },
+    {
+      "idWeb": "49bc2e9b-e6d3-48b4-ab79-d7d7b325f2ea",
+      "descripcion": "Isla Norfolk"
+    },
+    {
+      "idWeb": "240696cf-c2c7-4083-be60-10f8a5242a34",
+      "descripcion": "Islandia"
+    },
+    {
+      "idWeb": "1e7d5e65-280d-42fd-965a-7c136bb189b1",
+      "descripcion": "Islas Caiman"
+    },
+    {
+      "idWeb": "251479bc-72ad-440c-9985-6118459e2ab6",
+      "descripcion": "Islas Cocos"
+    },
+    {
+      "idWeb": "a986ce4d-574f-4e28-b346-2dc311068fb8",
+      "descripcion": "Islas Cook"
+    },
+    {
+      "idWeb": "0acfc225-5b1b-4c2d-bdb8-7a6e586a3f7a",
+      "descripcion": "Islas Feroe"
+    },
+    {
+      "idWeb": "18b0b00c-cf05-4c6f-9dff-e805b79ef119",
+      "descripcion": "Islas Heard y McDonald"
+    },
+    {
+      "idWeb": "1171bd82-390d-4460-9695-e064600f46f9",
+      "descripcion": "Islas Malvinas"
+    },
+    {
+      "idWeb": "5e58cf67-5f0e-4562-aa66-1f1de4c32e46",
+      "descripcion": "Islas Marianas del Norte"
+    },
+    {
+      "idWeb": "87b554ac-5d00-4c24-aa3d-f2794679ab57",
+      "descripcion": "Islas Pitcairn"
+    },
+    {
+      "idWeb": "fe58a26e-dd22-452a-9b78-d4dd712ebc0a",
+      "descripcion": "Islas Salomon"
+    },
+    {
+      "idWeb": "80a414ca-f816-4bfd-b5ff-9d235d695b3b",
+      "descripcion": "Islas Sandwhich"
+    },
+    {
+      "idWeb": "f49204cf-9fe1-4312-b134-939e41909ed2",
+      "descripcion": "Islas Turcas y Caicos"
+    },
+    {
+      "idWeb": "9a3c53c0-da37-4a5f-9c9b-89daa719b92a",
+      "descripcion": "Islas Vírgenes Británicas"
+    },
+    {
+      "idWeb": "a96a1cbc-bfc6-48ef-9372-d5ebc482e32e",
+      "descripcion": "Islas Vírgenes de los Estados Unidos"
+    },
+    {
+      "idWeb": "b89a37b1-e2a4-4d26-9f21-9076c50195e5",
+      "descripcion": "Israel"
+    },
+    {
+      "idWeb": "f6f145f2-257a-4d67-ba99-8496088e598a",
+      "descripcion": "Italia"
+    },
+    {
+      "idWeb": "1afd607d-640c-41b5-8a79-2c4b45ca1532",
+      "descripcion": "Jamaica"
+    },
+    {
+      "idWeb": "ffda9580-6ce8-4d4d-9b52-f3d45609510b",
+      "descripcion": "Japón"
+    },
+    {
+      "idWeb": "3cd2eb3d-7aca-4115-92d3-acd400f39fc5",
+      "descripcion": "Jordania"
+    },
+    {
+      "idWeb": "4a9d96ed-a23d-437f-966e-7b7ba58d2f01",
+      "descripcion": "Kazajistán"
+    },
+    {
+      "idWeb": "0f9bc999-a26b-4762-b654-4ee2978b94f0",
+      "descripcion": "Kenia"
+    },
+    {
+      "idWeb": "f89bfdc0-b025-404a-9bb3-b1bec8d56384",
+      "descripcion": "Kirguistán"
+    },
+    {
+      "idWeb": "5f87551f-ad42-4812-a5f8-a975bcf2fc4b",
+      "descripcion": "Kiribati"
+    },
+    {
+      "idWeb": "0477080a-d732-44f3-b659-0e88ddc2bed4",
+      "descripcion": "Kuwait"
+    },
+    {
+      "idWeb": "32e4e56c-ba3b-4f0b-a595-a262d815a3e0",
+      "descripcion": "Laos"
+    },
+    {
+      "idWeb": "1e98a646-5dee-49ad-be6f-9f38b05ad1f6",
+      "descripcion": "Lesoto"
+    },
+    {
+      "idWeb": "1bf71411-fc56-4a21-9472-a4a948d4e71b",
+      "descripcion": "Letonia"
+    },
+    {
+      "idWeb": "8388fc98-f8b2-4e50-a9c2-ca5a9953f465",
+      "descripcion": "Líbano"
+    },
+    {
+      "idWeb": "4e3f0cd1-84e9-49e3-8b1b-672f141f3e4b",
+      "descripcion": "Liberia"
+    },
+    {
+      "idWeb": "5e2c644e-8554-4f01-a994-8a487e8c30b3",
+      "descripcion": "Libia"
+    },
+    {
+      "idWeb": "118e9760-d022-4c15-95c4-2a8b80a47b9c",
+      "descripcion": "Liechtenstein"
+    },
+    {
+      "idWeb": "f07b4f4e-d6c6-4180-a527-77042536da20",
+      "descripcion": "Lituania"
+    },
+    {
+      "idWeb": "04638723-9b78-4b11-8463-eee73adcd760",
+      "descripcion": "Luxemburgo"
+    },
+    {
+      "idWeb": "fd74881e-9d40-4cbc-baf7-6331937d48c7",
+      "descripcion": "Macao"
+    },
+    {
+      "idWeb": "fb245079-9c57-4caa-8e16-1753bf7dec8d",
+      "descripcion": "Macedonia"
+    },
+    {
+      "idWeb": "cc04a9bc-3cb0-4bf4-9ee0-d1050c0f35ae",
+      "descripcion": "Madagascar"
+    },
+    {
+      "idWeb": "57b8be6f-501a-466d-a9e3-f5a67ac48d53",
+      "descripcion": "Malasia"
+    },
+    {
+      "idWeb": "5fddef7b-aec5-4e0d-bca7-e629f8fbebef",
+      "descripcion": "Malawi"
+    },
+    {
+      "idWeb": "dfa45d21-0d52-4b24-98da-baac3d94a23e",
+      "descripcion": "Maldivas"
+    },
+    {
+      "idWeb": "2db2635f-8642-4865-82ba-e806ecbd4ae6",
+      "descripcion": "Mali"
+    },
+    {
+      "idWeb": "c8d54ad8-0c68-4a13-93ec-269a0ce10cb0",
+      "descripcion": "Malta"
+    },
+    {
+      "idWeb": "43284c84-c9c3-4fd0-bbd4-2c1d7ced5c8e",
+      "descripcion": "Marruecos"
+    },
+    {
+      "idWeb": "ce9dbf53-ce38-4d13-a987-0482dfc19a81",
+      "descripcion": "Marshall Islands"
+    },
+    {
+      "idWeb": "09533bca-e062-446f-8f01-7655957c68f5",
+      "descripcion": "Martinica"
+    },
+    {
+      "idWeb": "094c835f-76e0-46d3-b3a5-79e54e5ab247",
+      "descripcion": "Mauricio"
+    },
+    {
+      "idWeb": "08943235-658d-4ab5-a9ea-8b462539caf7",
+      "descripcion": "Mauritania"
+    },
+    {
+      "idWeb": "4b036e9b-aa56-45f1-9e36-c963bb91db27",
+      "descripcion": "Mayotte"
+    },
+    {
+      "idWeb": "be103112-5859-4891-819a-b9828bba1dc3",
+      "descripcion": "México"
+    },
+    {
+      "idWeb": "af4dc4d1-9342-4a34-adef-a0969962abd8",
+      "descripcion": "Micronesia"
+    },
+    {
+      "idWeb": "19d298e9-d94f-4fdb-b180-3b9e8f633dc8",
+      "descripcion": "Moldavia"
+    },
+    {
+      "idWeb": "7422f18e-e2a2-4cf2-b35c-f2116ed55641",
+      "descripcion": "Mónaco"
+    },
+    {
+      "idWeb": "20414232-5074-4ce0-8626-937befd2f0dd",
+      "descripcion": "Mongolia"
+    },
+    {
+      "idWeb": "d81de7b7-9803-47e8-b7b1-20d52d878c54",
+      "descripcion": "Montenegro"
+    },
+    {
+      "idWeb": "e86ae784-ca63-4155-82d7-266a19ed89df",
+      "descripcion": "Montserrat"
+    },
+    {
+      "idWeb": "6edae872-2ae0-460b-9a64-37fb45b55eb6",
+      "descripcion": "Mozambique"
+    },
+    {
+      "idWeb": "84f29ccd-7115-476d-8a82-185f1faf60ba",
+      "descripcion": "Namibia"
+    },
+    {
+      "idWeb": "820daecd-6f43-438b-9747-8d1e6d675121",
+      "descripcion": "Nauru"
+    },
+    {
+      "idWeb": "aca268ba-d782-4036-a1c0-a9cda0c0a047",
+      "descripcion": "Nepal"
+    },
+    {
+      "idWeb": "273610e2-cfca-4c2f-a210-00d39a1ce82b",
+      "descripcion": "Nicaragua"
+    },
+    {
+      "idWeb": "1eb8743e-0a9c-4fb5-9fb3-a555b5bfb071",
+      "descripcion": "Níger"
+    },
+    {
+      "idWeb": "24e65a2f-f868-42c6-9dfe-e342f3a55a47",
+      "descripcion": "Nigeria"
+    },
+    {
+      "idWeb": "ef337d83-5f4a-45ec-ab7f-6b53df77659b",
+      "descripcion": "Niue"
+    },
+    {
+      "idWeb": "d48d4a54-b510-4599-a696-2e5c14edda15",
+      "descripcion": "Noruega"
+    },
+    {
+      "idWeb": "8a8b89d9-e120-4649-8b2d-c0248d86dfb5",
+      "descripcion": "Nueva Caledonia"
+    },
+    {
+      "idWeb": "c57ec54b-388e-4713-a0eb-27d0fa54b404",
+      "descripcion": "Nueva Zelanda"
+    },
+    {
+      "idWeb": "8998efea-77b2-4a79-8f6b-ba894d7c6965",
+      "descripcion": "Omán"
+    },
+    {
+      "idWeb": "1345d615-25d9-41f2-9522-97db22284a03",
+      "descripcion": "Países Bajos"
+    },
+    {
+      "idWeb": "4d83f89d-6c10-4160-91a0-e3b27b29f017",
+      "descripcion": "Pakistán"
+    },
+    {
+      "idWeb": "7295808a-f1e0-4769-a59e-357e9e50b724",
+      "descripcion": "Palau"
+    },
+    {
+      "idWeb": "0f476ddc-fb5d-4d44-8b37-44dda204083c",
+      "descripcion": "Palestina"
+    },
+    {
+      "idWeb": "9152f4aa-9879-47c2-bda5-ca7f032ec9af",
+      "descripcion": "Panamá"
+    },
+    {
+      "idWeb": "54c25c05-2c4d-4d0c-af0c-5314d8db2fbf",
+      "descripcion": "Papúa Nueva Guinea"
+    },
+    {
+      "idWeb": "4dcfc336-6e36-46fa-9537-60e94f89a1a0",
+      "descripcion": "Paraguay"
+    },
+    {
+      "idWeb": "73fde6fb-2e13-4869-a194-e23d4e3ecdb7",
+      "descripcion": "Perú"
+    },
+    {
+      "idWeb": "d7ea3242-f6d3-464f-898d-7f30dcc3c3f0",
+      "descripcion": "Polinesia Francesa"
+    },
+    {
+      "idWeb": "23d1a591-f4db-4971-8c26-d949b54353cc",
+      "descripcion": "Polonia"
+    },
+    {
+      "idWeb": "4357ce26-90c8-43f7-9ffd-d62262c0d67b",
+      "descripcion": "Portugal"
+    },
+    {
+      "idWeb": "b80f1d35-2c7a-44c5-b267-37e6eb5fc79a",
+      "descripcion": "Puerto Rico"
+    },
+    {
+      "idWeb": "baeb1005-680b-442b-849d-74a07aa0f8ea",
+      "descripcion": "Qatar"
+    },
+    {
+      "idWeb": "b865c5a0-457e-46f2-aeef-dee30355f731",
+      "descripcion": "Reino Unido"
+    },
+    {
+      "idWeb": "65f44065-2ee6-43ca-8f1e-9ebc9c9ac362",
+      "descripcion": "República Centroafricana"
+    },
+    {
+      "idWeb": "38a180de-6e4d-43bd-aced-31364a52743d",
+      "descripcion": "República Checa"
+    },
+    {
+      "idWeb": "ee290605-7cff-40f5-937e-0449918203f1",
+      "descripcion": "República Democrática del Congo"
+    },
+    {
+      "idWeb": "cfa72dd4-3252-4334-9a2a-b30ea921c49c",
+      "descripcion": "República Dominicana"
+    },
+    {
+      "idWeb": "091c1d8a-01f1-48ab-ae39-f5df688ffb79",
+      "descripcion": "Ruanda"
+    },
+    {
+      "idWeb": "d02c4509-c51f-478d-b188-c3009d0499ff",
+      "descripcion": "Rumania"
+    },
+    {
+      "idWeb": "17657cc0-0e6e-436a-ae36-accfef1dd71c",
+      "descripcion": "Rusia"
+    },
+    {
+      "idWeb": "b10d253a-41d5-4457-bca3-80c05865ce19",
+      "descripcion": "Sahara Occidental"
+    },
+    {
+      "idWeb": "ac0f12b0-4634-4434-ad46-259b6fe32905",
+      "descripcion": "Samoa"
+    },
+    {
+      "idWeb": "dac77cc4-48cd-4cf6-9303-16ec5e2e6db9",
+      "descripcion": "Samoa Americana"
+    },
+    {
+      "idWeb": "c687b510-de00-4954-b04e-55ff98542fe8",
+      "descripcion": "San Cristóbal y Nevis"
+    },
+    {
+      "idWeb": "f0275233-8e97-4c9c-8190-e7092d689152",
+      "descripcion": "San Marino"
+    },
+    {
+      "idWeb": "defee20a-70f2-4716-88b3-8a5167df7f8f",
+      "descripcion": "San Pedro y Miquelón"
+    },
+    {
+      "idWeb": "cc179c41-3651-46c8-931e-d996e35d3667",
+      "descripcion": "San Vicente y las Granadinas"
+    },
+    {
+      "idWeb": "19b2c6ca-c1a5-4ff6-81e2-0201f5bf4085",
+      "descripcion": "Santa Elena"
+    },
+    {
+      "idWeb": "bcd9fd29-59c3-4ab2-8b7b-611ea357879d",
+      "descripcion": "Santa Lucía"
+    },
+    {
+      "idWeb": "2c359b56-fb69-4132-9265-add95aa2cd65",
+      "descripcion": "Santo Tomé y Príncipe"
+    },
+    {
+      "idWeb": "50504d59-e900-49dc-a77e-c126cad6ecbc",
+      "descripcion": "Senegal"
+    },
+    {
+      "idWeb": "685b67e4-9b80-4722-8a41-0d3d39542426",
+      "descripcion": "Serbia"
+    },
+    {
+      "idWeb": "aa6f75f0-5c79-4c86-802b-20c6e4efaa7e",
+      "descripcion": "Seychelles"
+    },
+    {
+      "idWeb": "6ae1f780-d748-4152-8879-da8026d4b202",
+      "descripcion": "Sierra Leona"
+    },
+    {
+      "idWeb": "ec123d09-c671-4f90-831a-c946bbd096ea",
+      "descripcion": "Singapur"
+    },
+    {
+      "idWeb": "975eccc5-ad27-4336-9192-656134ec4662",
+      "descripcion": "Siria"
+    },
+    {
+      "idWeb": "e702582b-014d-4720-bc93-43f3aa0bbcf0",
+      "descripcion": "Somalia"
+    },
+    {
+      "idWeb": "1222a278-3203-4d7d-bfc6-ad76e37f68a2",
+      "descripcion": "Sri Lanka"
+    },
+    {
+      "idWeb": "72cb7530-1b7c-4735-a852-b34871d6f4b9",
+      "descripcion": "Sudáfrica"
+    },
+    {
+      "idWeb": "20742bb3-443d-4eea-afcd-45f5ca621340",
+      "descripcion": "Sudán"
+    },
+    {
+      "idWeb": "b162df01-e7c5-49cf-9955-29f32e0137bc",
+      "descripcion": "Sudán del Sur"
+    },
+    {
+      "idWeb": "f22d8e36-a470-41fc-a1c6-5aa247d03979",
+      "descripcion": "Suecia"
+    },
+    {
+      "idWeb": "64ec7cf6-efaa-485f-9ed5-748521c54c87",
+      "descripcion": "Suiza"
+    },
+    {
+      "idWeb": "52e2f2bf-5bf9-42e5-862c-520f5d27cc0a",
+      "descripcion": "Surinam"
+    },
+    {
+      "idWeb": "89b02751-22f7-456b-8f91-cd16468f2aaf",
+      "descripcion": "Tailandia"
+    },
+    {
+      "idWeb": "b598b410-9daf-42af-ac6e-70866e8980e5",
+      "descripcion": "Taiwán"
+    },
+    {
+      "idWeb": "3f8cdcea-5a66-43af-94cc-b14c970d8aa9",
+      "descripcion": "Tanzania"
+    },
+    {
+      "idWeb": "ff299e97-d7cf-4fd7-a951-56caddd591e5",
+      "descripcion": "Tayikistán"
+    },
+    {
+      "idWeb": "d0da7716-3cd1-4430-9e44-032f5202912f",
+      "descripcion": "Territorio Británico del Océano Índico"
+    },
+    {
+      "idWeb": "54b15f23-1457-431d-8da1-4c5cf77a52be",
+      "descripcion": "Territorios Australes Franceses"
+    },
+    {
+      "idWeb": "0422deb0-ccf6-4cde-8108-325e7d58b9ad",
+      "descripcion": "Timor Oriental"
+    },
+    {
+      "idWeb": "c853276f-f96d-4d3f-a4d3-875f57700d6b",
+      "descripcion": "Togo"
+    },
+    {
+      "idWeb": "650591f5-9ae1-458e-a1f4-fda05efa0a8d",
+      "descripcion": "Tokelau"
+    },
+    {
+      "idWeb": "36d0e0e2-80d8-409e-b328-9db55af385bf",
+      "descripcion": "Tonga"
+    },
+    {
+      "idWeb": "b6067006-b90b-459d-bf1a-fbb7b0219968",
+      "descripcion": "Trinidad y Tobago"
+    },
+    {
+      "idWeb": "ee5eb210-694c-4830-8c2b-cee9037ef32b",
+      "descripcion": "Túnez"
+    },
+    {
+      "idWeb": "d773479c-0484-4d49-9c4e-c022f0b4456f",
+      "descripcion": "Turkmenistán"
+    },
+    {
+      "idWeb": "cdc3c3ab-f2cc-4ea7-9a27-13ae43920b43",
+      "descripcion": "Turquía"
+    },
+    {
+      "idWeb": "edb8fbf8-411a-416d-8350-80ecea007baf",
+      "descripcion": "Tuvalu"
+    },
+    {
+      "idWeb": "cb3f7e80-1059-4162-882e-c81d13b51ee5",
+      "descripcion": "Ucrania"
+    },
+    {
+      "idWeb": "de423fba-72f9-4dec-8dc8-bbd59190c5d6",
+      "descripcion": "Uganda"
+    },
+    {
+      "idWeb": "493293b6-35ea-4141-891c-157a5c9a4aee",
+      "descripcion": "Uruguay"
+    },
+    {
+      "idWeb": "74f050d9-af44-4a6b-9e1f-157efcfb7c43",
+      "descripcion": "Uzbekistán"
+    },
+    {
+      "idWeb": "e6f2852f-ac6c-44cd-9e3a-f93cde002c7e",
+      "descripcion": "Vanuatu"
+    },
+    {
+      "idWeb": "15904d75-0a27-45eb-b500-e0d31743554e",
+      "descripcion": "Venezuela"
+    },
+    {
+      "idWeb": "791cc997-e736-42c6-acb8-4970f45b7496",
+      "descripcion": "Vietnam"
+    },
+    {
+      "idWeb": "e76177f4-a0a9-48a3-a9a5-a48e5fcc8455",
+      "descripcion": "Wallis y Futuna"
+    },
+    {
+      "idWeb": "1f98c98c-e2cf-468b-9eda-a720ac48bccb",
+      "descripcion": "Yemen"
+    },
+    {
+      "idWeb": "2a8145b4-a9eb-4bff-a0d8-b6b052f1bb5b",
+      "descripcion": "Zambia"
+    },
+    {
+      "idWeb": "53fc08c2-8b22-427a-9422-2dbd73ee0e6a",
+      "descripcion": "Zimbabue"
+    }
+  ],
+  "provincias": [
+    {
+      "idProvincia": "169c998a-2d9d-4077-a1a0-3e5586d31059",
+      "codigoIsoProvincia": "AR-K",
+      "nombreProvincia": "Catamarca",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "167e351c-44e0-47bb-8728-074293358cd9",
+      "codigoIsoProvincia": "AR-H",
+      "nombreProvincia": "Chaco",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "f9b2bf03-8525-4a8a-83eb-d8fd3159c342",
+      "codigoIsoProvincia": "AR-U",
+      "nombreProvincia": "Chubut",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "dbe55b61-0c49-49ac-9a3d-47bc67dd89c2",
+      "codigoIsoProvincia": "AR-C",
+      "nombreProvincia": "Ciudad Autónoma de Buenos Aires",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "3465aa13-7c1d-4e5e-9f71-5959fb96c7ec",
+      "codigoIsoProvincia": "AR-X",
+      "nombreProvincia": "Córdoba",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "e918fc13-c67c-472f-bc1c-3a13751be255",
+      "codigoIsoProvincia": "AR-W",
+      "nombreProvincia": "Corrientes",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "4a94b784-4994-476a-b86b-70a73af2ab1d",
+      "codigoIsoProvincia": "AR-E",
+      "nombreProvincia": "Entre Ríos",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "c4d77323-11e3-4bc7-899e-dac9e3812c98",
+      "codigoIsoProvincia": "AR-P",
+      "nombreProvincia": "Formosa",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "722aa046-9065-470c-9161-f678fbda0298",
+      "codigoIsoProvincia": "AR-Y",
+      "nombreProvincia": "Jujuy",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "a0c662a8-5dcf-49af-a6a5-3687b1026370",
+      "codigoIsoProvincia": "AR-L",
+      "nombreProvincia": "La Pampa",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "41eccf23-2217-43f8-b5e7-8ab8fc165e10",
+      "codigoIsoProvincia": "AR-F",
+      "nombreProvincia": "La Rioja",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "f2f3afa5-54df-4723-808f-5c8fb383216e",
+      "codigoIsoProvincia": "AR-M",
+      "nombreProvincia": "Mendoza",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "02c5054b-e7b3-4a47-aa11-2b870e687250",
+      "codigoIsoProvincia": "AR-N",
+      "nombreProvincia": "Misiones",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "6ee79513-1a43-4475-82f0-600ffe33875a",
+      "codigoIsoProvincia": "AR-Q",
+      "nombreProvincia": "Neuquén",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "56991a62-ec17-4c2b-94e8-d7af79cac1ce",
+      "codigoIsoProvincia": "AR-B",
+      "nombreProvincia": "Provincia de Buenos Aires",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "fa6516f3-6704-4f58-b569-7d581b7cef03",
+      "codigoIsoProvincia": "AR-R",
+      "nombreProvincia": "Río Negro",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "3ee4518f-0e1d-4a18-801c-4e194cc0f2c8",
+      "codigoIsoProvincia": "AR-A",
+      "nombreProvincia": "Salta",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "008e0d6d-f1b6-471b-bb11-6c29236f093e",
+      "codigoIsoProvincia": "AR-J",
+      "nombreProvincia": "San Juan",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "e10635b5-1ae4-43ed-8084-23dbd2c9e8ef",
+      "codigoIsoProvincia": "AR-D",
+      "nombreProvincia": "San Luis",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "87ba033c-704a-40e8-954b-bf133161fb0d",
+      "codigoIsoProvincia": "AR-Z",
+      "nombreProvincia": "Santa Cruz",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "dc2f0d87-118e-418c-b1c7-2bdbe5dffbec",
+      "codigoIsoProvincia": "AR-S",
+      "nombreProvincia": "Santa Fe",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "741f44fa-cb9c-463d-b1fe-c37ecd3923fe",
+      "codigoIsoProvincia": "AR-G",
+      "nombreProvincia": "Santiago del Estero",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "bd37b1e2-9320-459f-b63e-4a0a2f8a9ae7",
+      "codigoIsoProvincia": "AR-V",
+      "nombreProvincia": "Tierra del Fuego",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    },
+    {
+      "idProvincia": "471df1b5-a498-4bb0-880a-d9225c66e18f",
+      "codigoIsoProvincia": "AR-T",
+      "nombreProvincia": "Tucumán",
+      "nombreLocalidad": null,
+      "idPais": "ac98a1e7-cf65-4430-bf16-24439f35853b",
+      "nombrePais": "Argentina"
+    }
+  ],
+  "estados_civiles": [
+    {
+      "id": "13e36b73-183f-4575-8d18-5c94543d2e07",
+      "descripcion": "Casado"
+    },
+    {
+      "id": "a2dc98b4-49bf-40a5-be97-e7e3e5decb2c",
+      "descripcion": "Divorciado"
+    },
+    {
+      "id": "b2b68f22-e903-4303-a4c3-713d2fe67785",
+      "descripcion": "Soltero"
+    },
+    {
+      "id": "d69dc454-e500-49c0-a82a-4705d90239a7",
+      "descripcion": "Unión civil"
+    },
+    {
+      "id": "a61f2d17-0795-45aa-aa53-196f68023797",
+      "descripcion": "Unión de hecho"
+    },
+    {
+      "id": "868f94c9-f9c0-4701-8173-30376584497a",
+      "descripcion": "Viudo"
+    }
+  ],
+  "condiciones_fiscales": [
+    {
+      "idWeb": "ba933f3f-d18e-4aed-8585-dfa73e27da11",
+      "descripcion": "Consumidor Final"
+    },
+    {
+      "idWeb": "7d495bde-9bd1-479c-9df9-d5ff80c60ac6",
+      "descripcion": "IVA no Responsable"
+    },
+    {
+      "idWeb": "f0ea813a-e3e7-4eae-ba1d-02b3917ca59a",
+      "descripcion": "IVA Responsable Inscripto"
+    },
+    {
+      "idWeb": "0a98394f-0453-4f3d-b51f-9b59b5a2b963",
+      "descripcion": "IVA Responsable no Inscripto"
+    },
+    {
+      "idWeb": "60d88f7f-23fa-4884-9814-0371e4f60323",
+      "descripcion": "IVA Sujeto Exento"
+    },
+    {
+      "idWeb": "6c1a3604-63c7-44a5-b66c-17c6cb4266ab",
+      "descripcion": "Responsable Monotributo"
+    },
+    {
+      "idWeb": "c67c4d0c-d634-4680-a525-8c10be2e9679",
+      "descripcion": "Sujeto no Categorizado"
+    }
+  ],
+  "ocupaciones": [
+    {
+      "id": "d0ce590e-ab68-4044-b184-3f2063845ed5",
+      "descripcion": "Comerciante"
+    },
+    {
+      "id": "e12b76a2-afc0-4681-849d-0fc882797dcd",
+      "descripcion": "Desocupado"
+    },
+    {
+      "id": "7d3031ab-8376-4232-b0c3-95f049810d77",
+      "descripcion": "Empleado"
+    },
+    {
+      "id": "741d1a0c-8000-4b2a-be97-77a5f1d9474a",
+      "descripcion": "Estudiante"
+    },
+    {
+      "id": "5d02e254-f00c-4e11-a9dc-1a56d8e63821",
+      "descripcion": "Jubilado"
+    },
+    {
+      "id": "a075a638-2985-43aa-a1c6-50ec6357912d",
+      "descripcion": "Productor Agropecuario"
+    },
+    {
+      "id": "6864846e-a7e2-4c37-9c88-e81103e3c971",
+      "descripcion": "Profesional"
+    }
+  ],
+  "motivos_pep": [
+    {
+      "idWeb": "129dfb31-ec0b-49f5-9140-7102eadfde9a",
+      "descripcion": "Otros PEP."
+    },
+    {
+      "idWeb": "f78c2c02-ea76-46f3-8e0d-4abc4d1c3a4c",
+      "descripcion": "PEP Extranjeros."
+    },
+    {
+      "idWeb": "c4140d29-ea62-4d7d-b2e8-1d0f7961d45e",
+      "descripcion": "PEP Nacionales, Provinciales, Municipal o de CABA."
+    },
+    {
+      "idWeb": "632d0473-da7e-44fd-99c7-31cae00b09cc",
+      "descripcion": "PEP por parentesco o cercanía."
+    }
+  ]
+}

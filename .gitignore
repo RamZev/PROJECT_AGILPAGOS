@@ -5,8 +5,8 @@ docs/
 build/
 dist/
 data/
+datavfox/
 login_sg/
-data_load/
 wheels/
 *.egg-info
 

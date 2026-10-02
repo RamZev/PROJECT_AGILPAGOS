@@ -1,0 +1,12 @@
+{
+    "tipos_impuesto": [
+        {
+            "id_tipo_impuesto": "A1254625-BA0F-474D-AD9D-15816099743C",
+            "descripcion": "Impuesto SIRCUPA"
+        },
+        {
+            "id_tipo_impuesto": "A34A085B-F73D-41F1-AECF-DE8187AE6223",
+            "descripcion": "Impuesto Ley 25413"
+        }
+    ]
+}

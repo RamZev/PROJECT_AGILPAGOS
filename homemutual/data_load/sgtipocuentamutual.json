@@ -1,0 +1,19 @@
+{
+    "tipos_cuenta_mutual": [
+        {
+            "id_tipo_cuenta_mutual": 1,
+            "codigo_letra": "C",
+            "descripcion": "Caja de Ahorro Común"
+        },
+        {
+            "id_tipo_cuenta_mutual": 2,
+            "codigo_letra": "E",
+            "descripcion": "Caja de Ahorro Especial"
+        },
+        {
+            "id_tipo_cuenta_mutual": 3,
+            "codigo_letra": "D",
+            "descripcion": "Caja de Ahorro Diferencial"
+        }
+    ]
+}
