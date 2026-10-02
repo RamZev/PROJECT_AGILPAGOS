@@ -4,7 +4,7 @@ __pycache__/
 docs/
 build/
 dist/
-data/
+homemutual/data/
 datavfox/
 login_sg/
 wheels/
