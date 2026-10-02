@@ -9,6 +9,7 @@ datavfox/
 login_sg/
 wheels/
 *.egg-info
+*.db
 
 # Virtual environments
 .venv
