@@ -23,7 +23,7 @@ from diseno_base.diseno_bootstrap import (
 )
 
 
-GUID_TIPO_PERSONA_FISICA = '20EB917-7CA8-49E0-9E0B-CA8293218ACA'
+GUID_TIPO_PERSONA_FISICA = '20EB9127-7CA8-49E0-9E0B-CA8293218ACA'  # ✅ CORREGIDO
 GUID_PAIS_ARGENTINA = '76b19e61-b8dc-40f4-bfab-422cbffe5002'
 
 
@@ -104,6 +104,7 @@ class SocioForm(CrudGenericForm):
         widgets = {
             'id_sucursal': forms.Select(attrs={**formclassselect}),
             'codigo_socio': forms.TextInput(attrs={**formclasstext}),
+            'id_socio_mutual': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'id_user': forms.Select(attrs={**formclassselect}),
             'id_usuario_agilpagos': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'estado': forms.Select(attrs={**formclassselect}),

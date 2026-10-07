@@ -163,11 +163,17 @@ LOGIN_REDIRECT_URL = '/'
 #-- URL de redireccionamiento al cerrar sesión.
 LOGOUT_REDIRECT_URL = '/usuarios/sesion/iniciar/'
 
-#-- Para evitar el "secuestro" de la sesión de usuario por JavaScript desde el front.
+#-- Configuración de sesión.
+#-- Evita el "secuestro" de la sesión por JavaScript.
 SESSION_COOKIE_HTTPONLY = True
-
-#-- La sesión del usuario se cierra al cerrar el navegador.
+#-- Solo HTTPS en producción.
+SESSION_COOKIE_SECURE = not DEBUG
+#-- Mitiga CSRF.
+SESSION_COOKIE_SAMESITE = 'Lax'
+#-- La sesión se cierra al cerrar el navegador.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+#-- Duración máxima: 8 horas.
+SESSION_COOKIE_AGE = 60 * 60 * 8
 
 #-- Configuración del locale para Argentina/España.
 try:
@@ -206,3 +212,15 @@ if ENVIRONMENT == 'production' or ENVIRONMENT == 'development':
 	EMAIL_USE_SSL = getenv('EMAIL_USE_SSL', 'False') == 'True'
 	EMAIL_HOST_USER = getenv('EMAIL_HOST_USER', None)
 	EMAIL_HOST_PASSWORD = getenv('EMAIL_HOST_PASSWORD', None)
+
+
+# ============================================
+# AGILPAGOS - API
+# ============================================
+AGILPAGOS_API_BASE = getenv('AGILPAGOS_API_BASE', 'https://agilpagosapi.maasoft.com.ar')
+AGILPAGOS_AUTH_URL = getenv('AGILPAGOS_AUTH_URL', 'https://agilpagosapi.maasoft.com.ar/auth/login')
+AGILPAGOS_TIMEOUT = int(getenv('AGILPAGOS_TIMEOUT', '10'))
+
+AGILPAGOS_USERNAME = getenv('AGILPAGOS_USERNAME', '')
+AGILPAGOS_PASSWORD = getenv('AGILPAGOS_PASSWORD', '')
+

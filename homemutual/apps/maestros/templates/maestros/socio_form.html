@@ -27,6 +27,7 @@
                             <form method="post" enctype="multipart/form-data" novalidate>
                                 {% csrf_token %}
                                 <input type="hidden" id="instance_pk" value="{{ form.instance.pk|default:'' }}">
+                                <div id="message-container"></div>
 
                                 <div class="accordion" id="accordionSocio">
 
@@ -140,6 +141,9 @@
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">{{ form.cuit.label }}</label>
                                                         {{ form.cuit }}
+                                                        <div id="cuit-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Validando...
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">{{ form.email.label }}</label>
@@ -312,7 +316,10 @@
     {{ block.super }}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // ---- Cálculo dinámico de id_socio_mutual ----
+
+            // ==========================================================
+            // Cálculo dinámico de id_socio_mutual
+            // ==========================================================
             const sucursal = document.getElementById('id_id_sucursal');
             const codigo = document.getElementById('id_codigo_socio');
             const idMutual = document.getElementById('id_id_socio_mutual');
@@ -328,7 +335,9 @@
             codigo?.addEventListener('input', recalc);
             recalc();
 
-            // ---- Mostrar/ocultar motivo PEP según selección ----
+            // ==========================================================
+            // Toggle de Motivo PEP
+            // ==========================================================
             const esPep = document.getElementById('id_es_pep');
             const motivoPep = document.getElementById('id_id_motivo_pep');
             function toggleMotivoPep() {
@@ -340,6 +349,164 @@
             }
             esPep?.addEventListener('change', toggleMotivoPep);
             toggleMotivoPep();
+
+            // ==========================================================
+            // Búsqueda por CUIT
+            // ==========================================================
+            const inputCuit = document.getElementById('id_cuit');
+            const cuitLoading = document.getElementById('cuit-loading');
+
+            function mostrarMensaje(mensaje, tipo = 'info') {
+                const container = document.getElementById('message-container');
+                if (!container) return;
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${tipo} alert-dismissible fade show`;
+                alert.role = 'alert';
+                alert.innerHTML = mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                container.appendChild(alert);
+                setTimeout(() => { if (alert.parentNode) alert.remove(); }, 6000);
+            }
+
+            function setFieldValue(elementId, value) {
+                const el = document.getElementById(elementId);
+                if (el) el.value = value;
+            }
+
+            function setSelectValue(elementId, value) {
+                const el = document.getElementById(elementId);
+                if (!el) return;
+                const valueLower = String(value || '').toLowerCase();
+                let found = false;
+                for (let opt of el.options) {
+                    if (String(opt.value).toLowerCase() === valueLower) {
+                        el.value = opt.value;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) el.value = '';
+                el.dispatchEvent(new Event('change'));
+            }
+
+            // ==========================================================
+            // Asignar datos del socio al formulario
+            // ==========================================================
+            function asignarDatosSocio(datos) {
+                if (!datos) {
+                    mostrarMensaje('⚠️ La respuesta no contiene datos del socio.', 'warning');
+                    return;
+                }
+
+                // ---- Identificación ----
+                if (datos.id_socio) {
+                    setFieldValue('id_codigo_socio', datos.id_socio);
+                }
+                if (datos.sucursal) {
+                    setSelectValue('id_id_sucursal', datos.sucursal);
+                }
+
+                // ---- Datos personales ----
+                setFieldValue('id_apellido', datos.apellido || '');
+                setFieldValue('id_nombre', datos.nombre || '');
+                setFieldValue('id_genero', datos.genero || '');
+                setFieldValue('id_fecha_nacimiento', datos.fecha_nacimiento || '');
+
+                // ---- Documento ----
+                setFieldValue('id_numero_documento', datos.numero_documento || '');
+                setFieldValue('id_numero_tramite_documento', datos.numero_tramite_documento || '');
+                if (datos.tipo_documento) {
+                    setSelectValue('id_id_entidad_tipo_documento', datos.tipo_documento);
+                }
+
+                // ---- Contacto ----
+                setFieldValue('id_email', datos.email || '');
+                setFieldValue('id_caracteristica_pais', datos.caracteristica_pais || '54');
+                setFieldValue('id_codigo_area', datos.codigo_area || '');
+                setFieldValue('id_numero_telefono', datos.numero_telefono || '');
+
+                // ---- Domicilio ----
+                setFieldValue('id_calle', datos.calle || datos.domicilio || '');
+                setFieldValue('id_altura', datos.altura || '');
+                setFieldValue('id_cp', datos.codigo_postal || '');
+
+                // ---- Nacionalidad ----
+                if (datos.nacionalidad) {
+                    setSelectValue('id_id_nacionalidad', datos.nacionalidad);
+                }
+
+                // ---- Situación fiscal ----
+                if (datos.estado_civil) {
+                    setSelectValue('id_id_estado_civil', datos.estado_civil);
+                }
+                if (datos.condicion_fiscal) {
+                    setSelectValue('id_id_condicion_fiscal', datos.condicion_fiscal);
+                }
+
+                // ---- PEP / UIF ----
+                setSelectValue('id_es_pep', datos.es_pep === true ? 'True' : 'False');
+                const uifVal = (datos.sujeto_obligado_uif && String(datos.sujeto_obligado_uif).trim() !== '') ? 'True' : 'False';
+                setSelectValue('id_es_uif', uifVal);
+
+                // ---- Fechas ----
+                setFieldValue('id_fecha_alta_agilpagos', datos.fecha_ingreso || '');
+
+                // ---- Recalcular id_socio_mutual ----
+                recalc();
+
+                // ---- Mensaje de éxito ----
+                mostrarMensaje('✅ Datos del socio cargados desde Agilpagos.', 'success');
+            }
+
+            // ==========================================================
+            // Listener del CUIT: consulta y autocompleta
+            // ==========================================================
+            if (inputCuit) {
+                let ultimoCuitConsultado = '';
+
+                inputCuit.addEventListener('blur', function() {
+                    const cuit = this.value.trim();
+                    const cuitLimpio = cuit.replace(/\D/g, '');
+
+                    // Validar formato
+                    if (cuitLimpio.length !== 11) {
+                        if (cuitLimpio.length > 0) {
+                            mostrarMensaje('❌ El CUIT debe tener 11 dígitos.', 'danger');
+                            this.value = '';
+                            this.focus();
+                        }
+                        return;
+                    }
+
+                    // No reconsultar si no cambió
+                    if (cuitLimpio === ultimoCuitConsultado) {
+                        return;
+                    }
+
+                    cuitLoading.style.display = 'inline';
+
+                    fetch(`/maestros/api/consultar-socio/?cuit=${cuitLimpio}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            cuitLoading.style.display = 'none';
+
+                            if (data.success) {
+                                asignarDatosSocio(data.data);
+                                ultimoCuitConsultado = cuitLimpio;
+                            } else {
+                                mostrarMensaje('❌ ' + (data.error || 'No se encontró el socio.'), 'danger');
+                                inputCuit.value = '';
+                                inputCuit.focus();
+                                ultimoCuitConsultado = '';
+                            }
+                        })
+                        .catch(err => {
+                            cuitLoading.style.display = 'none';
+                            mostrarMensaje('❌ Error al consultar. Intente más tarde.', 'danger');
+                            console.error(err);
+                        });
+                });
+            }
+
         });
     </script>
 {% endblock script %}
