@@ -65,9 +65,9 @@ class Socio(ModeloBaseGenerico):
     id_socio_mutual = models.BigIntegerField(
         "ID Socio Mutual",
         unique=True,
-        editable=False,
         db_index=True,
-        help_text="Calculado: id_sucursal * 1.000.000 + codigo_socio.",
+        blank=True, null=True,   # ← permitir vacío hasta que se calcule
+        help_text="Calculado automáticamente: id_sucursal * 1.000.000 + codigo_socio.",
     )
 
     # Vinculación opcional con el User de Django (para autenticación)
@@ -347,9 +347,10 @@ class Socio(ModeloBaseGenerico):
 
     @property
     def es_persona_fisica(self):
+        """Indica si es Persona Física (GUID correcto: 20EB9127-...)."""
         if self.id_tipo_persona:
             return str(self.id_tipo_persona.id_sg_tipo_persona).upper() == (
-                '20EB917-7CA8-49E0-9E0B-CA8293218ACA'
+                '20EB9127-7CA8-49E0-9E0B-CA8293218ACA'   # ← ✅ CORREGIDO
             )
         return False
 

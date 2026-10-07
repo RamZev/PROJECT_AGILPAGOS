@@ -15,14 +15,14 @@ from .views.socio_views import *
 from .views.cuenta_cvu_views import *
 
 #-- NUEVO: Vistas de consultas a APIs externas
-# from .views.consulta_maestros_views import (
-#     ConsultarSocioPorCuitView,
-#     ConsultarSocioPorNumeroDocumentoView,
-#     HealthCheckView,
-#     ConsultarExistenciaCuitView,
-#     ValidarUnicidadEmailView,
-#     ValidarUnicidadTelefonoView,
-# )
+from .views.consulta_maestros_views import (
+     ConsultarSocioPorCuitView,
+     ConsultarSocioPorNumeroDocumentoView,
+     HealthCheckView,
+     ConsultarExistenciaCuitView,
+     ValidarUnicidadEmailView,
+     ValidarUnicidadTelefonoView,
+ )
 
 urlpatterns = [
 	#-- Tablas:
@@ -97,16 +97,16 @@ urlpatterns = [
     # ================================================================
     
     # Consultar socio por CUIT
-    # path('api/consultar-socio/', ConsultarSocioPorCuitView.as_view(), name='consultar_socio_por_cuit'),
+    path('api/consultar-socio/', ConsultarSocioPorCuitView.as_view(), name='consultar_socio_por_cuit'),
     
     # Consultar socio por Número de Documento
-    # path('api/consultar-socio-documento/', ConsultarSocioPorNumeroDocumentoView.as_view(), name='consultar_socio_por_documento'),
+    path('api/consultar-socio-documento/', ConsultarSocioPorNumeroDocumentoView.as_view(), name='consultar_socio_por_documento'),
     
     # Health Check de la API de Maasoft
-    # path('api/health/', HealthCheckView.as_view(), name='api_health_check'),
+    path('api/health/', HealthCheckView.as_view(), name='api_health_check'),
 
     # ---- Validaciones de unicidad ----
-    # path('api/validar-cuit-existencia/', ConsultarExistenciaCuitView.as_view(), name='validar_cuit_existencia'),
-    # path('api/validar-email/', ValidarUnicidadEmailView.as_view(), name='validar_email'),
-    # path('api/validar-telefono/', ValidarUnicidadTelefonoView.as_view(), name='validar_telefono'),
+    path('api/validar-cuit-existencia/', ConsultarExistenciaCuitView.as_view(), name='validar_cuit_existencia'),
+    path('api/validar-email/', ValidarUnicidadEmailView.as_view(), name='validar_email'),
+    path('api/validar-telefono/', ValidarUnicidadTelefonoView.as_view(), name='validar_telefono'),
 ]

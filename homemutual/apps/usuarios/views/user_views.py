@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 #from django.contrib.auth.decorators import login_required
+from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.decorators import method_decorator
 
 from django.contrib.auth import authenticate
 from django.contrib import messages
@@ -23,6 +25,7 @@ from apps.usuarios.models import User
 project_app_labels = ['usuarios', 'maestros']
 
 #-- Vista Login. 
+@method_decorator(sensitive_post_parameters('password'), name='dispatch')
 class CustomLoginView(GenericLoginView):
 	template_name = 'usuarios/sesion_iniciar.html'
 	
@@ -39,6 +42,10 @@ class CustomLoginView(GenericLoginView):
 		self.request.session['last_name'] = user.last_name
 		self.request.session['is_superuser'] = user.is_superuser
 		self.request.session['is_staff'] = user.is_staff
+  
+		# Guardar credenciales para Agilpagos
+		self.request.session['agilpagos_username'] = user.username
+		self.request.session['agilpagos_password'] = form.cleaned_data.get('password')
 		
 		return response
 	
@@ -73,22 +80,26 @@ class CustomLoginView(GenericLoginView):
 
 #-- Vista Logout. 
 class CustomLogoutView(GenericLogoutView):
-	template_name = 'usuarios/sesion_cerrar.html'
-	http_method_names = ["get", "post", "options"]  # He tenido que incluir el método GET para que funcione. NO DEBERÍA SER!!!
-	
-	def dispatch(self, request, *args, **kwargs):
-		
-		#-- Verificar si la solicitud proviene de una confirmación de logout.
-		if request.method == "POST" and request.POST.get("confirm_logout") == "true":		
-			#-- Limpiar los datos del usuario de la sesión.
-			request.session.pop('username', None)
-			request.session.pop('first_name', None)
-			request.session.pop('last_name', None)
-			request.session.pop('is_superuser', None)
-			request.session.pop('is_staff', None)
-		 
-		#-- Llama al método original para cerrar la sesión.
-		return super().dispatch(request, *args, **kwargs)
+    template_name = 'usuarios/sesion_cerrar.html'
+    http_method_names = ["get", "post", "options"]
+
+    def dispatch(self, request, *args, **kwargs):
+        #-- Verificar si la solicitud proviene de una confirmación de logout.
+        if request.method == "POST" and request.POST.get("confirm_logout") == "true":
+            #-- Invalidar el token de Agilpagos en caché.
+            try:
+                from apps.maestros.services.agilpagos_client import _token_cache
+                username = request.session.get('agilpagos_username')
+                if username:
+                    _token_cache.invalidate(username)
+            except Exception:
+                pass
+
+            #-- Limpiar TODA la sesión (incluye credenciales de Agilpagos).
+            request.session.flush()
+
+        #-- Llama al método original para cerrar la sesión.
+        return super().dispatch(request, *args, **kwargs)
 
 #-- Vistas de Grupos de usuarios. 
 #@method_decorator(login_required, name='dispatch')
