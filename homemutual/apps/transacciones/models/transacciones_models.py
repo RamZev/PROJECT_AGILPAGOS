@@ -149,12 +149,14 @@ class Movimiento(models.Model):
 # El id_transaccion_entidad es el UUID v7 que también se envía a Agilpagos
 # como IdTransaccionEntidad.
 # ============================================================================
+# Modelo base de Transferencias
 class CashoutRequest(models.Model):
 	id_cashout_request = models.BigAutoField(
 		primary_key=True
 	)
 	
 	#-- Eje de la transacción.
+	# este lo genera la API (no en plantilla)
 	id_transaccion_entidad = models.UUIDField(
 		unique=True,
 		db_index=True,
@@ -162,25 +164,35 @@ class CashoutRequest(models.Model):
 	)
 	
 	#-- Cuenta origen.
+	# Aqui hay validaciones
+	# Estado activo
+	# Sin fecha de baja
+	# No bloquedao por compliance
+	# Que haya saldo para el importe solicitado
 	cvu_debito = models.CharField(
 		max_length=22,
 		db_index=True,
 		help_text="CVU de la cuenta origen.",
 	)
+ 
+	# No va en la plantilla
 	numero_cuenta_entidad = models.CharField(
 		max_length=30,
 		db_index=True,
 		help_text="numeroCuentaEntidad de la CVU origen.",
 	)
 	
-	#-- Datos de la contraparte.
+	#-- Datos de la contraparte. (quien recibe)
+	# Mostrar readonly y viene de la consulta el cvu
 	cuit_credito = models.BigIntegerField(
 		verbose_name="CUIT del beneficiario",
 	)
+	# Se introduce en la plantilla, pero no se persiste. Se obtiene de la consulta a Agilpagos.
 	cbu_credito = models.CharField(
 		verbose_name="CVU/CBU del beneficiario",
 		max_length=22,
 	)
+	# Mostrar readonly y viene de la consulta el cvu
 	nombre_credito = models.CharField(
 		verbose_name="Nombre del beneficiario",
 		max_length=40,
@@ -189,11 +201,13 @@ class CashoutRequest(models.Model):
 	)
 	
 	#-- Datos de la operación.
+	# Se selecciona
 	id_concepto = models.ForeignKey(
 		SgConceptoTransaccion,
 		on_delete=models.PROTECT,
 		db_column="id_concepto",
 	)
+	# Mayor a 0, con 2 decimales y menor o igual al saldo
 	importe = models.DecimalField(
 		max_digits=15,
 		decimal_places=2,
@@ -201,11 +215,13 @@ class CashoutRequest(models.Model):
 		blank=True,
 		default=0.00,
 	)
+	# Obligatorio
 	descripcion = models.CharField(
-		max_length=255
+		max_length=50
 	)
+	# Obligatorio
 	observaciones = models.CharField(
-		max_length=255,
+		max_length=50,
 		blank=True,
 		default="",
 	)
