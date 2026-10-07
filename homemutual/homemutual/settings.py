@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'apps.menu',
 	#---------------------
 	'apps.consultas',
+	'apps.transacciones',
 ]
 
 MIDDLEWARE = [
