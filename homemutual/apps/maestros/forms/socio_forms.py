@@ -220,7 +220,8 @@ class SocioForm(CrudGenericForm):
     def clean(self):
         cleaned = super().clean()
 
-        if cleaned.get('es_pep') and not cleaned.get('id_motivo_pep'):
+        # if cleaned.get('es_pep') and not cleaned.get('id_motivo_pep'):
+        if str(cleaned.get('es_pep')).lower() == 'true' and not cleaned.get('id_motivo_pep'):
             raise ValidationError({
                 'id_motivo_pep': 'Es obligatorio cuando es PEP.'
             })

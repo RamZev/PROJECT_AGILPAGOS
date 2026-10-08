@@ -18,6 +18,8 @@ from ..services.agilpagos_client import (
     _token_cache,
 )
 
+from ..models.cuenta_cvu_models import CuentaCvu
+
 logger = logging.getLogger(__name__)
 
 
@@ -386,3 +388,41 @@ class ValidarUnicidadTelefonoView(View):
         if exclude_pk and exclude_pk.isdigit():
             qs = qs.exclude(pk=int(exclude_pk))
         return JsonResponse({'exists': qs.exists()})
+    
+
+@method_decorator(login_required, name='dispatch')
+class BuscarCvuView(View):
+    """
+    Busca una CuentaCvu por su CVU y devuelve los datos del Socio asociado.
+    Endpoint: /maestros/api/buscar-cvu/?cvu=0000242600000000150200
+    """
+
+    def get(self, request, *args, **kwargs):
+        cvu = request.GET.get('cvu', '').strip()
+        if not cvu:
+            return JsonResponse({'success': False, 'error': 'CVU requerido'}, status=400)
+
+        try:
+            cuenta = CuentaCvu.objects.select_related('id_socio').get(cvu=cvu)
+        except CuentaCvu.DoesNotExist:
+            return JsonResponse({
+                'success': False,
+                'error': 'No se encontró una CVU con ese número.',
+            }, status=404)
+
+        socio = cuenta.id_socio
+        return JsonResponse({
+            'success': True,
+            'data': {
+                'cvu': cuenta.cvu,
+                'numero_cuenta_entidad': cuenta.numero_cuenta_entidad,
+                'estado_vcu': cuenta.estado_vcu,
+                'fecha_baja': cuenta.fecha_baja.isoformat() if cuenta.fecha_baja else None,
+                'bloqueada_compliance': cuenta.bloqueada_compliance,
+                'socio': {
+                    'id_socio': socio.id_socio,
+                    'nombre_completo': socio.nombre_completo,
+                    'cuit': str(socio.cuit) if socio.cuit else '',
+                } if socio else None,
+            }
+        })

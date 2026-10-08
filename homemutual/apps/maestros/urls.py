@@ -16,12 +16,13 @@ from .views.cuenta_cvu_views import *
 
 #-- NUEVO: Vistas de consultas a APIs externas
 from .views.consulta_maestros_views import (
-     ConsultarSocioPorCuitView,
-     ConsultarSocioPorNumeroDocumentoView,
-     HealthCheckView,
-     ConsultarExistenciaCuitView,
-     ValidarUnicidadEmailView,
-     ValidarUnicidadTelefonoView,
+    ConsultarSocioPorCuitView,
+    ConsultarSocioPorNumeroDocumentoView,
+    HealthCheckView,
+    ConsultarExistenciaCuitView,
+    ValidarUnicidadEmailView,
+    ValidarUnicidadTelefonoView,
+    BuscarCvuView,
  )
 
 urlpatterns = [
@@ -109,4 +110,6 @@ urlpatterns = [
     path('api/validar-cuit-existencia/', ConsultarExistenciaCuitView.as_view(), name='validar_cuit_existencia'),
     path('api/validar-email/', ValidarUnicidadEmailView.as_view(), name='validar_email'),
     path('api/validar-telefono/', ValidarUnicidadTelefonoView.as_view(), name='validar_telefono'),
+    
+    path('api/buscar-cvu/', BuscarCvuView.as_view(), name='buscar_cvu'),
 ]
