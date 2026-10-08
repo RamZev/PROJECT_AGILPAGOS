@@ -115,7 +115,7 @@ class Socio(ModeloBaseGenerico):
     # 5. DOCUMENTO
     # ============================================
     numero_documento = models.CharField(
-        "Número de Documento",
+        "Número Documento",
         max_length=15,
         unique=True,
         help_text="DNI, sin prefijo F/M.",
@@ -252,7 +252,7 @@ class Socio(ModeloBaseGenerico):
         on_delete=models.PROTECT,
         null=True, blank=True,
         related_name='socios_entidad_tipo_documento',
-        verbose_name="Entidad Tipo Documento",
+        verbose_name="Tipo Documento",
     )
     id_tipo_persona = models.ForeignKey(
         SgTipoPersona,

@@ -59,23 +59,31 @@
                                                         {{ form.codigo_socio }}
                                                     </div>
                                                     <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.cuit.label }}</label>
+                                                        {{ form.cuit }}
+                                                        <div id="cuit-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Validando...
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">{{ form.id_socio_mutual.label }}</label>
                                                         {{ form.id_socio_mutual }}
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">{{ form.fecha_alta_agilpagos.label }}</label>
-                                                        {{ form.fecha_alta_agilpagos }}
-                                                    </div>
+                                                    
                                                 </div>
 
                                                 <div class="row mt-2">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">{{ form.id_usuario_agilpagos.label }}</label>
                                                         {{ form.id_usuario_agilpagos }}
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">{{ form.id_user.label }}</label>
                                                         {{ form.id_user }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.fecha_alta_agilpagos.label }}</label>
+                                                        {{ form.fecha_alta_agilpagos }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -138,13 +146,7 @@
                                                 </div>
 
                                                 <div class="row mt-2">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">{{ form.cuit.label }}</label>
-                                                        {{ form.cuit }}
-                                                        <div id="cuit-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
-                                                            <i class="fa fa-spinner fa-spin"></i> Validando...
-                                                        </div>
-                                                    </div>
+                                                    
                                                     <div class="col-md-3">
                                                         <label class="form-label text-primary mb-0">{{ form.email.label }}</label>
                                                         {{ form.email }}
@@ -191,10 +193,6 @@
                                             <div class="accordion-body bg-secondary-subtle">
                                                 
                                                 <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.id_pais_domicilio.label }}</label>
-                                                        {{ form.id_pais_domicilio }}
-                                                    </div>
                                                     <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">{{ form.id_provincia.label }}</label>
                                                         {{ form.id_provincia }}

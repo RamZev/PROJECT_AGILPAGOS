@@ -32,7 +32,9 @@ class SocioForm(CrudGenericForm):
     # ---- Catálogos SG ----
     id_entidad_tipo_documento = forms.ModelChoiceField(
         queryset=SgEntidadTipoDocumento.objects.all().order_by('nombre'),
-        required=False, empty_label="-- Seleccionar --",
+        required=False, 
+        empty_label="-- Seleccionar --",
+        label="Tipo Documento",
         widget=forms.Select(attrs={**formclassselect}),
     )
     id_tipo_persona = forms.ModelChoiceField(
@@ -103,7 +105,7 @@ class SocioForm(CrudGenericForm):
         fields = '__all__'   # ← Django excluye id_socio_mutual por editable=False
         widgets = {
             'id_sucursal': forms.Select(attrs={**formclassselect}),
-            'codigo_socio': forms.TextInput(attrs={**formclasstext}),
+            'codigo_socio': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'id_socio_mutual': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'id_user': forms.Select(attrs={**formclassselect}),
             'id_usuario_agilpagos': forms.TextInput(attrs={**formclasstext, 'readonly': True}),

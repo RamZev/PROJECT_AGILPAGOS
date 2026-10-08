@@ -1,0 +1,12 @@
+BEGIN TRANSACTION;
+INSERT INTO "menu_menuitem" VALUES (2,'Sucursales','sucursal_list','','',0,1,1,NULL);
+INSERT INTO "menu_menuitem" VALUES (3,'Nacionalidades','sg_nacionalidad_list','','',0,5,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (4,'Provincias','sg_provincia_list','','',0,4,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (5,'Estado Civil','sg_estado_civil_list','','',0,4,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (6,'Condición Fiscal','sg_condicion_fiscal_list','','',0,3,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (7,'Ocupaciones','sg_ocupacion_list','','',0,2,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (8,'Motivos PEP','sg_motivo_pep_list','','',0,1,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (9,'Esatdos de la Transacción','sg_estado_transaccion_list','','',0,0,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (10,'Socios','socio_list','','',0,2,1,NULL);
+INSERT INTO "menu_menuitem" VALUES (11,'Cuentas CVU','cuenta_cvu_list','','',0,3,1,NULL);
+COMMIT;
