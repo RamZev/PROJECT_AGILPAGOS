@@ -193,17 +193,53 @@ class SocioForm(CrudGenericForm):
             raise ValidationError('Este CUIT ya está registrado en otro socio.')
         return cuit_int
 
+    # def clean_email(self):
+    #     email = self.cleaned_data.get('email')
+    #     if not email:
+    #         return email
+    #     email = email.strip().lower()
+    #     qs = Socio.objects.filter(email__iexact=email)
+    #     if self.instance and self.instance.pk:
+    #         qs = qs.exclude(pk=self.instance.pk)
+    #     if qs.exists():
+    #         raise ValidationError('Este email ya está registrado en otro socio.')
+    #     return email
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if not email:
             return email
         email = email.strip().lower()
+
+        # Bloquear cambio si ya tiene User asociado
+        if self.instance and self.instance.pk:
+            if self.instance.id_user and email != (self.instance.email or '').lower():
+                raise ValidationError(
+                    'No se puede cambiar el email de un Socio con usuario asociado.'
+                )
+            if self.instance.id_usuario_agilpagos and email != (self.instance.email or '').lower():
+                raise ValidationError(
+                    'No se puede cambiar el email de un Socio ya sincronizado con Agilpagos.'
+                )
+
+        # Unicidad en Socio
         qs = Socio.objects.filter(email__iexact=email)
         if self.instance and self.instance.pk:
             qs = qs.exclude(pk=self.instance.pk)
         if qs.exists():
             raise ValidationError('Este email ya está registrado en otro socio.')
+
+        # Unicidad en User
+        from apps.usuarios.models import User
+        user_qs = User.objects.filter(username__iexact=email)
+        if self.instance and self.instance.pk and self.instance.id_user_id:
+            user_qs = user_qs.exclude(pk=self.instance.id_user_id)
+        if user_qs.exists():
+            raise ValidationError(
+                'Este email ya está en uso por otro usuario del sistema.'
+            )
+
         return email
+    
 
     def clean_numero_documento(self):
         doc = self.cleaned_data.get('numero_documento')

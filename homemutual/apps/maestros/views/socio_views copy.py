@@ -2,7 +2,7 @@
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.db import transaction
-from django.core.exceptions import ValidationError
+
 
 from .cruds_views_generics import *
 from ..models.socio_models import Socio
@@ -84,14 +84,6 @@ class SocioListView(StaffRequiredMixin, MaestroListView):
     }
 
 
-# class SocioCreateView(StaffRequiredMixin, MaestroCreateView):
-#     model = ConfigViews.model
-#     list_view_name = ConfigViews.list_view_name
-#     form_class = ConfigViews.form_class
-#     template_name = ConfigViews.template_form
-#     success_url = ConfigViews.success_url
-#     permission_required = ConfigViews.permission_add
-
 class SocioCreateView(StaffRequiredMixin, MaestroCreateView):
     model = ConfigViews.model
     list_view_name = ConfigViews.list_view_name
@@ -99,48 +91,6 @@ class SocioCreateView(StaffRequiredMixin, MaestroCreateView):
     template_name = ConfigViews.template_form
     success_url = ConfigViews.success_url
     permission_required = ConfigViews.permission_add
-
-    def form_valid(self, form):
-        """
-        Filosofía A: todo o nada.
-        - Se guarda el Socio.
-        - Se crea el User asociado.
-        - Si el User falla, se revierte TODO (el Socio no se guarda).
-        """
-        try:
-            with transaction.atomic():
-                # 1. Guardar el Socio
-                response = super().form_valid(form)
-                socio = self.object
-
-                # 2. Crear el User asociado (si no tiene)
-                #    Si esto falla, la transacción se revierte y el Socio NO queda guardado.
-                if not socio.id_user:
-                    crear_socio_con_usuario(socio)
-                    messages.success(
-                        self.request,
-                        f"✅ Socio creado. Usuario '{socio.email}' "
-                        f"con contraseña temporal '{DEFAULT_SOCIO_PASSWORD}'."
-                    )
-                else:
-                    messages.success(self.request, "✅ Socio creado.")
-
-                return response
-
-        except ValidationError as e:
-            # Error de validación del User
-            messages.error(
-                self.request,
-                f"❌ No se pudo crear el socio: {'; '.join(e.messages)}"
-            )
-            return super().form_invalid(form)
-        except Exception as e:
-            # Cualquier otro error
-            messages.error(
-                self.request,
-                f"❌ Error al crear el socio: {e}"
-            )
-            return super().form_invalid(form)
 
 
 class SocioUpdateView(StaffRequiredMixin, MaestroUpdateView):
