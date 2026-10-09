@@ -52,8 +52,8 @@ class CuentaCvuForm(CrudGenericForm):
         widgets = {
             'id_socio': forms.Select(attrs={**formclassselect}),
             'numero_cuenta_entidad': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
-            'cvu': forms.TextInput(attrs={**formclasstext}),
-            'alias': forms.TextInput(attrs={**formclasstext}),
+            'cvu': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
+            'alias': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'id_cvu': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'id_usuario_entidad_lineas_cuentas': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'fecha_alta': forms.TextInput(attrs={'type': 'date', **formclassdate}),
@@ -80,6 +80,11 @@ class CuentaCvuForm(CrudGenericForm):
         # ---- numero_cuenta_entidad: readonly ----
         self.fields['numero_cuenta_entidad'].required = False
         self.fields['numero_cuenta_entidad'].disabled = True
+        
+        # ---- cvu y alias: readonly / disabled ----
+        for field_name in ['cvu', 'alias']:
+            self.fields[field_name].required = False
+            self.fields[field_name].disabled = True
 
         if self.instance and self.instance.pk:
             self.fields['numero_cuenta_entidad'].initial = self.instance.numero_cuenta_entidad

@@ -71,6 +71,8 @@ class CuentaCvu(ModeloBaseGenerico):
         "CVU",
         max_length=22,
         unique=True,
+        blank=True,
+        null=True,
         help_text="Clave Virtual Uniforme (22 dígitos).",
     )
 
@@ -160,18 +162,24 @@ class CuentaCvu(ModeloBaseGenerico):
     # ============================================
     def compute_numero_cuenta_entidad(self):
         """
-        Genera numero_cuenta_entidad = id_socio_mutual + codigo_letra.
-        Ejemplo: sucursal 01 + socio 373 + cuenta Común → '1000373C'.
+        Genera numero_cuenta_entidad = str(id_socio_mutual) + str(id_tipo_cuenta_mutual.pk).
+
+        Ejemplos (Socio 1004025):
+        - Común (pk=1):       '10040251'
+        - Especial (pk=2):    '10040252'
+        - Diferencial (pk=3): '10040253'
         """
         if not self.id_socio or not self.id_tipo_cuenta_mutual:
             return self.numero_cuenta_entidad
 
         id_socio_mutual = self.id_socio.compute_id_socio_mutual()
-        codigo_letra = self.id_tipo_cuenta_mutual.codigo_letra
-        if id_socio_mutual and codigo_letra:
-            return f"{id_socio_mutual}{codigo_letra}"
-        return self.numero_cuenta_entidad
+        tipo_pk = self.id_tipo_cuenta_mutual.pk
 
+        if id_socio_mutual and tipo_pk:
+            return f"{id_socio_mutual}{tipo_pk}"
+        return self.numero_cuenta_entidad    
+    
+        
     def clean(self):
         super().clean()
         errors = {}
@@ -270,21 +278,13 @@ class CuentaCvu(ModeloBaseGenerico):
     # ============================================
     def to_agilpagos_payload_cvu(self):
         """
-        Construye el payload para crear una CVU en Agilpagos.
-        Combina datos del socio + datos de esta CVU.
+        Devuelve SOLO los campos de la CVU para el alta.
+        Se combinan con los del Socio en build_alta_payload().
         """
-        socio = self.id_socio
-        if not socio:
-            return {}
-
         return {
-            "idUsuario": socio.id_usuario_agilpagos or "",
-            "idTipoCuenta": self.id_tipo_cuenta_mutual_id or "",
             "numeroCuentaEntidad": self.numero_cuenta_entidad or "",
-            "cvu": self.cvu or "",
-            "alias": self.alias or "",
-        }
-
+        }    
+    
     # ============================================
     # 11. META
     # ============================================

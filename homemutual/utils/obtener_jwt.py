@@ -10,9 +10,14 @@ headersList = {
  "Content-Type": "application/json" 
 }
 
+# payload = json.dumps({
+#   "username": "admin@mutual.com.ar",
+#   "password": "admin123"
+# })
+
 payload = json.dumps({
-  "username": "admin@mutual.com.ar",
-  "password": "admin123"
+  "username": "admin",
+  "password": "admin54321$$"
 })
 
 data = client.post(reqUrl, data=payload, headers=headersList)

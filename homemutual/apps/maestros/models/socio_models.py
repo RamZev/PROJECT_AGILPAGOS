@@ -363,40 +363,42 @@ class Socio(ModeloBaseGenerico):
     # ============================================
     def to_agilpagos_payload_usuario(self):
         """
-        Construye el payload JSON para crear el USUARIO en Agilpagos
-        (POST /Onboarding/Usuario).
+        Devuelve SOLO los campos del Socio.
+        Las constantes (idTipoDocumento, idTipoPersona, idTipoCuenta,
+        idEntidadTipoDocumento, idPaisDomicilio) y los campos de la CVU
+        (numeroCuentaEntidad) se agregan en build_alta_payload().
         """
         def _pk(field):
             return getattr(field, 'pk', None) if field else None
 
+        # Característica del teléfono con +
         caracteristica = self.caracteristica_pais or "54"
         if not caracteristica.startswith("+"):
             caracteristica = f"+{caracteristica}"
 
-        payload = {
-            # Datos personales
-            "nombre": self.nombre or "",
-            "apellido": self.apellido or "",
+        return {
+            # ---- Datos personales ----
+            "nombre": (self.nombre or "").upper(),
+            "apellido": (self.apellido or "").upper(),
             "genero": self.genero or "",
-            "fechaNacimiento": self.fecha_nacimiento.isoformat() if self.fecha_nacimiento else None,
+            "fechaNacimiento": self.fecha_nacimiento.isoformat() if self.fecha_nacimiento else "",
 
-            # Nacionalidad
+            # ---- Nacionalidad ----
             "idNacionalidad": _pk(self.id_nacionalidad) or "",
             "idPaisNacimiento": _pk(self.id_pais_nacimiento) or "",
 
-            # Documento
-            "idTipoDocumento": _pk(self.id_entidad_tipo_documento) or "",
+            # ---- Documento ----
             "numeroDocumento": self.numero_documento or "",
             "numeroTramiteDocumento": self.numero_tramite_documento or "",
             "cuit": str(self.cuit) if self.cuit else "",
 
-            # Contacto
-            "email": self.email or "",
+            # ---- Contacto ----
+            "email": (self.email or "").lower(),
             "caracteristicaPais": caracteristica,
             "codigoArea": self.codigo_area or "",
             "numeroTelefono": self.numero_telefono or "",
 
-            # Situación fiscal y legal
+            # ---- Situación fiscal y legal ----
             "idEstadoCivil": _pk(self.id_estado_civil) or "",
             "idCondicionFiscal": _pk(self.id_condicion_fiscal) or "",
             "idOcupacion": _pk(self.id_ocupacion) or "",
@@ -405,8 +407,7 @@ class Socio(ModeloBaseGenerico):
             "esUIF": self.es_uif or False,
             "leyFATCA": self.ley_fatca or False,
 
-            # Domicilio
-            "idPaisDomicilio": self.id_pais_domicilio or PAIS_DOMICILIO_ARGENTINA,
+            # ---- Domicilio ----
             "idProvincia": _pk(self.id_provincia) or "",
             "localidad": self.localidad or "",
             "calle": self.calle or "",
@@ -415,13 +416,7 @@ class Socio(ModeloBaseGenerico):
             "piso": self.piso or "",
             "departamento": self.departamento or "",
             "observaciones": self.observaciones_domicilio or "",
-
-            # Catálogos SG
-            "idEntidadTipoDocumento": _pk(self.id_entidad_tipo_documento) or "",
-            "idTipoPersona": _pk(self.id_tipo_persona) or "",
         }
-
-        return {k: v for k, v in payload.items() if v is not None}
 
     # ============================================
     # 14. META
