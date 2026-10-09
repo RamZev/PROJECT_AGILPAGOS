@@ -14,6 +14,14 @@ from .views.sg_estado_transaccion_views import *
 from .views.socio_views import *
 from .views.cuenta_cvu_views import *
 
+# Complementos
+from .views.sg_concepto_transaccion_views import *
+from .views.sg_tipo_impuesto_views import *
+from .views.sg_tipo_operacion_aviso_views import *
+from .views.sg_tipo_cuenta_mutual_views import *
+from .views.sg_constante_agilpagos_views import *
+from .views.sg_ambiente_agilpagos_views import *
+
 #-- NUEVO: Vistas de consultas a APIs externas
 from .views.consulta_maestros_views import (
     ConsultarSocioPorCuitView,
@@ -92,6 +100,43 @@ urlpatterns = [
     path('cuenta-cvu/nueva/', CuentaCvuCreateView.as_view(), name='cuenta_cvu_create'),
     path('cuenta-cvu/<int:pk>/editar/', CuentaCvuUpdateView.as_view(), name='cuenta_cvu_update'),
     path('cuenta-cvu/<int:pk>/eliminar/', CuentaCvuDeleteView.as_view(), name='cuenta_cvu_delete'),
+    
+    # Complementos
+    #-- Sg Concepto Transacción.
+    path('sg-concepto-transaccion/', SgConceptoTransaccionListView.as_view(), name='sg_concepto_transaccion_list'),
+    path('sg-concepto-transaccion/nueva/', SgConceptoTransaccionCreateView.as_view(), name='sg_concepto_transaccion_create'),
+    path('sg-concepto-transaccion/<str:pk>/editar/', SgConceptoTransaccionUpdateView.as_view(), name='sg_concepto_transaccion_update'),
+    path('sg-concepto-transaccion/<str:pk>/eliminar/', SgConceptoTransaccionDeleteView.as_view(), name='sg_concepto_transaccion_delete'),   
+    
+     #-- Sg Tipo Impuesto.
+    path('sg-tipo-impuesto/', SgTipoImpuestoListView.as_view(), name='sg_tipo_impuesto_list'),
+    path('sg-tipo-impuesto/nueva/', SgTipoImpuestoCreateView.as_view(), name='sg_tipo_impuesto_create'),
+    path('sg-tipo-impuesto/<str:pk>/editar/', SgTipoImpuestoUpdateView.as_view(), name='sg_tipo_impuesto_update'),
+    path('sg-tipo-impuesto/<str:pk>/eliminar/', SgTipoImpuestoDeleteView.as_view(), name='sg_tipo_impuesto_delete'),   
+
+    #-- Sg Tipo Operación Aviso.
+    path('sg-tipo-operacion-aviso/', SgTipoOperacionAvisoListView.as_view(), name='sg_tipo_operacion_aviso_list'),
+    path('sg-tipo-operacion-aviso/nueva/', SgTipoOperacionAvisoCreateView.as_view(), name='sg_tipo_operacion_aviso_create'),
+    path('sg-tipo-operacion-aviso/<str:pk>/editar/', SgTipoOperacionAvisoUpdateView.as_view(), name='sg_tipo_operacion_aviso_update'),
+    path('sg-tipo-operacion-aviso/<str:pk>/eliminar/', SgTipoOperacionAvisoDeleteView.as_view(), name='sg_tipo_operacion_aviso_delete'),
+    
+    #-- Sg Tipo Cuenta Mutual.
+    path('sg-tipo-cuenta-mutual/', SgTipoCuentaMutualListView.as_view(), name='sg_tipo_cuenta_mutual_list'),
+    path('sg-tipo-cuenta-mutual/nueva/', SgTipoCuentaMutualCreateView.as_view(), name='sg_tipo_cuenta_mutual_create'),
+    path('sg-tipo-cuenta-mutual/<int:pk>/editar/', SgTipoCuentaMutualUpdateView.as_view(), name='sg_tipo_cuenta_mutual_update'),
+    path('sg-tipo-cuenta-mutual/<int:pk>/eliminar/', SgTipoCuentaMutualDeleteView.as_view(), name='sg_tipo_cuenta_mutual_delete'),       
+    
+    #-- Sg Constante Agilpagos.
+    path('sg-constante-agilpagos/', SgConstanteAgilpagosListView.as_view(), name='sg_constante_agilpagos_list'),
+    path('sg-constante-agilpagos/nueva/', SgConstanteAgilpagosCreateView.as_view(), name='sg_constante_agilpagos_create'),
+    path('sg-constante-agilpagos/<str:pk>/editar/', SgConstanteAgilpagosUpdateView.as_view(), name='sg_constante_agilpagos_update'),
+    path('sg-constante-agilpagos/<str:pk>/eliminar/', SgConstanteAgilpagosDeleteView.as_view(), name='sg_constante_agilpagos_delete'),   
+
+    #-- Sg Ambiente Agilpagos.
+    path('sg-ambiente-agilpagos/', SgAmbienteAgilpagosListView.as_view(), name='sg_ambiente_agilpagos_list'),
+    path('sg-ambiente-agilpagos/nueva/', SgAmbienteAgilpagosCreateView.as_view(), name='sg_ambiente_agilpagos_create'),
+    path('sg-ambiente-agilpagos/<int:pk>/editar/', SgAmbienteAgilpagosUpdateView.as_view(), name='sg_ambiente_agilpagos_update'),
+    path('sg-ambiente-agilpagos/<int:pk>/eliminar/', SgAmbienteAgilpagosDeleteView.as_view(), name='sg_ambiente_agilpagos_delete'),
     
     # ================================================================
     # NUEVO: API para consultas a servicios externos

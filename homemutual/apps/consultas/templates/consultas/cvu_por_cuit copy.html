@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Consultar CVUs por CUIT{% endblock title %}
+
+{% block main %}
+    {% block sidebar %}
+        {% if user.is_authenticated %}
+            {% include 'sidebar.html' %}
+        {% endif %}
+    {% endblock sidebar %}
+
+    {% block maincomponent %}
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+
+                    <div class="card border-secondary mb-3 mt-2">
+                        <div class="card-header bg-primary bg-opacity-25 text-dark d-flex
+                                    justify-content-between p-1">
+                            <h4>Consultar CVUs por CUIT</h4>
+                            <button type="button" class="btn-close btn-close-blue"
+                                aria-label="Close"
+                                onclick="window.location.href='{% url 'home' %}'">
+                            </button>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Formulario -->
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                <div class="row align-items-end">
+                                    <div class="col-md-4">
+                                        <label class="form-label text-primary mb-0">
+                                            {{ form.cuit.label }}
+                                        </label>
+                                        {{ form.cuit }}
+                                        {% if form.cuit.help_text %}
+                                            <div class="form-text">{{ form.cuit.help_text }}</div>
+                                        {% endif %}
+                                        {% if form.cuit.errors %}
+                                            <div class="text-danger small">{{ form.cuit.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-search"></i> Consultar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- Resultado -->
+                            {% if resultado %}
+                                <hr class="my-4">
+
+                                <div class="card border-info">
+                                    <div class="card-header bg-info bg-opacity-25">
+                                        <strong>Resultado de la consulta</strong>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <dl class="row mb-3">
+                                            <dt class="col-sm-3">CUIT:</dt>
+                                            <dd class="col-sm-9"><code>{{ resultado.cuit }}</code></dd>
+
+                                            <dt class="col-sm-3">Status HTTP:</dt>
+                                            <dd class="col-sm-9"><code>{{ resultado.status_code }}</code></dd>
+
+                                            <dt class="col-sm-3">¿Existe en Agilpagos?</dt>
+                                            <dd class="col-sm-9">
+                                                {% if resultado.existe %}
+                                                    <span class="badge bg-success">SÍ</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">NO</span>
+                                                {% endif %}
+                                            </dd>
+
+                                            {% if resultado.id_usuario %}
+                                                <dt class="col-sm-3">ID Usuario:</dt>
+                                                <dd class="col-sm-9"><code>{{ resultado.id_usuario }}</code></dd>
+                                            {% endif %}
+                                        </dl>
+
+                                        {% if resultado.cuentas %}
+                                            <h5 class="text-primary mt-4">
+                                                CVUs encontradas ({{ resultado.cuentas|length }})
+                                            </h5>
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped table-hover">
+                                                    <thead class="table-primary">
+                                                        <tr>
+                                                            <th>CVU</th>
+                                                            <th>Alias</th>
+                                                            <th>Estado</th>
+                                                            <th>N° Cuenta Entidad</th>
+                                                            <th>Favorita</th>
+                                                            <th>Titular</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for cuenta in resultado.cuentas %}
+                                                            <tr>
+                                                                <td><code>{{ cuenta.cvu }}</code></td>
+                                                                <td>{{ cuenta.alias|default:"—" }}</td>
+                                                                <td>
+                                                                    {% if cuenta.estado == 'Activo' %}
+                                                                        <span class="badge bg-success">{{ cuenta.estado }}</span>
+                                                                    {% else %}
+                                                                        <span class="badge bg-secondary">{{ cuenta.estado }}</span>
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td><code>{{ cuenta.nroCuentaEntidad }}</code></td>
+                                                                <td>
+                                                                    {% if cuenta.favorita %}
+                                                                        <i class="fa fa-check text-success"></i>
+                                                                    {% else %}
+                                                                        <i class="fa fa-times text-muted"></i>
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>
+                                                                    {% for t in cuenta.titulares %}
+                                                                        <div>
+                                                                            <small>
+                                                                                <strong>{{ t.cuit }}</strong> —
+                                                                                {{ t.nombre }}
+                                                                                <em>({{ t.tipoPersona }})</em>
+                                                                            </small>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                </td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        {% elif resultado.existe %}
+                                            <p class="text-muted">El usuario existe pero no tiene CVUs.</p>
+                                        {% elif resultado.error %}
+                                            <div class="alert alert-danger">
+                                                <strong>Error:</strong> {{ resultado.error }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    {% endblock maincomponent %}
+{% endblock main %}
