@@ -14,3 +14,4 @@ class MaestrosConfig(AppConfig):
         import apps.maestros.models.sucursal_models
         import apps.maestros.models.sg_catalogo_models
         import apps.maestros.models.empresa_models
+        import apps.maestros.models.agenda_destinatarios_models
