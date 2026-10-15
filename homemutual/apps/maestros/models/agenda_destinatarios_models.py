@@ -82,10 +82,13 @@ class AgendaDestinatario(ModeloBaseGenerico):
 	# ============================================
 	# 4. METADATA
 	# ============================================
-	es_favorita = models.BooleanField(
-		"Favorita",
+	frecuente = models.BooleanField(
+		"Frecuente",
 		default=False,
-		help_text="Destinatario marcado como favorito (destacado en la lista).",
+		help_text=(
+			"Indica si el socio marcó este destinatario como frecuente. "
+			"Se destaca en la lista de la agenda."
+		),
 	)
 	veces_usada = models.PositiveIntegerField(
 		"Veces usada",
@@ -163,7 +166,7 @@ class AgendaDestinatario(ModeloBaseGenerico):
 		db_table = 'agenda_destinatario'
 		verbose_name = 'Agenda Destinatario'
 		verbose_name_plural = 'Agenda Destinatarios'
-		ordering = ['-es_favorita', '-ultima_vez_usada', 'nombre']
+		ordering = ['-frecuente', '-ultima_vez_usada', 'nombre']
 		constraints = [
 			models.UniqueConstraint(
 				fields=['id_socio', 'cvu_o_cbu'],
