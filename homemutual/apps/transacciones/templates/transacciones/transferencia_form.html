@@ -152,13 +152,13 @@
                                             <div class="accordion-body bg-secondary-subtle">
 
                                                 <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">{{ form.id_concepto.label }}</label>
-                                                        {{ form.id_concepto }}
-                                                    </div>
                                                     <div class="col-md-2">
                                                         <label class="form-label text-primary mb-0">{{ form.importe.label }}</label>
                                                         {{ form.importe }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_concepto.label }}</label>
+                                                        {{ form.id_concepto }}
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">{{ form.descripcion.label }}</label>
@@ -251,6 +251,29 @@
             const inputNombreDestino = document.getElementById('id_nombre_credito');
             const inputCvuDestino = document.getElementById('id_cbu_credito');
 
+            // SECCIÓN 3: DATOS DE LA OPERACIÓN  ← NUEVA
+            // ==========================================================
+            const selectConcepto = document.getElementById('id_id_concepto');
+            const inputDescripcion = document.getElementById('id_descripcion');
+            const inputObservaciones = document.getElementById('id_observaciones');
+
+            if (selectConcepto) {
+                selectConcepto.addEventListener('change', function () {
+                    const opt = this.options[this.selectedIndex];
+                    if (!opt || !opt.value) return;
+
+                    const texto = (opt.textContent || opt.innerText || '').trim();
+                    let descripcion = texto;
+                    if (texto.includes(' - ')) {
+                        const partes = texto.split(' - ');
+                        descripcion = partes.slice(1).join(' - ').trim();
+                    }
+
+                    inputDescripcion.value = descripcion;
+                    inputObservaciones.value = '—';
+                });
+            }
+
             // ---- Select agenda → pasa el CVU al input ----
             if (selectAgenda) {
                 selectAgenda.addEventListener('change', function () {
@@ -262,6 +285,10 @@
                         inputBuscarCvu.value = data.cvu_o_cbu;
                         // NO dispara la búsqueda automáticamente (según lo pedido).
                         // El usuario puede hacer blur para que se ejecute.
+
+                        // Disparar el evento blur del input de CVU destino
+                        // para que se ejecute la lógica de búsqueda.
+                        inputBuscarCvu.dispatchEvent(new Event('blur'));
                     }
                 });
             }
@@ -269,6 +296,7 @@
             // ---- Blur del input CVU destino → busca en Agilpagos ----
             if (inputBuscarCvu) {
                 inputBuscarCvu.addEventListener('blur', function () {
+                    alert('Se disparó el evento blur del input CVU destino. Aquí se debería buscar en Agilpagos.');
                     const cvu = this.value.replace(/\D/g, '');
 
                     // Limpiar los readonly
