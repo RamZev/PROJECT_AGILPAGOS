@@ -33,6 +33,8 @@ from .views.consulta_maestros_views import (
     BuscarCvuView,
  )
 
+from .views.agenda_destinatario_views import *
+
 urlpatterns = [
 	#-- Tablas:
 	#-- Cuenta Mutual.
@@ -157,4 +159,11 @@ urlpatterns = [
     path('api/validar-telefono/', ValidarUnicidadTelefonoView.as_view(), name='validar_telefono'),
     
     path('api/buscar-cvu/', BuscarCvuView.as_view(), name='buscar_cvu'),
+    
+    
+    #-- Agenda Destinatario.
+    path('agenda-destinatario/', AgendaDestinatarioListView.as_view(), name='agenda_destinatario_list'),
+    path('agenda-destinatario/nueva/', AgendaDestinatarioCreateView.as_view(), name='agenda_destinatario_create'),
+    path('agenda-destinatario/<int:pk>/editar/', AgendaDestinatarioUpdateView.as_view(), name='agenda_destinatario_update'),
+    path('agenda-destinatario/<int:pk>/eliminar/', AgendaDestinatarioDeleteView.as_view(), name='agenda_destinatario_delete'),
 ]

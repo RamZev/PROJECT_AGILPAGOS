@@ -28,6 +28,14 @@
                                 <input type="hidden" id="instance_pk" value="{{ form.instance.pk|default:'' }}">
                                 <div id="message-container"></div>
 
+                                {% if not tiene_cvus %}
+                                    <div class="alert alert-warning">
+                                        <i class="bi bi-exclamation-triangle"></i>
+                                        No tienes CVUs activas para hacer transferencias.
+                                        Contactá al administrador.
+                                    </div>
+                                {% endif %}
+
                                 <div class="accordion" id="accordionTransferencia">
 
                                     <!-- ==================================== -->
@@ -73,24 +81,56 @@
                                         <h2 class="accordion-header">
                                             <button class="accordion-button py-2 collapsed" type="button"
                                                     data-bs-toggle="collapse" data-bs-target="#SecBeneficiario">
-                                                <strong>Beneficiario</strong>
+                                                <strong>CVU Destino</strong>
                                             </button>
                                         </h2>
                                         <div class="accordion-collapse collapse show" id="SecBeneficiario">
                                             <div class="accordion-body bg-secondary-subtle">
 
+                                                <!-- Fila 1: input CVU + select agenda -->
                                                 <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.buscar_cvu_credito.label }}
+                                                        </label>
+                                                        {{ form.buscar_cvu_credito }}
+                                                        <div id="cvu-destino-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Buscando...
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label text-primary mb-0">
+                                                            {{ form.agenda_destinatario_pk.label }}
+                                                        </label>
+                                                        {{ form.agenda_destinatario_pk }}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Fila 2: readonly -->
+                                                <div class="row mt-2">
                                                     <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">{{ form.cuit_credito.label }}</label>
                                                         {{ form.cuit_credito }}
                                                     </div>
                                                     <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.nombre_credito.label }}</label>
+                                                        {{ form.nombre_credito }}
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <label class="form-label text-primary mb-0">{{ form.cbu_credito.label }}</label>
                                                         {{ form.cbu_credito }}
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.nombre_credito.label }}</label>
-                                                        {{ form.nombre_credito }}
+                                                </div>
+
+                                                <!-- Fila 3: checkbox -->
+                                                <div class="row mt-3">
+                                                    <div class="col-md-12">
+                                                        <div class="form-check">
+                                                            {{ form.guardar_en_agenda }}
+                                                            <label class="form-check-label" for="{{ form.guardar_en_agenda.id_for_label }}">
+                                                                {{ form.guardar_en_agenda.label }}
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -137,9 +177,11 @@
                                 </div>
 
                                 <div class="container mt-3">
+                                    {% if tiene_cvus %}
                                     <button class="btn btn-primary" type="submit" id="guardarBtn">
                                         Guardar
                                     </button>
+                                    {% endif %}
                                     <a class="btn btn-secondary" href="{% url list_view_name %}">
                                         Cancelar
                                     </a>
@@ -161,70 +203,94 @@
 {% block script %}
     {{ block.super }}
     <script>
+        // Mapa de la agenda del socio (viene desde el backend)
+        window.AGENDA_MAP = {{ agenda_map_json|safe }};
+
         document.addEventListener('DOMContentLoaded', () => {
 
-            const inputCvu = document.getElementById('id_cvu_debito');
-            const cvuLoading = document.getElementById('cvu-loading');
-            const infoNombre = document.getElementById('info_socio_nombre');
-            const infoCuit = document.getElementById('info_socio_cuit');
+            // ==========================================================
+            // SECCIÓN 1: CVU ORIGEN
+            // ==========================================================
+            const selectCvuOrigen = document.getElementById('id_cvu_debito');
+            const cvuOrigenLoading = document.getElementById('cvu-loading');
+            const infoSocioNombre = document.getElementById('info_socio_nombre');
+            const infoSocioCuit = document.getElementById('info_socio_cuit');
 
-            function mostrarMensaje(mensaje, tipo = 'info') {
-                const container = document.getElementById('message-container');
-                if (!container) return;
-                const alert = document.createElement('div');
-                alert.className = `alert alert-${tipo} alert-dismissible fade show`;
-                alert.innerHTML = mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
-                container.appendChild(alert);
-                setTimeout(() => { if (alert.parentNode) alert.remove(); }, 6000);
-            }
+            if (selectCvuOrigen) {
+                selectCvuOrigen.addEventListener('change', function () {
+                    const cvu = this.value;
+                    infoSocioNombre.value = '';
+                    infoSocioCuit.value = '';
+                    if (!cvu) return;
 
-            let ultimoCvuConsultado = '';
-
-            if (inputCvu) {
-                inputCvu.addEventListener('blur', function () {
-                    const cvu = this.value.replace(/\D/g, '');
-
-                    // Validar 22 dígitos
-                    if (cvu.length !== 22) {
-                        if (cvu.length > 0) {
-                            mostrarMensaje('❌ El CVU debe tener 22 dígitos.', 'danger');
-                        }
-                        infoNombre.value = '';
-                        infoCuit.value = '';
-                        return;
-                    }
-
-                    if (cvu === ultimoCvuConsultado) return;
-
-                    cvuLoading.style.display = 'inline';
+                    cvuOrigenLoading.style.display = 'inline';
 
                     fetch(`/maestros/api/buscar-cvu/?cvu=${cvu}`)
                         .then(res => res.json())
                         .then(data => {
-                            cvuLoading.style.display = 'none';
-
-                            if (data.success) {
-                                const socio = data.data.socio;
-                                if (socio) {
-                                    infoNombre.value = socio.nombre_completo || '';
-                                    infoCuit.value = socio.cuit || '';
-                                } else {
-                                    infoNombre.value = '';
-                                    infoCuit.value = '';
-                                }
-                                ultimoCvuConsultado = cvu;
-                            } else {
-                                mostrarMensaje('❌ ' + (data.error || 'CVU no encontrado.'), 'danger');
-                                infoNombre.value = '';
-                                infoCuit.value = '';
-                                ultimoCvuConsultado = '';
+                            cvuOrigenLoading.style.display = 'none';
+                            if (data.success && data.data.socio) {
+                                infoSocioNombre.value = data.data.socio.nombre_completo || '';
+                                infoSocioCuit.value = data.data.socio.cuit || '';
                             }
                         })
                         .catch(err => {
-                            cvuLoading.style.display = 'none';
-                            mostrarMensaje('❌ Error al consultar la CVU.', 'danger');
+                            cvuOrigenLoading.style.display = 'none';
                             console.error(err);
                         });
+                });
+            }
+
+            // ==========================================================
+            // SECCIÓN 2: CVU DESTINO
+            // ==========================================================
+            const inputBuscarCvu = document.getElementById('id_buscar_cvu_credito');
+            const selectAgenda = document.getElementById('id_agenda_destinatario_pk');
+            const cvuDestinoLoading = document.getElementById('cvu-destino-loading');
+            const inputCuitDestino = document.getElementById('id_cuit_credito');
+            const inputNombreDestino = document.getElementById('id_nombre_credito');
+            const inputCvuDestino = document.getElementById('id_cbu_credito');
+
+            // ---- Select agenda → pasa el CVU al input ----
+            if (selectAgenda) {
+                selectAgenda.addEventListener('change', function () {
+                    const pk = this.value;
+                    if (!pk) return;
+
+                    const data = (window.AGENDA_MAP || {})[pk];
+                    if (data) {
+                        inputBuscarCvu.value = data.cvu_o_cbu;
+                        // NO dispara la búsqueda automáticamente (según lo pedido).
+                        // El usuario puede hacer blur para que se ejecute.
+                    }
+                });
+            }
+
+            // ---- Blur del input CVU destino → busca en Agilpagos ----
+            if (inputBuscarCvu) {
+                inputBuscarCvu.addEventListener('blur', function () {
+                    const cvu = this.value.replace(/\D/g, '');
+
+                    // Limpiar los readonly
+                    inputCuitDestino.value = '';
+                    inputNombreDestino.value = '';
+                    inputCvuDestino.value = '';
+
+                    if (cvu.length !== 22) {
+                        return;
+                    }
+
+                    cvuDestinoLoading.style.display = 'inline';
+
+                    // TODO: Endpoint de consulta de contraparte (Cap. 8.1 del PDF).
+                    // Por ahora, solo dejamos el placeholder.
+                    // fetch(`/maestros/api/consultar-cvu-destino/?cvu=${cvu}`)
+                    //     .then(...)
+
+                    setTimeout(() => {
+                        cvuDestinoLoading.style.display = 'none';
+                        console.log('[TODO] Buscar CVU destino en Agilpagos:', cvu);
+                    }, 300);
                 });
             }
 

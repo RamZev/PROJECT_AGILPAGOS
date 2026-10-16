@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+
+from .models.transacciones_models import CashoutRequest
+
+# Registramos los modelos independientes
+admin.site.register(CashoutRequest)
+

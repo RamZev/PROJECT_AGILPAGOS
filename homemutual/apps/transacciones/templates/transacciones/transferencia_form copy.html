@@ -1,0 +1,233 @@
+{% extends 'maestro_form.html' %}
+{% load static %}
+
+{% block maincomponent %}
+    {% block principalcomponent %}
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid">
+
+                    <div class="card border-light mb-3 mt-2">
+                        <div class="card-header text-white bg-primary opacity-75 d-flex justify-content-between">
+                            {{ accion }}
+                            <div class="flex align-items-center">
+                                <a class="me-2 text-white" data-bs-toggle="modal"
+                                   data-bs-target="#helpModal" style="cursor: pointer;">
+                                    <i class="bi bi-question-lg"></i>
+                                </a>
+                                <button type="button" class="btn-close btn-close-white"
+                                    aria-label="Close"
+                                    onclick="window.location.href='{% url list_view_name %}'">
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body bg-body-secondary">
+                            <form method="post" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <input type="hidden" id="instance_pk" value="{{ form.instance.pk|default:'' }}">
+                                <div id="message-container"></div>
+
+                                <div class="accordion" id="accordionTransferencia">
+
+                                    <!-- ==================================== -->
+                                    <!-- SECCIÓN 1: CUENTA ORIGEN             -->
+                                    <!-- ==================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button py-2" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#SecOrigen"
+                                                    aria-expanded="true">
+                                                <strong>Cuenta Origen</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show" id="SecOrigen">
+                                            <div class="accordion-body bg-secondary-subtle">
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.cvu_debito.label }}</label>
+                                                        {{ form.cvu_debito }}
+                                                        <div id="cvu-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
+                                                            <i class="fa fa-spinner fa-spin"></i> Buscando...
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">Socio</label>
+                                                        <input type="text" class="form-control" id="info_socio_nombre" readonly>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">CUIT</label>
+                                                        <input type="text" class="form-control" id="info_socio_cuit" readonly>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ==================================== -->
+                                    <!-- SECCIÓN 2: BENEFICIARIO              -->
+                                    <!-- ==================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button py-2 collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#SecBeneficiario">
+                                                <strong>Beneficiario</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show" id="SecBeneficiario">
+                                            <div class="accordion-body bg-secondary-subtle">
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.cuit_credito.label }}</label>
+                                                        {{ form.cuit_credito }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.cbu_credito.label }}</label>
+                                                        {{ form.cbu_credito }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.nombre_credito.label }}</label>
+                                                        {{ form.nombre_credito }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ==================================== -->
+                                    <!-- SECCIÓN 3: DATOS DE LA OPERACIÓN     -->
+                                    <!-- ==================================== -->
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button py-2 collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#SecOperacion">
+                                                <strong>Datos de la Operación</strong>
+                                            </button>
+                                        </h2>
+                                        <div class="accordion-collapse collapse show" id="SecOperacion">
+                                            <div class="accordion-body bg-secondary-subtle">
+
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.id_concepto.label }}</label>
+                                                        {{ form.id_concepto }}
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="form-label text-primary mb-0">{{ form.importe.label }}</label>
+                                                        {{ form.importe }}
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="form-label text-primary mb-0">{{ form.descripcion.label }}</label>
+                                                        {{ form.descripcion }}
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label class="form-label text-primary mb-0">{{ form.observaciones.label }}</label>
+                                                        {{ form.observaciones }}
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="container mt-3">
+                                    <button class="btn btn-primary" type="submit" id="guardarBtn">
+                                        Guardar
+                                    </button>
+                                    <a class="btn btn-secondary" href="{% url list_view_name %}">
+                                        Cancelar
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    {% endblock principalcomponent %}
+{% endblock maincomponent %}
+
+{% block modals %}
+    {% include 'maestros/modal_errors.html' %}
+    {% include 'maestros/modal_fields_requirements.html' %}
+{% endblock modals %}
+
+{% block script %}
+    {{ block.super }}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const inputCvu = document.getElementById('id_cvu_debito');
+            const cvuLoading = document.getElementById('cvu-loading');
+            const infoNombre = document.getElementById('info_socio_nombre');
+            const infoCuit = document.getElementById('info_socio_cuit');
+
+            function mostrarMensaje(mensaje, tipo = 'info') {
+                const container = document.getElementById('message-container');
+                if (!container) return;
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${tipo} alert-dismissible fade show`;
+                alert.innerHTML = mensaje + '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                container.appendChild(alert);
+                setTimeout(() => { if (alert.parentNode) alert.remove(); }, 6000);
+            }
+
+            let ultimoCvuConsultado = '';
+
+            if (inputCvu) {
+                inputCvu.addEventListener('blur', function () {
+                    const cvu = this.value.replace(/\D/g, '');
+
+                    // Validar 22 dígitos
+                    if (cvu.length !== 22) {
+                        if (cvu.length > 0) {
+                            mostrarMensaje('❌ El CVU debe tener 22 dígitos.', 'danger');
+                        }
+                        infoNombre.value = '';
+                        infoCuit.value = '';
+                        return;
+                    }
+
+                    if (cvu === ultimoCvuConsultado) return;
+
+                    cvuLoading.style.display = 'inline';
+
+                    fetch(`/maestros/api/buscar-cvu/?cvu=${cvu}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            cvuLoading.style.display = 'none';
+
+                            if (data.success) {
+                                const socio = data.data.socio;
+                                if (socio) {
+                                    infoNombre.value = socio.nombre_completo || '';
+                                    infoCuit.value = socio.cuit || '';
+                                } else {
+                                    infoNombre.value = '';
+                                    infoCuit.value = '';
+                                }
+                                ultimoCvuConsultado = cvu;
+                            } else {
+                                mostrarMensaje('❌ ' + (data.error || 'CVU no encontrado.'), 'danger');
+                                infoNombre.value = '';
+                                infoCuit.value = '';
+                                ultimoCvuConsultado = '';
+                            }
+                        })
+                        .catch(err => {
+                            cvuLoading.style.display = 'none';
+                            mostrarMensaje('❌ Error al consultar la CVU.', 'danger');
+                            console.error(err);
+                        });
+                });
+            }
+
+        });
+    </script>
+{% endblock script %}

@@ -1,4 +1,5 @@
 # apps/transacciones/views/transferencia_views.py
+import json
 from django.urls import reverse_lazy
 
 from apps.maestros.views.cruds_views_generics import *
@@ -25,7 +26,7 @@ class ConfigViews():
 
     template_form = f"{app_label}/{model_string}_form.html"
     template_delete = "base_confirm_delete.html"
-    template_list = 'maestros/maestro_list.html' 
+    template_list = 'maestros/maestro_list.html'
 
     context_object_name = 'objetos'
     home_view_name = "home"
@@ -88,6 +89,21 @@ class TransferenciaCreateView(StaffRequiredMixin, MaestroCreateView):
     success_url = ConfigViews.success_url
     permission_required = ConfigViews.permission_add
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        context['tiene_cvus'] = getattr(form, '_tiene_cvus', False)
+        context['agenda_map_json'] = json.dumps(
+            getattr(form, '_mapa_agenda', {}),
+            ensure_ascii=False,
+        )
+        return context
+
 
 class TransferenciaUpdateView(StaffRequiredMixin, MaestroUpdateView):
     model = ConfigViews.model
@@ -96,6 +112,21 @@ class TransferenciaUpdateView(StaffRequiredMixin, MaestroUpdateView):
     template_name = ConfigViews.template_form
     success_url = ConfigViews.success_url
     permission_required = ConfigViews.permission_change
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form = context['form']
+        context['tiene_cvus'] = getattr(form, '_tiene_cvus', False)
+        context['agenda_map_json'] = json.dumps(
+            getattr(form, '_mapa_agenda', {}),
+            ensure_ascii=False,
+        )
+        return context
 
 
 class TransferenciaDeleteView(StaffRequiredMixin, MaestroDeleteView):
