@@ -1,8 +1,6 @@
 # neumatic\apps\maestros\templatetags\custom_tags.py
 from django import template
-from decimal import Decimal
-import locale
-# from ..models.base_models import ProductoEstado
+
 
 register = template.Library()
 
@@ -58,6 +56,7 @@ def get_type(value):
 	# print(f"🔍 Valor: {repr(value)} | Tipo: {type(value).__name__} | Clase: {type(value)}")
 	return type(value).__name__
 
+
 @register.filter
 def in_list(value, arg_list):
 	"""
@@ -75,27 +74,35 @@ def in_list(value, arg_list):
 			return value == arg_list
 	return value in arg_list
 
+
 @register.filter
 def formato_es_ar(value):
 	"""
 	Formatea un número con el formato de Argentina:
-	Separador de miles: punto (.)
-	Separador decimal: coma (,)
-	Compatible con float y Decimal.
+	- Separador de miles: punto (.)
+	- Separador decimal: coma (,)
+	- 2 decimales.
+	
+	Compatible con float, int y Decimal.
+	NO depende del locale del sistema: usa formateo manual.
 	"""
-	try:
-		#-- Configura el locale para números en es_AR.
-		locale.setlocale(locale.LC_NUMERIC, 'es_AR.UTF-8')
-		
-		#-- Convierte a float si el valor es Decimal.
-		if isinstance(value, Decimal):
-			value = float(value)
-		
-		#-- Formatea con separadores de miles y 2 decimales.
-		return locale.format_string('%.2f', value, grouping=True)
-	except (ValueError, TypeError):
-		#-- Devuelve el valor sin formatear si no es un número válido.
+	if value is None or value == "":
 		return value
+	
+	try:
+		#-- Convertir a float (acepta Decimal, int, float, str numérico).
+		numero = float(value)
+	except (ValueError, TypeError):
+		#-- No es un número: devolver tal cual.
+		return value
+	
+	#-- Formateo manual:
+	#-- 1. Formatear con separador de miles "," y decimal "." (formato US).
+	#-- 2. Intercambiar: "," → "X", "." → ",", "X" → ".".
+	formateado = f"{numero:,.2f}"
+	formateado = formateado.replace(",", "X").replace(".", ",").replace("X", ".")
+	
+	return formateado
 
 
 @register.filter
@@ -103,36 +110,25 @@ def formato_es_ar_entero(value):
 	"""
 	Formatea un número entero con el formato de Argentina:
 	- Separador de miles: punto (.)
-	- Sin decimales
-	- Compatible con int, float y Decimal.
+	- Sin decimales.
+	
+	Compatible con int, float y Decimal.
+	NO depende del locale del sistema.
 	"""
-	try:
-		#-- Configura el locale para números en es_AR.
-		locale.setlocale(locale.LC_NUMERIC, 'es_AR.UTF-8')
-		
-		#-- Convierte a float si es Decimal y luego a int.
-		if isinstance(value, Decimal):
-			value = int(float(value))
-		elif isinstance(value, float):
-			value = int(value)
-			
-		#-- Formatea con separadores de miles y sin decimales.
-		return locale.format_string('%d', value, grouping=True)
-	except (ValueError, TypeError):
-		#-- Devuelve el valor sin formatear si no es un número válido.
+	if value is None or value == "":
 		return value
-
-
-# @register.simple_tag
-# def get_color_estado(nombre_estado):
-# 	"""
-# 	Devuelve el color del Estado de Producto según el nombre del Estado si lo consigue,
-# 	de lo contrario devuelve color blanco.
-# 	"""
-# 	try:
-# 		return ProductoEstado.objects.get(nombre_producto_estado=nombre_estado).color
-# 	except ProductoEstado.DoesNotExist:
-# 		return '#FFFFFF'  #-- Color por defecto si no existe.
+	
+	try:
+		#-- Convertir a int (truncando decimales).
+		numero = int(float(value))
+	except (ValueError, TypeError):
+		return value
+	
+	#-- Formateo manual.
+	formateado = f"{numero:,d}"
+	formateado = formateado.replace(",", ".")
+	
+	return formateado
 
 
 @register.filter

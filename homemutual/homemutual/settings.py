@@ -1,4 +1,4 @@
-import locale
+import locale as _locale
 from pathlib import Path
 from dotenv import load_dotenv
 from os import path, getenv, makedirs
@@ -175,12 +175,31 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 #-- Duración máxima: 8 horas.
 SESSION_COOKIE_AGE = 60 * 60 * 8
 
-#-- Configuración del locale para Argentina/España.
-try:
-	locale.setlocale(locale.LC_ALL, 'es_AR.UTF-8')  # Linux/Mac
-except locale.Error:
-	locale.setlocale(locale.LC_ALL, 'spanish')      # Windows como fallback
 
+#-- Configuración del locale para Argentina/España.
+#-- NOTA: en algunos servidores Windows no está disponible el locale español.
+#-- Si falla, se usa el locale por defecto del sistema (no bloquea el arranque).
+def _setup_locale():
+	"""Intenta configurar el locale es_AR/es_ES, sino deja el default."""
+	candidates = [
+		'es_AR.UTF-8',
+		'es_AR',
+		'es_ES.UTF-8',
+		'es_ES',
+		'spanish',
+		'Spanish_Argentina',
+		'Spanish_Spain',
+	]
+	for candidate in candidates:
+		try:
+			_locale.setlocale(_locale.LC_ALL, candidate)
+			return candidate
+		except _locale.Error:
+			continue
+	return None
+
+
+_ACTIVE_LOCALE = _setup_locale()
 
 # ============================================================================
 # CONFIGURACIÓN DE CORREO ELECTRÓNICO
