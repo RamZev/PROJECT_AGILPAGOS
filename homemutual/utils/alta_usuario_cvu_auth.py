@@ -51,59 +51,96 @@ def alta_usuario_cvu(token):
     print("PASO 2: Alta de Usuario + CVU")
     print("=" * 60)
 
-    payload = {
-        # ---- Datos personales ----
-        "nombre": "FABIANA ESTER",
-        "apellido": "MEZA",
-        "genero": "F",
-        "fechaNacimiento": "1979-09-29",
+    # payload = {
+    #     # ---- Datos personales ----
+    #     "nombre": "FABIANA ESTER",
+    #     "apellido": "MEZA",
+    #     "genero": "F",
+    #     "fechaNacimiento": "1979-09-29",
 
-        # ---- Nacionalidad ----
+    #     # ---- Nacionalidad ----
+    #     "idNacionalidad": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
+    #     "idPaisNacimiento": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
+
+    #     # ---- Documento ----
+    #     "idTipoDocumento": "209C1CAA-C56D-4E03-BB40-E9EF2F319A3F",
+    #     "numeroDocumento": "27749702",
+    #     "numeroTramiteDocumento": "27211490255",
+    #     "cuit": "27277497021",
+
+    #     # ---- Contacto ----
+    #     "email": "silvanapaulon@gmail.com",
+    #     "caracteristicaPais": "+54",
+    #     "codigoArea": "3483",
+    #     "numeroTelefono": "415820",
+
+    #     # ---- Situación fiscal y legal ----
+    #     "idEstadoCivil": "a2dc98b4-49bf-40a5-be97-e7e3e5decb2c",
+    #     "idCondicionFiscal": "ba933f3f-d18e-4aed-8585-dfa73e27da11",
+    #     "idOcupacion": "6864846e-a7e2-4c37-9c88-e81103e3c971",
+    #     "esPep": False,
+    #     "idMotivoPep": None,
+    #     "esUIF": False,
+    #     "leyFATCA": False,
+
+    #     # ---- Domicilio ----
+    #     "idPaisDomicilio": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
+    #     "idProvincia": "167e351c-44e0-47bb-8728-074293358cd9",
+    #     "localidad": "Calchaqui",
+    #     "calle": "URQUIZA 180",
+    #     "altura": "URQUIZA 180",
+    #     "cp": "3050",
+    #     "piso": "",
+    #     "departamento": "",
+    #     "observaciones": "",
+
+    #     # ---- Fechas ----
+    #     "fechaAlta": "2022-02-22",
+
+    #     # ---- Datos de la CVU ----
+    #     "numeroCuentaEntidad": "1004060",
+
+    #     # ---- Catálogos SG ----
+    #     "idEntidadTipoDocumento": "CAE2882B-493C-4E1A-A6E7-B5E2BD25F808",
+    #     "idTipoPersona": "20EB9127-7CA8-49E0-9E0B-CA8293218ACA",
+    #     "idTipoCuenta": "D2483A34-78BE-40A2-B8CB-07AD4BCF6F61",
+    # }
+
+    payload = {
+        "nombre": "JUAN CARLOS",
+        "apellido": "MOLINA",
+        "genero": "M",
+        "fechaNacimiento": "1969-01-16",
         "idNacionalidad": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
         "idPaisNacimiento": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
-
-        # ---- Documento ----
-        "idTipoDocumento": "209C1CAA-C56D-4E03-BB40-E9EF2F319A3F",
-        "numeroDocumento": "27749702",
+        "numeroDocumento": "20777608",
         "numeroTramiteDocumento": "27211490255",
-        "cuit": "27277497021",
-
-        # ---- Contacto ----
-        "email": "silvanapaulon@gmail.com",
+        "cuit": "20207776085",
+        "email": "juanmolina2026@gmail.com",
         "caracteristicaPais": "+54",
         "codigoArea": "3483",
-        "numeroTelefono": "415820",
-
-        # ---- Situación fiscal y legal ----
-        "idEstadoCivil": "a2dc98b4-49bf-40a5-be97-e7e3e5decb2c",
+        "numeroTelefono": "509467",
+        "idEstadoCivil": "13e36b73-183f-4575-8d18-5c94543d2e07",
         "idCondicionFiscal": "ba933f3f-d18e-4aed-8585-dfa73e27da11",
-        "idOcupacion": "6864846e-a7e2-4c37-9c88-e81103e3c971",
+        "idOcupacion": "",
         "esPep": False,
-        "idMotivoPep": None,
         "esUIF": False,
         "leyFATCA": False,
-
-        # ---- Domicilio ----
-        "idPaisDomicilio": "76b19e61-b8dc-40f4-bfab-422cbffe5002",
-        "idProvincia": "167e351c-44e0-47bb-8728-074293358cd9",
-        "localidad": "Calchaqui",
-        "calle": "URQUIZA 180",
-        "altura": "URQUIZA 180",
+        "idProvincia": "dc2f0d87-118e-418c-b1c7-2bdbe5dffbec",
+        "localidad": "Santa Fe",
+        "calle": "LOS INMIGRANTES",
+        "altura": "430",
         "cp": "3050",
-        "piso": "",
-        "departamento": "",
+        "piso": "1",
+        "departamento": "1",
         "observaciones": "",
-
-        # ---- Fechas ----
-        "fechaAlta": "2022-02-22",
-
-        # ---- Datos de la CVU ----
-        "numeroCuentaEntidad": "1004060",
-
-        # ---- Catálogos SG ----
-        "idEntidadTipoDocumento": "CAE2882B-493C-4E1A-A6E7-B5E2BD25F808",
+        "numeroCuentaEntidad": "10040141",
+        "idTipoDocumento": "209C1CAA-C56D-4E03-BB40-E9EF2F319A3F",
         "idTipoPersona": "20EB9127-7CA8-49E0-9E0B-CA8293218ACA",
         "idTipoCuenta": "D2483A34-78BE-40A2-B8CB-07AD4BCF6F61",
+        "idEntidadTipoDocumento": "CAE2882B-493C-4E1A-A6E7-B5E2BD25F808",
+        "idPaisDomicilio": "76B19E61-B8DC-40F4-BFAB-422CBFFE5002",
+        "fechaAlta": "2026-10-09"
     }
 
     print("Request payload:")

@@ -69,7 +69,7 @@ class SocioForm(CrudGenericForm):
     )
     id_ocupacion = forms.ModelChoiceField(
         queryset=SgOcupacion.objects.all().order_by('descripcion'),
-        required=False, empty_label="-- Seleccionar --",
+        required=True, empty_label="-- Seleccionar --",
         widget=forms.Select(attrs={**formclassselect}),
     )
     id_motivo_pep = forms.ModelChoiceField(
