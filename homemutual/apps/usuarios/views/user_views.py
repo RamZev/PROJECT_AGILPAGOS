@@ -22,7 +22,7 @@ from apps.usuarios.models import User
 
 #-- Indicar las aplicaciones del proyecto para poder filtrar los modelos de las mismas.
 # project_app_labels = ['usuarios', 'maestros', 'ventas']
-project_app_labels = ['usuarios', 'maestros']
+project_app_labels = ['usuarios', 'maestros', 'transacciones',]
 
 #-- Vista Login. 
 @method_decorator(sensitive_post_parameters('password'), name='dispatch')
