@@ -2,326 +2,550 @@
 {% load static %}
 
 {% block maincomponent %}
-    {% block principalcomponent %}
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid">
-
-                    <div class="card border-light mb-3 mt-2">
-                        <div class="card-header text-white bg-primary opacity-75 d-flex justify-content-between">
-                            {{ accion }}
-                            <div class="flex align-items-center">
-                                <a class="me-2 text-white" data-bs-toggle="modal"
-                                   data-bs-target="#helpModal" style="cursor: pointer;">
-                                    <i class="bi bi-question-lg"></i>
-                                </a>
-                                <button type="button" class="btn-close btn-close-white"
-                                    aria-label="Close"
-                                    onclick="window.location.href='{% url list_view_name %}'">
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="card-body bg-body-secondary">
-                            <form method="post" enctype="multipart/form-data" novalidate>
-                                {% csrf_token %}
-                                <input type="hidden" id="instance_pk" value="{{ form.instance.pk|default:'' }}">
-                                <div id="message-container"></div>
-
-                                {% if not tiene_cvus %}
-                                    <div class="alert alert-warning">
-                                        <i class="bi bi-exclamation-triangle"></i>
-                                        No tienes CVUs activas para hacer transferencias.
-                                        Contactá al administrador.
-                                    </div>
-                                {% endif %}
-
-                                <div class="accordion" id="accordionTransferencia">
-
-                                    <!-- ==================================== -->
-                                    <!-- SECCIÓN 1: CUENTA ORIGEN             -->
-                                    <!-- ==================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button py-2" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#SecOrigen"
-                                                    aria-expanded="true">
-                                                <strong>Cuenta Origen</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse show" id="SecOrigen">
-                                            <div class="accordion-body bg-secondary-subtle">
-
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.cvu_debito.label }}</label>
-                                                        {{ form.cvu_debito }}
-                                                        <div id="cvu-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
-                                                            <i class="fa fa-spinner fa-spin"></i> Buscando...
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">Socio</label>
-                                                        <input type="text" class="form-control" id="info_socio_nombre" readonly>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">CUIT</label>
-                                                        <input type="text" class="form-control" id="info_socio_cuit" readonly>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- ==================================== -->
-                                    <!-- SECCIÓN 2: BENEFICIARIO              -->
-                                    <!-- ==================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button py-2 collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#SecBeneficiario">
-                                                <strong>CVU Destino</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse show" id="SecBeneficiario">
-                                            <div class="accordion-body bg-secondary-subtle">
-
-                                                <!-- Fila 1: input CVU + select agenda -->
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label class="form-label text-primary mb-0">
-                                                            {{ form.buscar_cvu_credito.label }}
-                                                        </label>
-                                                        {{ form.buscar_cvu_credito }}
-                                                        <div id="cvu-destino-loading" style="display: none; font-size: 0.8rem; color: #6c757d; margin-top: 2px;">
-                                                            <i class="fa fa-spinner fa-spin"></i> Buscando...
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="form-label text-primary mb-0">
-                                                            {{ form.agenda_destinatario_pk.label }}
-                                                        </label>
-                                                        {{ form.agenda_destinatario_pk }}
-                                                    </div>
-                                                </div>
-
-                                                <!-- Fila 2: readonly -->
-                                                <div class="row mt-2">
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.cuit_credito.label }}</label>
-                                                        {{ form.cuit_credito }}
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.nombre_credito.label }}</label>
-                                                        {{ form.nombre_credito }}
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.cbu_credito.label }}</label>
-                                                        {{ form.cbu_credito }}
-                                                    </div>
-                                                </div>
-
-                                                <!-- Fila 3: checkbox -->
-                                                <div class="row mt-3">
-                                                    <div class="col-md-12">
-                                                        <div class="form-check">
-                                                            {{ form.guardar_en_agenda }}
-                                                            <label class="form-check-label" for="{{ form.guardar_en_agenda.id_for_label }}">
-                                                                {{ form.guardar_en_agenda.label }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- ==================================== -->
-                                    <!-- SECCIÓN 3: DATOS DE LA OPERACIÓN     -->
-                                    <!-- ==================================== -->
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button py-2 collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#SecOperacion">
-                                                <strong>Datos de la Operación</strong>
-                                            </button>
-                                        </h2>
-                                        <div class="accordion-collapse collapse show" id="SecOperacion">
-                                            <div class="accordion-body bg-secondary-subtle">
-
-                                                <div class="row">
-                                                    <div class="col-md-2">
-                                                        <label class="form-label text-primary mb-0">{{ form.importe.label }}</label>
-                                                        {{ form.importe }}
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">{{ form.id_concepto.label }}</label>
-                                                        {{ form.id_concepto }}
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label text-primary mb-0">{{ form.descripcion.label }}</label>
-                                                        {{ form.descripcion }}
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <label class="form-label text-primary mb-0">{{ form.observaciones.label }}</label>
-                                                        {{ form.observaciones }}
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="container mt-3">
-                                    {% if tiene_cvus %}
-                                    <button class="btn btn-primary" type="submit" id="guardarBtn">
-                                        Guardar
-                                    </button>
-                                    {% endif %}
-                                    <a class="btn btn-secondary" href="{% url list_view_name %}">
-                                        Cancelar
-                                    </a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    {% endblock principalcomponent %}
+	{% block principalcomponent %}
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid">
+					
+					<div class="card border-light mb-3 mt-2">
+						<div class="card-header text-white bg-primary opacity-75 d-flex justify-content-between">
+							{{ accion }}
+							<div class="flex align-items-center">
+								<button type="button" class="btn-close btn-close-white"
+									aria-label="Close"
+									onclick="window.location.href='{% url list_view_name %}'">
+								</button>
+							</div>
+						</div>
+						
+						<div class="card-body bg-body-secondary">
+							<!-- El formulario tiene ID para capturarlo con JS -->
+							<form method="post" id="formTransferencia" novalidate>
+								{% csrf_token %}
+								
+								<!-- Alerta si no hay CVUs -->
+								<div id="alerta-sin-cvus" class="alert alert-warning d-none">
+									<i class="bi bi-exclamation-triangle"></i>
+									No tienes CVUs activas para hacer transferencias. Contactá al administrador.
+								</div>
+								
+								<div class="accordion" id="accordionTransferencia">
+									
+									<!-- ==================================== -->
+									<!-- SECCIÓN 1: CUENTA ORIGEN             -->
+									<!-- ==================================== -->
+									<div class="accordion-item">
+										<h2 class="accordion-header">
+											<button class="accordion-button py-2" type="button"
+													data-bs-toggle="collapse" data-bs-target="#SecOrigen"
+													aria-expanded="true">
+												<strong>Cuenta Origen</strong>
+											</button>
+										</h2>
+										<div class="accordion-collapse collapse show" id="SecOrigen">
+											<div class="accordion-body bg-secondary-subtle">
+												
+												<div class="row mb-3">
+													<div class="col-md-12">
+														<label class="form-label text-primary mb-0">{{ form.cvu_debito.label }}</label>
+														{{ form.cvu_debito }}
+													</div>
+												</div>
+												
+												<!-- Panel de datos de la CVU seleccionada -->
+												<div id="panel-cvu-info" class="row d-none bg-white p-3 rounded border mx-1">
+													<div class="col-md-3">
+														<small class="text-muted d-block">Alias</small>
+														<strong id="info_alias">-</strong>
+													</div>
+													<div class="col-md-3">
+														<small class="text-muted d-block">Saldo Total</small>
+														<strong id="info_saldo">$0,00</strong>
+													</div>
+													<div class="col-md-3">
+														<small class="text-muted d-block">Saldo Retenido</small>
+														<strong id="info_retenido" class="text-warning">$0,00</strong>
+													</div>
+													<div class="col-md-3">
+														<small class="text-muted d-block">Saldo Disponible</small>
+														<strong id="info_disponible" class="text-success fs-5">$0,00</strong>
+													</div>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									
+									<!-- ==================================== -->
+									<!-- SECCIÓN 2: BENEFICIARIO              -->
+									<!-- ==================================== -->
+									<div class="accordion-item">
+										<h2 class="accordion-header">
+											<button class="accordion-button py-2 collapsed" type="button"
+													data-bs-toggle="collapse" data-bs-target="#SecBeneficiario">
+												<strong>CVU Destino</strong>
+											</button>
+										</h2>
+										<div class="accordion-collapse collapse show" id="SecBeneficiario">
+											<div class="accordion-body bg-secondary-subtle">
+												
+												<!-- Fila 1: input CVU + select agenda -->
+												<div class="row">
+													<div class="col-md-6">
+														<label class="form-label text-primary mb-0">
+															{{ form.buscar_cvu_credito.label }}
+														</label>
+														{{ form.buscar_cvu_credito }}
+													</div>
+													<div class="col-md-6">
+														<label class="form-label text-primary mb-0">
+															{{ form.agenda_destinatario_pk.label }}
+														</label>
+														{{ form.agenda_destinatario_pk }}
+													</div>
+												</div>
+												
+												<!-- Fila 2: readonly -->
+												<div class="row mt-2">
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">{{ form.cuit_credito.label }}</label>
+														{{ form.cuit_credito }}
+													</div>
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">{{ form.nombre_credito.label }}</label>
+														{{ form.nombre_credito }}
+													</div>
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">{{ form.cbu_credito.label }}</label>
+														{{ form.cbu_credito }}
+													</div>
+												</div>
+												
+												<!-- Fila 3: checkbox -->
+												<div class="row mt-3">
+													<div class="col-md-12">
+														<div class="form-check">
+															{{ form.guardar_en_agenda }}
+															<label class="form-check-label" for="{{ form.guardar_en_agenda.id_for_label }}">
+																{{ form.guardar_en_agenda.label }}
+															</label>
+														</div>
+													</div>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									
+									<!-- ==================================== -->
+									<!-- SECCIÓN 3: DATOS DE LA OPERACIÓN     -->
+									<!-- ==================================== -->
+									<div class="accordion-item">
+										<h2 class="accordion-header">
+											<button class="accordion-button py-2 collapsed" type="button"
+													data-bs-toggle="collapse" data-bs-target="#SecOperacion">
+												<strong>Datos de la Operación</strong>
+											</button>
+										</h2>
+										<div class="accordion-collapse collapse show" id="SecOperacion">
+											<div class="accordion-body bg-secondary-subtle">
+												
+												<div class="row">
+													<div class="col-md-2">
+														<label class="form-label text-primary mb-0">{{ form.importe.label }}</label>
+														{{ form.importe }}
+														<div id="error-importe" class="text-danger small mt-1 d-none">
+															El importe supera el saldo disponible.
+														</div>
+													</div>
+													<div class="col-md-3">
+														<label class="form-label text-primary mb-0">{{ form.id_concepto.label }}</label>
+														{{ form.id_concepto }}
+													</div>
+													<div class="col-md-4">
+														<label class="form-label text-primary mb-0">{{ form.descripcion.label }}</label>
+														{{ form.descripcion }}
+													</div>
+													<div class="col-md-3">
+														<label class="form-label text-primary mb-0">{{ form.observaciones.label }}</label>
+														{{ form.observaciones }}
+													</div>
+												</div>
+												
+											</div>
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="container mt-3">
+									<button class="btn btn-primary" type="submit" id="btnTransferir" disabled>
+										<i class="bi bi-arrow-right-circle me-1"></i> Transferir
+									</button>
+									<a class="btn btn-secondary" href="{% url list_view_name %}">
+										Cancelar
+									</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+	{% endblock principalcomponent %}
 {% endblock maincomponent %}
 
 {% block modals %}
-    {% include 'maestros/modal_errors.html' %}
-    {% include 'maestros/modal_fields_requirements.html' %}
+	{% include 'modal_errors.html' %}
+	
+	<!-- Modal para mensajes de éxito o advertencia -->
+	<div class="modal fade" id="infoModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header" id="infoModalHeader">
+					<h5 class="modal-title" id="infoModalTitle">Mensaje</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="infoModalBody">
+					...
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnInfoModalClose">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock modals %}
 
 {% block script %}
-    {{ block.super }}
-    <script>
-        // Mapa de la agenda del socio (viene desde el backend)
-        window.AGENDA_MAP = {{ agenda_map_json|safe }};
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // ==========================================================
-            // SECCIÓN 1: CVU ORIGEN
-            // ==========================================================
-            const selectCvuOrigen = document.getElementById('id_cvu_debito');
-            const cvuOrigenLoading = document.getElementById('cvu-loading');
-            const infoSocioNombre = document.getElementById('info_socio_nombre');
-            const infoSocioCuit = document.getElementById('info_socio_cuit');
-
-            if (selectCvuOrigen) {
-                selectCvuOrigen.addEventListener('change', function () {
-                    const cvu = this.value;
-                    infoSocioNombre.value = '';
-                    infoSocioCuit.value = '';
-                    if (!cvu) return;
-
-                    cvuOrigenLoading.style.display = 'inline';
-
-                    fetch(`/maestros/api/buscar-cvu/?cvu=${cvu}`)
-                        .then(res => res.json())
-                        .then(data => {
-                            cvuOrigenLoading.style.display = 'none';
-                            if (data.success && data.data.socio) {
-                                infoSocioNombre.value = data.data.socio.nombre_completo || '';
-                                infoSocioCuit.value = data.data.socio.cuit || '';
-                            }
-                        })
-                        .catch(err => {
-                            cvuOrigenLoading.style.display = 'none';
-                            console.error(err);
-                        });
-                });
-            }
-
-            // ==========================================================
-            // SECCIÓN 2: CVU DESTINO
-            // ==========================================================
-            const inputBuscarCvu = document.getElementById('id_buscar_cvu_credito');
-            const selectAgenda = document.getElementById('id_agenda_destinatario_pk');
-            const cvuDestinoLoading = document.getElementById('cvu-destino-loading');
-            const inputCuitDestino = document.getElementById('id_cuit_credito');
-            const inputNombreDestino = document.getElementById('id_nombre_credito');
-            const inputCvuDestino = document.getElementById('id_cbu_credito');
-
-            // SECCIÓN 3: DATOS DE LA OPERACIÓN  ← NUEVA
-            // ==========================================================
-            const selectConcepto = document.getElementById('id_id_concepto');
-            const inputDescripcion = document.getElementById('id_descripcion');
-            const inputObservaciones = document.getElementById('id_observaciones');
-
-            if (selectConcepto) {
-                selectConcepto.addEventListener('change', function () {
-                    const opt = this.options[this.selectedIndex];
-                    if (!opt || !opt.value) return;
-
-                    const texto = (opt.textContent || opt.innerText || '').trim();
-                    let descripcion = texto;
-                    if (texto.includes(' - ')) {
-                        const partes = texto.split(' - ');
-                        descripcion = partes.slice(1).join(' - ').trim();
-                    }
-
-                    inputDescripcion.value = descripcion;
-                    inputObservaciones.value = '—';
-                });
-            }
-
-            // ---- Select agenda → pasa el CVU al input ----
-            if (selectAgenda) {
-                selectAgenda.addEventListener('change', function () {
-                    const pk = this.value;
-                    if (!pk) return;
-
-                    const data = (window.AGENDA_MAP || {})[pk];
-                    if (data) {
-                        inputBuscarCvu.value = data.cvu_o_cbu;
-                        // NO dispara la búsqueda automáticamente (según lo pedido).
-                        // El usuario puede hacer blur para que se ejecute.
-
-                        // Disparar el evento blur del input de CVU destino
-                        // para que se ejecute la lógica de búsqueda.
-                        inputBuscarCvu.dispatchEvent(new Event('blur'));
-                    }
-                });
-            }
-
-            // ---- Blur del input CVU destino → busca en Agilpagos ----
-            if (inputBuscarCvu) {
-                inputBuscarCvu.addEventListener('blur', function () {
-                    alert('Se disparó el evento blur del input CVU destino. Aquí se debería buscar en Agilpagos.');
-                    const cvu = this.value.replace(/\D/g, '');
-
-                    // Limpiar los readonly
-                    inputCuitDestino.value = '';
-                    inputNombreDestino.value = '';
-                    inputCvuDestino.value = '';
-
-                    if (cvu.length !== 22) {
-                        return;
-                    }
-
-                    cvuDestinoLoading.style.display = 'inline';
-
-                    // TODO: Endpoint de consulta de contraparte (Cap. 8.1 del PDF).
-                    // Por ahora, solo dejamos el placeholder.
-                    // fetch(`/maestros/api/consultar-cvu-destino/?cvu=${cvu}`)
-                    //     .then(...)
-
-                    setTimeout(() => {
-                        cvuDestinoLoading.style.display = 'none';
-                        console.log('[TODO] Buscar CVU destino en Agilpagos:', cvu);
-                    }, 300);
-                });
-            }
-
-        });
-    </script>
+	{{ block.super }}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			// ============================================================
+			// VARIABLES GLOBALES
+			// ============================================================
+			let CVUS_MAP = {}; // { "nro_cvu": { alias, saldo, disponible, ... } }
+			const form = document.getElementById('formTransferencia');
+			const btnTransferir = document.getElementById('btnTransferir');
+			const selectCvu = document.getElementById('id_cvu_debito');
+			const inputBuscarCvu = document.getElementById('id_buscar_cvu_credito');
+			const selectAgenda = document.getElementById('id_agenda_destinatario_pk');
+			const inputImporte = document.getElementById('id_importe');
+			
+			// Instancias de modales
+			const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+			const infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
+			
+			// ============================================================
+			// UTILS
+			// ============================================================
+			function getCookie(name) {
+				let cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					const cookies = document.cookie.split(';');
+					for (let i = 0; i < cookies.length; i++) {
+						const cookie = cookies[i].trim();
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+			
+			function formatearMoneda(valor) {
+				return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(valor);
+			}
+			
+			// Inyecta un mensaje en el modal de errores de Django.
+			function mostrarError(mensaje) {
+				const modalBody = document.querySelector('#errorModal .modal-body');
+				// Limpiamos inyectados previos
+				const prev = document.getElementById('js-injected-error');
+				if (prev) prev.remove();
+				
+				// Creamos un div para el error
+				const div = document.createElement('div');
+				div.id = 'js-injected-error';
+				div.className = 'mb-3';
+				div.innerHTML = `
+					<h6 class="text-dark mb-2"><i class="bi bi-x-circle me-1"></i> Error de la API</h6>
+					<ul class="list-unstyled ms-3">
+						<li class="text-danger"><i class="bi bi-arrow-return-right me-1 text-muted"></i>${mensaje}</li>
+					</ul>
+				`;
+				modalBody.insertBefore(div, modalBody.firstChild);
+				errorModal.show();
+			}
+			
+			// Muestra un mensaje de info/éxito y redirige al cerrar
+			function mostrarExito(mensaje, recargar = true) {
+				document.getElementById('infoModalTitle').innerText = 'Transferencia Exitosa';
+				document.getElementById('infoModalHeader').className = 'modal-header alert alert-success';
+				document.getElementById('infoModalBody').innerHTML = `<p class="fs-5">${mensaje}</p>`;
+				
+				infoModal.show();
+				
+				document.getElementById('btnInfoModalClose').addEventListener('click', function() {
+					if(recargar) window.location.href = "{% url list_view_name %}";
+				});
+			}
+			
+			// ============================================================
+			// CARGA INICIAL: CVUs DESDE API
+			// ============================================================
+			async function cargarCvus() {
+				try {
+					const response = await fetch('/transacciones/api/cvus-propias/');
+					const data = await response.json();
+					
+					if (!data.success) {
+						mostrarError(data.error);
+						return;
+					}
+					
+					// Limpiar select (Django ya puso opciones desde BD, las reemplazamos con la data fresca)
+					selectCvu.innerHTML = '<option value="">-- Seleccionar CVU --</option>';
+					CVUS_MAP = {};
+					
+					if (data.data.length === 0) {
+						document.getElementById('alerta-sin-cvus').classList.remove('d-none');
+						btnTransferir.disabled = true;
+						return;
+					}
+					
+					data.data.forEach(cvu => {
+						// Guardar en el mapa
+						CVUS_MAP[cvu.cvu] = cvu;
+						
+						// Armar opción
+						let label = cvu.cvu;
+						if (cvu.alias) label += ` — ${cvu.alias}`;
+						
+						const option = document.createElement('option');
+						option.value = cvu.cvu;
+						option.text = label;
+						if (cvu.favorita) option.selected = true; // Preseleccionar favorita
+						
+						selectCvu.appendChild(option);
+					});
+					
+					// Si se preseleccionó una CVU, disparar el evento para mostrar datos
+					if (selectCvu.value) {
+						selectCvu.dispatchEvent(new Event('change'));
+					}
+					
+				} catch (error) {
+					console.error("Error cargando CVUs:", error);
+					mostrarError("No se pudieron cargar las CVUs. Recargue la página.");
+				}
+			}
+			
+			// ============================================================
+			// EVENTO: CAMBIO DE CVU ORIGEN
+			// ============================================================
+			selectCvu.addEventListener('change', function() {
+				const cvu = this.value;
+				const panel = document.getElementById('panel-cvu-info');
+				const info = CVUS_MAP[cvu];
+				
+				if (!info) {
+					panel.classList.add('d-none');
+					validarImporte();
+					return;
+				}
+				
+				panel.classList.remove('d-none');
+				document.getElementById('info_alias').innerText = info.alias || 'Sin alias';
+				document.getElementById('info_saldo').innerText = formatearMoneda(info.saldo);
+				document.getElementById('info_retenido').innerText = formatearMoneda(info.saldo_retenido);
+				document.getElementById('info_disponible').innerText = formatearMoneda(info.saldo_disponible);
+				
+				validarImporte();
+			});
+			
+			// ============================================================
+			// EVENTO: BUSCAR DESTINATARIO (BLUR)
+			// ============================================================
+			inputBuscarCvu.addEventListener('blur', async function() {
+				const cvu = this.value.replace(/\D/g, '');
+				const inputCuit = document.getElementById('id_cuit_credito');
+				const inputNombre = document.getElementById('id_nombre_credito');
+				const inputCbu = document.getElementById('id_cbu_credito');
+				
+				// Limpiar si no es válido
+				if (cvu.length !== 22) {
+					inputCuit.value = '';
+					inputNombre.value = '';
+					inputCbu.value = '';
+					return;
+				}
+				
+				// UI: Loading (puedes agregar un spinner visual)
+				this.classList.add('is-loading');
+				
+				try {
+					const res = await fetch(`/transacciones/api/buscar-destinatario/?cvu=${cvu}`);
+					const data = await res.json();
+					
+					if (!data.success) {
+						mostrarError(data.error || 'No se encontró la CVU destino.');
+						inputCuit.value = '';
+						inputNombre.value = '';
+						inputCbu.value = '';
+						return;
+					}
+					
+					// Rellenar readonly
+					inputCuit.value = data.data.cuit;
+					inputNombre.value = data.data.nombre;
+					inputCbu.value = data.data.cvu;
+					
+				} catch (error) {
+					console.error(error);
+					mostrarError("Error al buscar la CVU destino.");
+				} finally {
+					this.classList.remove('is-loading');
+				}
+			});
+			
+			// ============================================================
+			// EVENTO: SELECCIÓN DE AGENDA
+			// ============================================================
+			selectAgenda.addEventListener('change', function() {
+				const pk = this.value;
+				if (!pk) return;
+				
+				// Como ya cargamos el mapa desde Django en el template original, 
+				// lo inyectamos vía JSON.
+				const agendaMap = {{ agenda_map_json|safe|default:"{}" }};
+				const data = agendaMap[pk];
+				
+				if (data) {
+					inputBuscarCvu.value = data.cvu_o_cbu;
+					// Disparamos el blur para que busque los datos completos en la API
+					inputBuscarCvu.dispatchEvent(new Event('blur'));
+				}
+			});
+			
+			// ============================================================
+			// VALIDACIÓN DE IMPORTE
+			// ============================================================
+			inputImporte.addEventListener('input', validarImporte);
+			
+			function validarImporte() {
+				const cvu = selectCvu.value;
+				const importe = parseFloat(inputImporte.value) || 0;
+				const info = CVUS_MAP[cvu];
+				const errorDiv = document.getElementById('error-importe');
+				const btn = document.getElementById('btnTransferir');
+				
+				if (!info || importe <= 0) {
+					btn.disabled = true;
+					errorDiv.classList.add('d-none');
+					return;
+				}
+				
+				const disponible = parseFloat(info.saldo_disponible) || 0;
+				
+				if (importe > disponible) {
+					inputImporte.classList.add('is-invalid');
+					errorDiv.classList.remove('d-none');
+					btn.disabled = true;
+				} else {
+					inputImporte.classList.remove('is-invalid');
+					errorDiv.classList.add('d-none');
+					// El botón se habilita solo si todo lo requerido está lleno
+					validarBoton();
+				}
+			}
+			
+			// Validar que todos los campos requeridos estén llenos para habilitar el botón
+			function validarBoton() {
+				const cvuDebito = selectCvu.value;
+				const cbuCredito = document.getElementById('id_cbu_credito').value;
+				const importe = parseFloat(inputImporte.value) || 0;
+				const concepto = document.getElementById('id_id_concepto').value;
+				
+				// Habilitar si: cvu origen, cvu destino (readonly), importe > 0, concepto.
+				if (cvuDebito && cbuCredito && importe > 0 && concepto) {
+					btnTransferir.disabled = false;
+				} else {
+					btnTransferir.disabled = true;
+				}
+			}
+			
+			// Escuchar cambios en los otros campos para validar el botón
+			document.getElementById('id_id_concepto').addEventListener('change', validarBoton);
+			
+			// ============================================================
+			// SUBMIT DEL FORMULARIO (AJAX)
+			// ============================================================
+			form.addEventListener('submit', async function(e) {
+				e.preventDefault();
+				
+				btnTransferir.disabled = true;
+				const originalText = btnTransferir.innerHTML;
+				btnTransferir.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
+				
+				// Armar payload
+				const payload = {
+					cvuDebito: selectCvu.value,
+					cbuCredito: document.getElementById('id_cbu_credito').value,
+					cuitCredito: document.getElementById('id_cuit_credito').value,
+					nombreCredito: document.getElementById('id_nombre_credito').value,
+					idConcepto: document.getElementById('id_id_concepto').value,
+					importe: parseFloat(inputImporte.value),
+					descripcion: document.getElementById('id_descripcion').value,
+					observaciones: document.getElementById('id_observaciones').value,
+					guardar_en_agenda: document.getElementById('id_guardar_en_agenda').checked
+				};
+				
+				try {
+					const res = await fetch('/transacciones/api/solicitar-transferencia/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRFToken': getCookie('csrftoken')
+						},
+						body: JSON.stringify(payload)
+					});
+					
+					const data = await res.json();
+					
+					if (!data.success) {
+						mostrarError(data.error || 'Error al procesar la transferencia.');
+						btnTransferir.disabled = false;
+						btnTransferir.innerHTML = originalText;
+						return;
+					}
+					
+					// Éxito
+					const estado = data.data.estadoDebito?.descripcion || 'Procesado';
+					const idCoelsa = data.data.idCoelsa ? ` (Ref: ${data.data.idCoelsa})` : '';
+					
+					let mensaje = `La transferencia fue procesada con estado: <strong>${estado}</strong>${idCoelsa}.`;
+					
+					// Si está pendiente, avisar
+					if (estado !== 'Procesado' && estado !== 'Informado Al Banco Con Error') {
+						mensaje += `<br><br><span class="text-warning"><i class="bi bi-exclamation-triangle"></i> El saldo quedará retenido hasta que la transacción se confirme.</span>`;
+					}
+					
+					mostrarExito(mensaje);
+					
+				} catch (error) {
+					console.error(error);
+					mostrarError("Error de red o del servidor al enviar la transferencia.");
+					btnTransferir.disabled = false;
+					btnTransferir.innerHTML = originalText;
+				}
+			});
+			
+			// ============================================================
+			// INICIALIZACIÓN
+			// ============================================================
+			cargarCvus();
+		});
+	</script>
 {% endblock script %}
