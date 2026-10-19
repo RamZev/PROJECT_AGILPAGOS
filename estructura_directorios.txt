@@ -1,0 +1,377 @@
+Estructura de directorios generada desde: G:\DISCO_P\Leoncio\ProyectosDjango\PROJECT_AGILPAGOS
+Fecha: 2026-10-19 10:04:57
+============================================================
+
+├── 📁 homemutual/
+│   ├── 📁 apps/
+│   │   ├── 📁 consultas/
+│   │   │   ├── 📁 forms/
+│   │   │   │   └── 🐍 consulta_cvu_forms.py
+│   │   │   ├── 📁 migrations/
+│   │   │   │   └── 🐍 __init__.py
+│   │   │   ├── 📁 templates/
+│   │   │   │   └── 📁 consultas/
+│   │   │   │       ├── 🌐 cvu_por_cuit copy.html
+│   │   │   │       └── 🌐 cvu_por_cuit.html
+│   │   │   ├── 📁 views/
+│   │   │   │   └── 🐍 consulta_cvu_views.py
+│   │   │   ├── 🐍 __init__.py
+│   │   │   ├── 🐍 admin.py
+│   │   │   ├── 🐍 apps.py
+│   │   │   ├── 🐍 tests.py
+│   │   │   └── 🐍 urls.py
+│   │   ├── 📁 core/
+│   │   │   ├── 📁 services/
+│   │   │   │   └── 🐍 sg.py
+│   │   │   └── 🐍 mixins.py
+│   │   ├── 📁 maestros/
+│   │   │   ├── 📁 forms/
+│   │   │   │   ├── 🐍 agenda_destinatario_forms.py
+│   │   │   │   ├── 🐍 crud_forms_generics.py
+│   │   │   │   ├── 🐍 cuenta_cvu_forms.py
+│   │   │   │   ├── 🐍 cuenta_mutual_forms_ini.py
+│   │   │   │   ├── 🐍 sg_ambiente_agilpagos_forms.py
+│   │   │   │   ├── 🐍 sg_concepto_transaccion_forms.py
+│   │   │   │   ├── 🐍 sg_condicion_fiscal_forms.py
+│   │   │   │   ├── 🐍 sg_constante_agilpagos_forms.py
+│   │   │   │   ├── 🐍 sg_entidad_tipo_documento_forms.py
+│   │   │   │   ├── 🐍 sg_estado_civil_forms.py
+│   │   │   │   ├── 🐍 sg_estado_transaccion_forms.py
+│   │   │   │   ├── 🐍 sg_motivo_pep_forms.py
+│   │   │   │   ├── 🐍 sg_nacionalidad_forms.py
+│   │   │   │   ├── 🐍 sg_ocupacion_forms.py
+│   │   │   │   ├── 🐍 sg_provincia_forms.py
+│   │   │   │   ├── 🐍 sg_tipo_cuenta_forms.py
+│   │   │   │   ├── 🐍 sg_tipo_cuenta_mutual_forms.py
+│   │   │   │   ├── 🐍 sg_tipo_impuesto_forms.py
+│   │   │   │   ├── 🐍 sg_tipo_operacion_aviso_forms.py
+│   │   │   │   ├── 🐍 sg_tipo_persona_forms.py
+│   │   │   │   ├── 🐍 socio_forms.py
+│   │   │   │   ├── 🐍 sucursal_forms.py
+│   │   │   │   ├── 🐍 valida_forms.py
+│   │   │   │   └── 🐍 valida_forms_base.py
+│   │   │   ├── 📁 migrations/
+│   │   │   │   ├── 🐍 0001_initial.py
+│   │   │   │   ├── 🐍 0002_initial.py
+│   │   │   │   ├── 🐍 0003_sgconceptotransaccion_sgcondicionfiscal_and_more.py
+│   │   │   │   ├── 🐍 0004_remove_cuentamutual_documento_and_more.py
+│   │   │   │   ├── 🐍 0005_remove_cuentamutual_uniq_id_sg_usuario_not_null_and_more.py
+│   │   │   │   ├── 🐍 0006_sgestadotransaccion_es_exitoso_sgambienteagilpagos_and_more.py
+│   │   │   │   ├── 🐍 0007_socio.py
+│   │   │   │   ├── 🐍 0008_cuentacvu.py
+│   │   │   │   ├── 🐍 0009_cvualiashistorial.py
+│   │   │   │   ├── 🐍 0010_renombrar_campos_cvu.py
+│   │   │   │   ├── 🐍 0011_rename_id_cvu_agilpagos_cuentacvu_id_cvu.py
+│   │   │   │   ├── 🐍 0012_alter_socio_id_socio_mutual.py
+│   │   │   │   ├── 🐍 0013_alter_socio_id_entidad_tipo_documento_and_more.py
+│   │   │   │   ├── 🐍 0014_alter_cuentacvu_cvu.py
+│   │   │   │   ├── 🐍 0015_agendadestinatario.py
+│   │   │   │   ├── 🐍 0016_alter_agendadestinatario_options_and_more.py
+│   │   │   │   └── 🐍 __init__.py
+│   │   │   ├── 📁 models/
+│   │   │   │   ├── 🐍 agenda_destinatarios_models.py
+│   │   │   │   ├── 🐍 base_gen_models.py
+│   │   │   │   ├── 🗃️ crear_empresa.sql
+│   │   │   │   ├── 🐍 cuenta_cvu_models.py
+│   │   │   │   ├── 🐍 cuenta_mutual_models copy.py
+│   │   │   │   ├── 🐍 cuenta_mutual_models_ini.py
+│   │   │   │   ├── 🐍 cvu_alias_historial_models.py
+│   │   │   │   ├── 🐍 empresa_models.py
+│   │   │   │   ├── 🐍 sg_catalogo_models.py
+│   │   │   │   ├── 🐍 socio_models.py
+│   │   │   │   ├── 🐍 sucursal_models.py
+│   │   │   │   └── 🐍 valida_models.py
+│   │   │   ├── 📁 services/
+│   │   │   │   ├── 🐍 agilpagos_client.py
+│   │   │   │   ├── 🐍 agilpagos_payload.py
+│   │   │   │   └── 🐍 socio_service.py
+│   │   │   ├── 📁 templates/
+│   │   │   │   └── 📁 maestros/
+│   │   │   │       ├── 🌐 agenda_destinatario_form.html
+│   │   │   │       ├── 🌐 cuenta_cvu_form.html
+│   │   │   │       ├── 🌐 cuenta_mutual_form copy.html
+│   │   │   │       ├── 🌐 cuenta_mutual_form_ini.html
+│   │   │   │       ├── 🌐 maestro_list.html
+│   │   │   │       ├── 🌐 modal.html
+│   │   │   │       ├── 🌐 modal_errors.html
+│   │   │   │       ├── 🌐 modal_fields_requirements.html
+│   │   │   │       ├── 🌐 sg_ambiente_agilpagos_form.html
+│   │   │   │       ├── 🌐 sg_concepto_transaccion_form.html
+│   │   │   │       ├── 🌐 sg_condicion_fiscal_form.html
+│   │   │   │       ├── 🌐 sg_constante_agilpagos_form.html
+│   │   │   │       ├── 🌐 sg_entidad_tipo_documento_form.html
+│   │   │   │       ├── 🌐 sg_estado_civil_form.html
+│   │   │   │       ├── 🌐 sg_estado_transaccion_form.html
+│   │   │   │       ├── 🌐 sg_motivo_pep_form.html
+│   │   │   │       ├── 🌐 sg_nacionalidad_form.html
+│   │   │   │       ├── 🌐 sg_ocupacion_form.html
+│   │   │   │       ├── 🌐 sg_provincia_form.html
+│   │   │   │       ├── 🌐 sg_tipo_cuenta_form.html
+│   │   │   │       ├── 🌐 sg_tipo_cuenta_mutual_form.html
+│   │   │   │       ├── 🌐 sg_tipo_impuesto_form.html
+│   │   │   │       ├── 🌐 sg_tipo_operacion_aviso_form.html
+│   │   │   │       ├── 🌐 sg_tipo_persona_form.html
+│   │   │   │       ├── 🌐 socio_form.html
+│   │   │   │       └── 🌐 sucursal_form.html
+│   │   │   ├── 📁 templatetags/
+│   │   │   │   ├── 🐍 __init__.py
+│   │   │   │   └── 🐍 custom_tags.py
+│   │   │   ├── 📁 views/
+│   │   │   │   ├── 🐍 agenda_destinatario_views.py
+│   │   │   │   ├── 🐍 consulta_maestros_views.py
+│   │   │   │   ├── 🐍 cruds_views_generics.py
+│   │   │   │   ├── 🐍 cruds_views_intemediate.py
+│   │   │   │   ├── 🐍 cuenta_cvu_views.py
+│   │   │   │   ├── 🐍 cuenta_mutual_views copy.py
+│   │   │   │   ├── 🐍 cuenta_mutual_views_ini.py
+│   │   │   │   ├── 🐍 obtener_cvu_01.py
+│   │   │   │   ├── 🐍 obtener_cvu_02 copy.py
+│   │   │   │   ├── 🐍 obtener_cvu_4071.py
+│   │   │   │   ├── 🐍 sg_ambiente_agilpagos_views.py
+│   │   │   │   ├── 🐍 sg_concepto_transaccion_views.py
+│   │   │   │   ├── 🐍 sg_condicion_fiscal_views.py
+│   │   │   │   ├── 🐍 sg_constante_agilpagos_views.py
+│   │   │   │   ├── 🐍 sg_estado_civil_views.py
+│   │   │   │   ├── 🐍 sg_estado_transaccion_views.py
+│   │   │   │   ├── 🐍 sg_motivo_pep_views.py
+│   │   │   │   ├── 🐍 sg_nacionalidad_views.py
+│   │   │   │   ├── 🐍 sg_ocupacion_views.py
+│   │   │   │   ├── 🐍 sg_provincia_views.py
+│   │   │   │   ├── 🐍 sg_tipo_cuenta_mutual_views.py
+│   │   │   │   ├── 🐍 sg_tipo_impuesto_views.py
+│   │   │   │   ├── 🐍 sg_tipo_operacion_aviso_views.py
+│   │   │   │   ├── 🐍 socio_views copy.py
+│   │   │   │   ├── 🐍 socio_views.py
+│   │   │   │   ├── 🐍 sucursal_views.py
+│   │   │   │   └── 🐍 valida_views.py
+│   │   │   ├── 🐍 __init__.py
+│   │   │   ├── 🐍 admin.py
+│   │   │   ├── 🐍 apps.py
+│   │   │   ├── 🐍 tests.py
+│   │   │   └── 🐍 urls.py
+│   │   ├── 📁 menu/
+│   │   │   ├── 📁 migrations/
+│   │   │   │   ├── 🐍 0001_initial.py
+│   │   │   │   └── 🐍 __init__.py
+│   │   │   ├── 📁 templates/
+│   │   │   │   └── 📁 menu/
+│   │   │   │       ├── 🌐 base_menu.html
+│   │   │   │       ├── 🌐 menu_tree.html
+│   │   │   │       ├── 🌐 menuheading_confirm_delete.html
+│   │   │   │       ├── 🌐 menuheading_form.html
+│   │   │   │       ├── 🌐 menuheading_list.html
+│   │   │   │       ├── 🌐 menuitem_confirm_delete.html
+│   │   │   │       ├── 🌐 menuitem_form copy.html
+│   │   │   │       ├── 🌐 menuitem_form.html
+│   │   │   │       ├── 🌐 menuitem_list copy.html
+│   │   │   │       └── 🌐 menuitem_list.html
+│   │   │   ├── 📁 templatetags/
+│   │   │   │   ├── 🐍 __init__.py
+│   │   │   │   └── 🐍 menu_tags.py
+│   │   │   ├── 🐍 __init__.py
+│   │   │   ├── 🐍 admin.py
+│   │   │   ├── 🐍 apps.py
+│   │   │   ├── 🐍 forms.py
+│   │   │   ├── 🐍 models.py
+│   │   │   ├── 🐍 tests.py
+│   │   │   ├── 🐍 urls.py
+│   │   │   └── 🐍 views.py
+│   │   ├── 📁 transacciones/
+│   │   │   ├── 📁 forms/
+│   │   │   │   └── 🐍 transferencia_forms.py
+│   │   │   ├── 📁 migrations/
+│   │   │   │   ├── 🐍 0001_initial.py
+│   │   │   │   ├── 🐍 0002_alter_movimiento_id_transaccion_agilpagos.py
+│   │   │   │   ├── 🐍 0003_alter_cashoutrequest_descripcion_and_more.py
+│   │   │   │   └── 🐍 __init__.py
+│   │   │   ├── 📁 models/
+│   │   │   │   ├── 🐍 __init__.py
+│   │   │   │   └── 🐍 transacciones_models.py
+│   │   │   ├── 📁 templates/
+│   │   │   │   └── 📁 transacciones/
+│   │   │   │       └── 🌐 transferencia_form.html
+│   │   │   ├── 📁 views/
+│   │   │   │   └── 🐍 transferencia_views.py
+│   │   │   ├── 🐍 __init__.py
+│   │   │   ├── 🐍 admin.py
+│   │   │   ├── 🐍 apps.py
+│   │   │   ├── 🐍 tests.py
+│   │   │   └── 🐍 urls.py
+│   │   └── 📁 usuarios/
+│   │       ├── 📁 forms/
+│   │       │   ├── 🐍 password_reset_form.py
+│   │       │   └── 🐍 user_form.py
+│   │       ├── 📁 migrations/
+│   │       │   ├── 🐍 0001_initial.py
+│   │       │   ├── 🐍 0002_alter_user_email.py
+│   │       │   └── 🐍 __init__.py
+│   │       ├── 📁 templates/
+│   │       │   └── 📁 usuarios/
+│   │       │       ├── 🌐 grupo_confirm_delete.html
+│   │       │       ├── 🌐 grupo_form.html
+│   │       │       ├── 🌐 grupo_list.html
+│   │       │       ├── 🌐 password_reset_complete.html
+│   │       │       ├── 🌐 password_reset_confirm.html
+│   │       │       ├── 🌐 password_reset_done.html
+│   │       │       ├── 🌐 password_reset_email.html
+│   │       │       ├── 📝 password_reset_email.txt
+│   │       │       ├── 🌐 password_reset_form.html
+│   │       │       ├── 📝 password_reset_subject.txt
+│   │       │       ├── 🌐 sesion_cerrar.html
+│   │       │       ├── 🌐 sesion_iniciar.html
+│   │       │       ├── 🌐 sesion_iniciar_ini.html
+│   │       │       ├── 🌐 usuario_confirm_delete.html
+│   │       │       ├── 🌐 usuario_crear_form.html
+│   │       │       ├── 🌐 usuario_editar_form.html
+│   │       │       └── 🌐 usuario_list.html
+│   │       ├── 📁 views/
+│   │       │   ├── 🐍 __init__.py
+│   │       │   ├── 🐍 user_password_views - email_body=html.py
+│   │       │   ├── 🐍 user_password_views - email_body=Texto-plano.py
+│   │       │   ├── 🐍 user_password_views.py
+│   │       │   ├── 🐍 user_views.py
+│   │       │   └── 🐍 user_views_generics.py
+│   │       ├── 🐍 __init__.py
+│   │       ├── 🐍 admin.py
+│   │       ├── 🐍 apps.py
+│   │       ├── 🐍 models.py
+│   │       ├── 🐍 tests.py
+│   │       └── 🐍 urls.py
+│   ├── 📁 context_processors/
+│   │   ├── 🐍 context_processors_empresa.py
+│   │   └── 🐍 context_processors_menu.py
+│   ├── 📁 data/
+│   │   ├── 📁 bak/
+│   │   │   └── 📄 homemutual.db
+│   │   └── 📄 homemutual.db
+│   ├── 📁 diseno_base/
+│   │   └── 🐍 diseno_bootstrap.py
+│   ├── 📁 entorno/
+│   │   └── 🐍 constantes_base.py
+│   ├── 📁 homemutual/
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 asgi.py
+│   │   ├── 🐍 settings.py
+│   │   ├── 🐍 urls.py
+│   │   ├── 🐍 views.py
+│   │   └── 🐍 wsgi.py
+│   ├── 📁 login_sg/
+│   │   ├── 📄 .env
+│   │   ├── 🐍 crear_login_sg.py
+│   │   ├── 📋 CVU cuenta Mario.json
+│   │   ├── 📋 CVU usuario Mario.json
+│   │   ├── 📋 login_payload.json
+│   │   ├── 📋 login_payload_ini.json
+│   │   ├── 🐍 login_sg.py
+│   │   ├── 📋 usuario.json
+│   │   └── 📋 usuarioNico.json
+│   ├── 📁 logs/
+│   ├── 📁 payloads/
+│   │   ├── 📋 1001000.json
+│   │   ├── 📋 1004068.json
+│   │   ├── 📋 1004069.json
+│   │   ├── 📋 1004070.json
+│   │   ├── 📋 1004071.json
+│   │   ├── 📋 1004072.json
+│   │   ├── 📋 1004073.json
+│   │   ├── 📋 1004074.json
+│   │   ├── 📋 cvu_10040121.json
+│   │   ├── 📋 cvu_10040141.json
+│   │   ├── 📋 cvu_10040181.json
+│   │   ├── 📋 cvu_10040251.json
+│   │   ├── 📋 cvu_10041291.json
+│   │   ├── 📋 cvu_10041301.json
+│   │   └── 📋 cvu_10041371.json
+│   ├── 📁 static/
+│   │   ├── 📁 assets/
+│   │   │   ├── 📁 demo/
+│   │   │   │   ├── 📜 chart-area-demo.js
+│   │   │   │   ├── 📜 chart-bar-demo.js
+│   │   │   │   ├── 📜 chart-pie-demo.js
+│   │   │   │   └── 📜 datatables-demo.js
+│   │   │   └── 📁 img/
+│   │   │       └── 📄 error-404-monochrome.svg
+│   │   ├── 📁 css/
+│   │   │   ├── 🎨 botones.css
+│   │   │   ├── 🎨 reportes.css
+│   │   │   └── 🎨 styles.css
+│   │   ├── 📁 img/
+│   │   │   ├── 📁 RESP/
+│   │   │   │   ├── 📄 candado_01.jpeg
+│   │   │   │   └── 📄 logout_01.jpeg
+│   │   │   ├── 🖼️ actualizar.png
+│   │   │   ├── 🖼️ api.jpg
+│   │   │   ├── 🖼️ arca.png
+│   │   │   ├── 🖼️ background-image.jpg
+│   │   │   ├── 🖼️ background-image_ini.jpg
+│   │   │   ├── 📄 candado_01.jpeg
+│   │   │   ├── 📄 candado_02.jpeg
+│   │   │   ├── 🖼️ delete.png
+│   │   │   ├── 🖼️ delete16.png
+│   │   │   ├── 🖼️ delete24.png
+│   │   │   ├── 🖼️ escudo_01.png
+│   │   │   ├── 🖼️ favicon.png
+│   │   │   ├── 🖼️ logo_01.png
+│   │   │   ├── 📄 logo_center2.jpeg
+│   │   │   ├── 🖼️ logo_debona-removebg.png
+│   │   │   ├── 🖼️ logo_debona.jpg
+│   │   │   ├── 📄 logo_left.jpeg
+│   │   │   ├── 📄 logout_01.jpeg
+│   │   │   ├── 🖼️ qr.png
+│   │   │   ├── 📄 Thumbs.db
+│   │   │   ├── 🖼️ update.png
+│   │   │   ├── 🖼️ update16.png
+│   │   │   ├── 🖼️ update24.png
+│   │   │   └── 🖼️ view24.png
+│   │   └── 📁 js/
+│   │       ├── 📜 ae360af17e.js
+│   │       ├── 📜 control_list.js
+│   │       ├── 📜 datatables-simple-demo.js
+│   │       ├── 📜 filtros_ficha_seguimiento_stock.js
+│   │       ├── 📜 filtros_remitos_pendientes.js
+│   │       ├── 📜 filtros_resumen_cta_cte.js
+│   │       ├── 📜 filtros_saldos_clientes.js
+│   │       ├── 📜 grp_perm.js
+│   │       ├── 📜 neumatic_scripts.js
+│   │       ├── 📜 opciones_reporte.js
+│   │       ├── 📜 scripts.js
+│   │       └── 📜 select2_config_cliente.js
+│   ├── 📁 templates/
+│   │   ├── 🌐 base.html
+│   │   ├── 🌐 buscador.html
+│   │   ├── 🌐 dashboard.html
+│   │   ├── 🌐 datatool_form.html
+│   │   ├── 🌐 home.html
+│   │   ├── 🌐 maestro_form.html
+│   │   ├── 🌐 menu_item_recursive.html
+│   │   ├── 🌐 modal_errors.html
+│   │   ├── 🌐 paginador.html
+│   │   ├── 🌐 proceso_form.html
+│   │   ├── 🌐 sidebar.html
+│   │   └── 🌐 top_nav.html
+│   ├── 📁 utils/
+│   │   ├── 📁 validator/
+│   │   │   └── 🐍 validaciones.py
+│   │   ├── 🐍 __init__.py
+│   │   ├── 🐍 alta_usuario_cvu.py
+│   │   ├── 🐍 alta_usuario_cvu_auth.py
+│   │   ├── 🐍 consulta_cvu_destinatario.py
+│   │   ├── 🐍 consulta_cvu_destinatario_auth.py
+│   │   ├── 🐍 consulta_cvus_usuario_por_cuit.py
+│   │   ├── 🐍 consulta_cvus_usuario_por_cuit_auth.py
+│   │   ├── 🐍 consumir_endpoint_jwt.py
+│   │   ├── 🐍 obtener_jwt.py
+│   │   ├── 🐍 solicitud_transferencia.py
+│   │   ├── 🐍 test_consulta_socio.py
+│   │   ├── 🐍 test_socio_maasoft.py
+│   │   └── 🐍 utils.py
+│   └── 🐍 manage.py
+├── 📄 .env
+├── 📄 .gitignore
+├── 📄 .python-version
+├── 📝 estructura_directorios.txt
+├── 🐍 generar_estructura.py
+├── 📄 PROJECT_AGILPAGOS.rar
+├── 📄 pyproject.toml
+├── 📖 README.md
+└── 📄 uv.lock
