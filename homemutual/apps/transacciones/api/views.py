@@ -109,7 +109,7 @@ def api_cvus_propias(request):
 
 
 # ============================================================================
-# BUSCAR DESTINATARIO
+# BUSCAR DESTINATARIO (por CVU)
 # ============================================================================
 @login_required
 @require_GET
@@ -131,7 +131,31 @@ def api_buscar_destinatario(request):
 		)
 	
 	try:
-		response = agilpagos_get(request, f"/consulta/destinatario/{cvu}")
+		#-- Llamar al endpoint de la API Intermedia (que ahora usa los 4 niveles).
+		response = agilpagos_get(request, f"/consulta/cvu/{cvu}")
+		response.raise_for_status()
+		return JsonResponse({"success": True, "data": response.json()})
+	except Exception as e:
+		return _handle_agilpagos_exception(e)
+
+
+# ============================================================================
+# BUSCAR DESTINATARIO (por Alias de la CVU)
+# ============================================================================
+@login_required
+@require_GET
+def api_buscar_por_alias(request):
+	"""
+	Busca un destinatario por Alias de CVU.
+	Query param: ?alias=mi.alias.cvu
+	"""
+	alias = request.GET.get('alias', '').strip()
+	if not alias:
+		return _error_response("El alias no puede estar vacío.", status=400)
+	
+	try:
+		#-- Endpoint de Agilpagos (8.2) a través de la API Intermedia.
+		response = agilpagos_get(request, f"/consulta/cvu/alias/{alias}")
 		response.raise_for_status()
 		return JsonResponse({"success": True, "data": response.json()})
 	except Exception as e:
