@@ -216,14 +216,19 @@ class TransferenciaForm(forms.Form):
 		).order_by('-frecuente', '-ultima_vez_usada', 'nombre')
 		
 		for d in destinatarios:
-			display = d.alias or d.nombre or '(sin nombre)'
+			#-- Usar alias_destinatario (el alias referencial del socio).
+			#-- Si no tiene, usar el nombre del titular.
+			display = d.alias_destinatario or d.nombre or '(sin nombre)'
+			
 			label = f"{display} — {d.cvu_o_cbu}"
 			choices.append((str(d.pk), label))
+			
 			self._mapa_agenda[str(d.pk)] = {
 				'cvu_o_cbu': d.cvu_o_cbu,
 				'cuit': d.cuit,
 				'nombre': d.nombre,
-				'alias': d.alias or '',
+				'alias_destinatario': d.alias_destinatario or '',
+				'alias_cvu': d.alias_cvu or '',
 			}
 		
 		self.fields['agenda_destinatario_pk'].choices = choices
