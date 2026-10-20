@@ -130,23 +130,6 @@
 												{% endfor %}
 												
 												<td class="text-center" style="padding-left: 0.1rem; padding-right: 0.1rem;">
-													{% comment %}
-													<!-- Botón Actualizar -->
-													<button type="button" class="btn btn-outline-primary btn-sm btn-edit boton-oculto" data-form-index="{{ forloop.counter0 }}"
-															onclick="window.location.href='{% url update_view_name objeto.pk %}'" 
-															data-bs-toggle="tooltip" data-bs-placement="top" title="Actualizar Registro"
-															style="font-size: 70%; padding: 0.1rem 0.3rem;">
-														<i class="fa fa-edit"></i>
-													</button>
-													
-													<!-- Botón Eliminar -->
-													<button type="button" class="btn btn-outline-danger btn-sm btn-delete boton-oculto" 
-															data-bs-toggle="modal" title="Eliminar Registro" data-bs-target="#deleteModal" 
-															data-bs-whatever-url="{% url delete_view_name objeto.pk %}" data-bs-whatever-name="{{ objeto }}"
-															style="font-size: 70%; padding: 0.1rem 0.3rem;">
-														<i class="fa fa-trash-alt"></i>
-													</button>
-													{% endcomment %}
 													<!-- Botón Ver -->
 													<button type="button" class="btn btn-outline-success btn-sm btn-view boton-oculto"
 															data-bs-toggle="tooltip" data-bs-placement="top" title="Ver Registro"

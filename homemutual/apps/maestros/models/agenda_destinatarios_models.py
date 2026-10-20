@@ -50,15 +50,26 @@ class AgendaDestinatario(ModeloBaseGenerico):
 		max_length=22,
 		help_text="22 dígitos. Puede ser CVU de Agilpagos o CBU bancario.",
 	)
-	alias = models.CharField(
-		"Alias referencial",
+	alias_destinatario = models.CharField(
+		"Alias del destinatario",
 		max_length=60,
 		blank=True,
 		null=True,
 		help_text=(
-			"Alias que el propietario de la agenda le asigna al destinatario "
-			"para identificarlo fácilmente (ej: 'Cuñado Juan', 'Proveedor'). "
-			"NO es el alias de la CVU en Agilpagos."
+			"Alias que el socio (propietario de la agenda) le asigna al "
+			"destinatario para identificarlo fácilmente (ej: 'Cuñado Juan', "
+			"'Proveedor'). NO es el alias de la CVU en Agilpagos."
+		),
+	)
+	alias_cvu = models.CharField(
+		"Alias de la CVU",
+		max_length=20,
+		blank=True,
+		null=True,
+		help_text=(
+			"Alias de la CVU del destinatario en Agilpagos. Se obtiene al "
+			"consultar el destinatario y puede cambiar si el propietario de "
+			"la CVU lo modifica."
 		),
 	)
 	cuit = models.CharField(
@@ -180,5 +191,5 @@ class AgendaDestinatario(ModeloBaseGenerico):
 	
 	def __str__(self):
 		#-- Mostrar alias si está, sino el nombre.
-		display = self.alias or self.nombre or self.cvu_o_cbu
+		display = self.alias_destinatario or self.nombre or self.cvu_o_cbu
 		return f"{display} ({self.cvu_o_cbu})"

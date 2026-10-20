@@ -33,7 +33,7 @@ class ConfigViews():
 
 class DataViewList():
     search_fields = [
-        'cvu_o_cbu', 'alias', 'cuit', 'nombre',
+        'cvu_o_cbu', 'alias_destinatario', 'alias_cvu', 'cuit', 'nombre',
         'id_socio__nombre', 'id_socio__apellido', 'id_socio__cuit',
     ]
     ordering = ['-frecuente', '-ultima_vez_usada', 'nombre']
@@ -42,7 +42,8 @@ class DataViewList():
     table_headers = {
         'frecuente': (1, 'Frec.'),
         'id_socio': (2, 'Socio'),
-        'alias': (2, 'Alias'),
+        'alias_destinatario': (2, 'Alias Dest.'),
+        'alias_cvu': (2, 'Alias CVU'),
         'cvu_o_cbu': (3, 'CVU/CBU'),
         'cuit': (2, 'CUIT'),
         'nombre': (3, 'Titular'),
@@ -53,7 +54,8 @@ class DataViewList():
     table_data = [
         {'field_name': 'frecuente', 'date_format': None},
         {'field_name': 'id_socio', 'date_format': None},
-        {'field_name': 'alias', 'date_format': None},
+        {'field_name': 'alias_destinatario', 'date_format': None},
+        {'field_name': 'alias_cvu', 'date_format': None},
         {'field_name': 'cvu_o_cbu', 'date_format': None},
         {'field_name': 'cuit', 'date_format': None},
         {'field_name': 'nombre', 'date_format': None},
