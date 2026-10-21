@@ -194,7 +194,7 @@ def api_solicitar_transferencia(request):
 		)
 	
 	try:
-		response = agilpagos_post(request, "/transferencias/solicitar", json=body)
+		response = agilpagos_post(request, "/transferencias/solicitar", json=body, timeout=30.0)
 		response.raise_for_status()
 		return JsonResponse({"success": True, "data": response.json()})
 	except Exception as e:

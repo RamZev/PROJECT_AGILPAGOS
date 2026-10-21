@@ -238,7 +238,7 @@ if ENVIRONMENT == 'production' or ENVIRONMENT == 'development':
 # ============================================
 AGILPAGOS_API_BASE = getenv('AGILPAGOS_API_BASE', 'https://agilpagosapi.maasoft.com.ar')
 AGILPAGOS_AUTH_URL = getenv('AGILPAGOS_AUTH_URL', 'https://agilpagosapi.maasoft.com.ar/auth/login')
-AGILPAGOS_TIMEOUT = int(getenv('AGILPAGOS_TIMEOUT', '10'))
+AGILPAGOS_TIMEOUT = int(getenv('AGILPAGOS_TIMEOUT', '30'))
 
 AGILPAGOS_USERNAME = getenv('AGILPAGOS_USERNAME', '')
 AGILPAGOS_PASSWORD = getenv('AGILPAGOS_PASSWORD', '')

@@ -581,6 +581,7 @@
 					
 					const data = await res.json();
 					
+					// Si el backend dice que hubo un error, lo mostramos.
 					if (!data.success) {
 						mostrarError(data.error || 'Error al procesar la transferencia.');
 						btnTransferir.disabled = false;
@@ -588,6 +589,7 @@
 						return;
 					}
 					
+					// Si llegamos acá, la transferencia fue un éxito.
 					const estado = data.data.estadoDebito?.descripcion || 'Procesado';
 					const idCoelsa = data.data.idCoelsa ? ` (Ref: ${data.data.idCoelsa})` : '';
 					
@@ -600,6 +602,7 @@
 					mostrarExito(mensaje);
 					
 				} catch (error) {
+					// Esto atrapa errores de red (ej: si Django tardó mucho y cortó la conexión).
 					console.error(error);
 					mostrarError("Error de red o del servidor al enviar la transferencia.");
 					btnTransferir.disabled = false;
