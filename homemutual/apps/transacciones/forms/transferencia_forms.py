@@ -48,6 +48,16 @@ class TransferenciaForm(forms.Form):
 			'inputmode': 'numeric',
 		}),
 	)
+	buscar_cvu_credito = forms.CharField(
+		required=False,
+		max_length=22,
+		label="CVU/CBU o Alias destino",
+		widget=forms.TextInput(attrs={
+			**formclasstext,
+			'placeholder': 'Ingrese CVU/CBU (22 dígitos) o Alias',
+			'inputmode': 'text',
+		}),
+	)
 	
 	agenda_destinatario_pk = forms.ChoiceField(
 		required=False,

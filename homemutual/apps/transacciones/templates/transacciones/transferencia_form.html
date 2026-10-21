@@ -375,16 +375,16 @@
 			});
 			
 			// ============================================================
-			// EVENTO: BUSCAR DESTINATARIO (BLUR)
+			// EVENTO: BUSCAR DESTINATARIO (BLUR) - CVU O ALIAS
 			// ============================================================
 			inputBuscarCvu.addEventListener('blur', async function() {
-				const cvu = this.value.replace(/\D/g, '');
+				let valor = this.value.trim();
 				const inputCuit = document.getElementById('id_cuit_credito');
 				const inputNombre = document.getElementById('id_nombre_credito');
 				const inputCbu = document.getElementById('id_cbu_credito');
 				const alertaFallback = document.getElementById('alerta-fallback');
 				
-				if (cvu.length !== 22) {
+				if (!valor) {
 					inputCuit.value = '';
 					inputNombre.value = '';
 					inputCbu.value = '';
@@ -395,47 +395,66 @@
 					return;
 				}
 				
+				// Detectar si es CVU (solo números) o Alias (texto)
+				const esCvu = /^\d+$/.test(valor);
+				let url = '';
+				
+				if (esCvu) {
+					if (valor.length !== 22) {
+						alertaFallback.classList.remove('d-none');
+						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> La CVU debe tener 22 dígitos.";
+						validarBoton();
+						return;
+					}
+					url = `/transacciones/api/buscar-destinatario/?cvu=${valor}`;
+				} else {
+					url = `/transacciones/api/buscar-por-alias/?alias=${encodeURIComponent(valor)}`;
+				}
+				
 				try {
-					const res = await fetch(`/transacciones/api/buscar-destinatario/?cvu=${cvu}`);
+					// Mostrar indicador de carga (opcional)
+					this.classList.add('is-loading');
+					
+					const res = await fetch(url);
 					const data = await res.json();
 					
 					if (!data.success) {
-						mostrarError(data.error || 'No se encontró la CVU destino.');
+						mostrarError(data.error || 'No se encontró el destinatario.');
 						return;
 					}
 					
 					if (data.data.origen === 'no_disponible') {
-						//-- Servicio no disponible: permitir carga manual
+						//-- Fallback manual
 						inputCuit.value = '';
 						inputNombre.value = '';
-						inputCbu.value = cvu; 
+						inputCbu.value = esCvu ? valor : ''; 
 						
-						//-- Desbloquear campos
 						inputCuit.readOnly = false;
 						inputNombre.readOnly = false;
 						
-						//-- Mostrar alerta
 						alertaFallback.classList.remove('d-none');
-						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> No pudimos validar la CVU automáticamente. Por favor, ingrese el CUIT y el Nombre manualmente.";
+						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> No pudimos validar la cuenta automáticamente. Por favor, ingrese el CUIT, el Nombre y el CVU/CBU manualmente.";
 						
 						validarBoton(); 
 						return;
 					}
 					
-					//-- Éxito normal: llenar campos
+					//-- Éxito
 					alertaFallback.classList.add('d-none');
 					inputCuit.readOnly = true;
 					inputNombre.readOnly = true;
 					
 					inputCuit.value = data.data.cuit || '';
 					inputNombre.value = data.data.nombre || '';
-					inputCbu.value = data.data.cvu || cvu;
+					inputCbu.value = data.data.cvu || valor;
 					
 					validarBoton();
 					
 				} catch (error) {
 					console.error(error);
-					mostrarError("Error de red al buscar la CVU.");
+					mostrarError("Error de red al buscar el destinatario.");
+				} finally {
+					this.classList.remove('is-loading');
 				}
 			});
 			

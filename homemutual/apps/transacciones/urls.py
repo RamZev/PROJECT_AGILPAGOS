@@ -16,4 +16,5 @@ urlpatterns = [
     path('api/cvus-propias/', api_views.api_cvus_propias, name='api_cvus_propias'),
     path('api/buscar-destinatario/', api_views.api_buscar_destinatario, name='api_buscar_destinatario'),
     path('api/solicitar-transferencia/', api_views.api_solicitar_transferencia, name='api_solicitar_transferencia'),
+	path('api/buscar-por-alias/', api_views.api_buscar_por_alias, name='api_buscar_por_alias'),
 ]

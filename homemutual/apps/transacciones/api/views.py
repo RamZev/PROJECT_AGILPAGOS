@@ -8,7 +8,6 @@ escribe en cashout_request, cashout_response, movimiento, etc.
 """
 import json
 import logging
-
 import httpx
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET, require_POST
@@ -150,11 +149,10 @@ def api_buscar_por_alias(request):
 	Query param: ?alias=mi.alias.cvu
 	"""
 	alias = request.GET.get('alias', '').strip()
-	if not alias:
-		return _error_response("El alias no puede estar vacío.", status=400)
+	if not alias or len(alias) < 3:
+		return _error_response("El alias debe tener al menos 3 caracteres.", status=400)
 	
 	try:
-		#-- Endpoint de Agilpagos (8.2) a través de la API Intermedia.
 		response = agilpagos_get(request, f"/consulta/cvu/alias/{alias}")
 		response.raise_for_status()
 		return JsonResponse({"success": True, "data": response.json()})
