@@ -139,6 +139,28 @@ class TransferenciaForm(forms.Form):
 		#-- Cargar CVUs del socio (para el select inicial).
 		self._cargar_cvus_del_usuario()
 	
+	def clean(self):
+		cleaned_data = super().clean()
+		
+		cbu_credito = cleaned_data.get('cbu_credito')
+		cuit_credito = cleaned_data.get('cuit_credito')
+		
+		#-- Validar que la CVU destino esté presente y tenga 22 dígitos
+		if cbu_credito:
+			if not cbu_credito.isdigit() or len(cbu_credito) != 22:
+				self.add_error('cbu_credito', 'El CVU/CBU debe tener exactamente 22 dígitos numéricos.')
+		else:
+			self.add_error('cbu_credito', 'El CVU/CBU destino es obligatorio.')
+		
+		#-- Validar que el CUIT esté presente y tenga 11 dígitos
+		if cuit_credito:
+			if not cuit_credito.isdigit() or len(cuit_credito) != 11:
+				self.add_error('cuit_credito', 'El CUIT debe tener exactamente 11 dígitos numéricos.')
+		else:
+			self.add_error('cuit_credito', 'El CUIT es obligatorio.')
+		
+		return cleaned_data
+	
 	# ========================================================================
 	# CARGA DE CVUs DEL SOCIO
 	# ========================================================================

@@ -133,6 +133,15 @@
 													</div>
 												</div>
 												
+												<!-- Fila 4: Alerta de fallback COELSA -->
+												<div class="row mt-2">
+													<div class="col-md-12">
+														<div id="alerta-fallback" class="alert alert-warning d-none" role="alert">
+															<!-- Aquí se inyecta el mensaje de fallback -->
+														</div>
+													</div>
+												</div>
+												
 											</div>
 										</div>
 									</div>
@@ -373,17 +382,18 @@
 				const inputCuit = document.getElementById('id_cuit_credito');
 				const inputNombre = document.getElementById('id_nombre_credito');
 				const inputCbu = document.getElementById('id_cbu_credito');
+				const alertaFallback = document.getElementById('alerta-fallback');
 				
-				// Limpiar si no es válido
 				if (cvu.length !== 22) {
 					inputCuit.value = '';
 					inputNombre.value = '';
 					inputCbu.value = '';
+					inputCuit.readOnly = false;
+					inputNombre.readOnly = false;
+					alertaFallback.classList.add('d-none');
+					validarBoton();
 					return;
 				}
-				
-				// UI: Loading (puedes agregar un spinner visual)
-				this.classList.add('is-loading');
 				
 				try {
 					const res = await fetch(`/transacciones/api/buscar-destinatario/?cvu=${cvu}`);
@@ -391,22 +401,41 @@
 					
 					if (!data.success) {
 						mostrarError(data.error || 'No se encontró la CVU destino.');
-						inputCuit.value = '';
-						inputNombre.value = '';
-						inputCbu.value = '';
 						return;
 					}
 					
-					// Rellenar readonly
-					inputCuit.value = data.data.cuit;
-					inputNombre.value = data.data.nombre;
-					inputCbu.value = data.data.cvu;
+					if (data.data.origen === 'no_disponible') {
+						//-- Servicio no disponible: permitir carga manual
+						inputCuit.value = '';
+						inputNombre.value = '';
+						inputCbu.value = cvu; 
+						
+						//-- Desbloquear campos
+						inputCuit.readOnly = false;
+						inputNombre.readOnly = false;
+						
+						//-- Mostrar alerta
+						alertaFallback.classList.remove('d-none');
+						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> No pudimos validar la CVU automáticamente. Por favor, ingrese el CUIT y el Nombre manualmente.";
+						
+						validarBoton(); 
+						return;
+					}
+					
+					//-- Éxito normal: llenar campos
+					alertaFallback.classList.add('d-none');
+					inputCuit.readOnly = true;
+					inputNombre.readOnly = true;
+					
+					inputCuit.value = data.data.cuit || '';
+					inputNombre.value = data.data.nombre || '';
+					inputCbu.value = data.data.cvu || cvu;
+					
+					validarBoton();
 					
 				} catch (error) {
 					console.error(error);
-					mostrarError("Error al buscar la CVU destino.");
-				} finally {
-					this.classList.remove('is-loading');
+					mostrarError("Error de red al buscar la CVU.");
 				}
 			});
 			
@@ -461,15 +490,17 @@
 				}
 			}
 			
-			// Validar que todos los campos requeridos estén llenos para habilitar el botón
+			// ============================================================
+			// VALIDAR BOTÓN
+			// ============================================================
 			function validarBoton() {
 				const cvuDebito = selectCvu.value;
 				const cbuCredito = document.getElementById('id_cbu_credito').value;
+				const cuitCredito = document.getElementById('id_cuit_credito').value;
 				const importe = parseFloat(inputImporte.value) || 0;
 				const concepto = document.getElementById('id_id_concepto').value;
 				
-				// Habilitar si: cvu origen, cvu destino (readonly), importe > 0, concepto.
-				if (cvuDebito && cbuCredito && importe > 0 && concepto) {
+				if (cvuDebito && cbuCredito && cuitCredito && importe > 0 && concepto) {
 					btnTransferir.disabled = false;
 				} else {
 					btnTransferir.disabled = true;
@@ -485,11 +516,47 @@
 			form.addEventListener('submit', async function(e) {
 				e.preventDefault();
 				
+				// -- Validación en Frontend (para inyectar en el Modal) --
+				let errores = [];
+				const cbu = document.getElementById('id_cbu_credito').value;
+				const cuit = document.getElementById('id_cuit_credito').value;
+				const importe = parseFloat(inputImporte.value) || 0;
+				
+				if (!cbu || cbu.length !== 22) {
+					errores.push("El CVU/CBU destino debe tener 22 dígitos.");
+				}
+				if (!cuit || cuit.length !== 11) {
+					errores.push("El CUIT del beneficiario debe tener 11 dígitos.");
+				}
+				if (importe <= 0) {
+					errores.push("El importe debe ser mayor a 0.");
+				}
+				
+				if (errores.length > 0) {
+					const modalBody = document.querySelector('#errorModal .modal-body');
+					const prev = document.getElementById('js-injected-error');
+					if (prev) prev.remove();
+					
+					const div = document.createElement('div');
+					div.id = 'js-injected-error';
+					div.className = 'mb-3';
+					
+					let html = `<h6 class="text-dark mb-2"><i class="bi bi-exclamation-triangle me-1"></i> Errores de validación</h6><ul class="list-unstyled ms-3">`;
+					errores.forEach(err => {
+						html += `<li class="text-danger"><i class="bi bi-arrow-return-right me-1 text-muted"></i>${err}</li>`;
+					});
+					html += `</ul>`;
+					
+					div.innerHTML = html;
+					modalBody.insertBefore(div, modalBody.firstChild);
+					errorModal.show();
+					return;
+				}
+				
 				btnTransferir.disabled = true;
 				const originalText = btnTransferir.innerHTML;
 				btnTransferir.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
 				
-				// Armar payload
 				const payload = {
 					cvuDebito: selectCvu.value,
 					cbuCredito: document.getElementById('id_cbu_credito').value,
@@ -521,13 +588,11 @@
 						return;
 					}
 					
-					// Éxito
 					const estado = data.data.estadoDebito?.descripcion || 'Procesado';
 					const idCoelsa = data.data.idCoelsa ? ` (Ref: ${data.data.idCoelsa})` : '';
 					
 					let mensaje = `La transferencia fue procesada con estado: <strong>${estado}</strong>${idCoelsa}.`;
 					
-					// Si está pendiente, avisar
 					if (estado !== 'Procesado' && estado !== 'Informado Al Banco Con Error') {
 						mensaje += `<br><br><span class="text-warning"><i class="bi bi-exclamation-triangle"></i> El saldo quedará retenido hasta que la transacción se confirme.</span>`;
 					}
