@@ -238,12 +238,36 @@
 			const btnTransferir = document.getElementById('btnTransferir');
 			const selectCvu = document.getElementById('id_cvu_debito');
 			const inputBuscarCvu = document.getElementById('id_buscar_cvu_credito');
+			const inputCuitManual = document.getElementById('id_cuit_credito');
 			const selectAgenda = document.getElementById('id_agenda_destinatario_pk');
 			const inputImporte = document.getElementById('id_importe');
 			
 			// Instancias de modales
 			const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
 			const infoModal = new bootstrap.Modal(document.getElementById('infoModal'));
+			
+			// Escuchar cambios en el CUIT (para validación en tiempo real)
+			if (inputCuitManual) {
+				inputCuitManual.addEventListener('input', function() {
+					const cuit = this.value.replace(/\D/g, ''); // Solo números
+					this.value = cuit; // Limpiar caracteres no numéricos
+					
+					if (cuit.length === 11) {
+						if (!esCuitValido(cuit)) {
+							this.classList.add('is-invalid');
+							this.classList.add('border-danger');
+							// Podés usar una alerta flotante o el modal si querés ser más estricto
+						} else {
+							this.classList.remove('is-invalid');
+							this.classList.remove('border-danger');
+							this.classList.add('border-primary');
+						}
+					} else {
+						this.classList.remove('is-invalid', 'border-danger', 'border-primary');
+					}
+					validarBoton(); // Re-evaluar si el botón se habilita
+				});
+			}
 			
 			// ============================================================
 			// UTILS
@@ -510,6 +534,34 @@
 			}
 			
 			// ============================================================
+			// VALIDACIÓN DE CUIT (Algoritmo de Dígito Verificador)
+			// ============================================================
+			function calcularDigitoVerificador(cuitBase) {
+				const coeficientes = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2];
+				const cuitDigits = cuitBase.split('').map(Number);
+				let suma = 0;
+				for (let i = 0; i < 10; i++) {
+					suma += cuitDigits[i] * coeficientes[i];
+				}
+				const resto = suma % 11;
+				if (resto === 0) return 0;
+				if (resto === 1) return [2, 3].includes(cuitDigits[0]) ? 9 : 4;
+				return 11 - resto;
+			}
+			
+			function esCuitValido(cuit) {
+				const cuitStr = cuit.toString();
+				// 1. Validar que comience con los prefijos correctos y tenga 11 dígitos
+				if (!/^(20|23|24|25|26|27|30|33|34)\d{9}$/.test(cuitStr)) {
+					return false;
+				}
+				// 2. Validar dígito verificador
+				const cuitBase = cuitStr.slice(0, 10);
+				const digitoVerificador = parseInt(cuitStr.slice(10));
+				return digitoVerificador === calcularDigitoVerificador(cuitBase);
+			}
+			
+			// ============================================================
 			// VALIDAR BOTÓN
 			// ============================================================
 			function validarBoton() {
@@ -518,6 +570,9 @@
 				const cuitCredito = document.getElementById('id_cuit_credito').value;
 				const importe = parseFloat(inputImporte.value) || 0;
 				const concepto = document.getElementById('id_id_concepto').value;
+				
+				// Validar que el CUIT sea correcto
+				const cuitOk = cuitCredito.length === 11 && esCuitValido(cuitCredito);
 				
 				if (cvuDebito && cbuCredito && cuitCredito && importe > 0 && concepto) {
 					btnTransferir.disabled = false;
@@ -544,9 +599,11 @@
 				if (!cbu || cbu.length !== 22) {
 					errores.push("El CVU/CBU destino debe tener 22 dígitos.");
 				}
-				if (!cuit || cuit.length !== 11) {
-					errores.push("El CUIT del beneficiario debe tener 11 dígitos.");
-				}
+                if (!cuit || cuit.length !== 11) {
+                    errores.push("El CUIT del beneficiario debe tener 11 dígitos.");
+                } else if (!esCuitValido(cuit)) {
+                    errores.push("El CUIT ingresado no es válido (dígito verificador incorrecto).");
+                }
 				if (importe <= 0) {
 					errores.push("El importe debe ser mayor a 0.");
 				}

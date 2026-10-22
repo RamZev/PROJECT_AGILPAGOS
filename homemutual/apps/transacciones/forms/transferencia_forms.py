@@ -8,12 +8,14 @@ a la API Intermedia vía AJAX desde el template.
 La vista `TransferenciaCreateView` NO llama a `form.save()`.
 """
 from django import forms
+from django.core.exceptions import ValidationError
 
 from apps.maestros.models.socio_models import Socio
 from apps.maestros.models.cuenta_cvu_models import CuentaCvu
 from apps.maestros.models.agenda_destinatarios_models import AgendaDestinatario
 from apps.maestros.models.sg_catalogo_models import SgConceptoTransaccion
 from diseno_base.diseno_bootstrap import formclasstext, formclassselect
+from utils.validator.validaciones import validar_cuit
 
 
 class TransferenciaForm(forms.Form):
@@ -155,17 +157,23 @@ class TransferenciaForm(forms.Form):
 		cbu_credito = cleaned_data.get('cbu_credito')
 		cuit_credito = cleaned_data.get('cuit_credito')
 		
-		#-- Validar que la CVU destino esté presente y tenga 22 dígitos
+		#-- Validar que la CVU destino esté presente y tenga 22 dígitos.
 		if cbu_credito:
 			if not cbu_credito.isdigit() or len(cbu_credito) != 22:
 				self.add_error('cbu_credito', 'El CVU/CBU debe tener exactamente 22 dígitos numéricos.')
 		else:
 			self.add_error('cbu_credito', 'El CVU/CBU destino es obligatorio.')
 		
-		#-- Validar que el CUIT esté presente y tenga 11 dígitos
+		#-- Validar que el CUIT esté presente, tenga 11 dígitos y sea válido.
 		if cuit_credito:
 			if not cuit_credito.isdigit() or len(cuit_credito) != 11:
 				self.add_error('cuit_credito', 'El CUIT debe tener exactamente 11 dígitos numéricos.')
+			else:
+				try:
+					#-- Usamos tu función para validar el dígito verificador.
+					validar_cuit(cuit_credito)
+				except ValidationError as e:
+					self.add_error('cuit_credito', e.message)
 		else:
 			self.add_error('cuit_credito', 'El CUIT es obligatorio.')
 		
