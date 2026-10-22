@@ -397,7 +397,7 @@
 				
 				validarImporte();
 			});
-			
+			/*
 			// ============================================================
 			// EVENTO: BUSCAR DESTINATARIO (BLUR) - CVU O ALIAS
 			// ============================================================
@@ -471,6 +471,119 @@
 					inputCuit.value = data.data.cuit || '';
 					inputNombre.value = data.data.nombre || '';
 					inputCbu.value = data.data.cvu || valor;
+					
+					validarBoton();
+					
+				} catch (error) {
+					console.error(error);
+					mostrarError("Error de red al buscar el destinatario.");
+				} finally {
+					this.classList.remove('is-loading');
+				}
+			});
+			*/
+			// ============================================================
+			// EVENTO: BUSCAR DESTINATARIO (BLUR) - CVU O ALIAS
+			// ============================================================
+			inputBuscarCvu.addEventListener('blur', async function() {
+				let valor = this.value.trim();
+				const inputCuit = document.getElementById('id_cuit_credito');
+				const inputNombre = document.getElementById('id_nombre_credito');
+				const inputCbu = document.getElementById('id_cbu_credito');
+				const alertaFallback = document.getElementById('alerta-fallback');
+				
+				// -- NUEVO: Si el usuario escribe manualmente, limpiamos el combo de agenda
+				// (se volverá a seleccionar si es necesario o quedará vacío)
+				if (selectAgenda.value !== "") {
+					// Verificamos si lo que escribió es distinto al destinatario del combo actual
+					const agendaMap = {{ agenda_map_json|safe|default:"{}" }};
+					const dataAgenda = agendaMap[selectAgenda.value];
+					
+					// Si lo que escribió no es el CVU del combo seleccionado, vaciamos el combo
+					if (!dataAgenda || dataAgenda.cvu_o_cbu !== valor) {
+						selectAgenda.value = "";
+					}
+				}
+				
+				if (!valor) {
+					inputCuit.value = '';
+					inputNombre.value = '';
+					inputCbu.value = '';
+					inputCuit.readOnly = false;
+					inputNombre.readOnly = false;
+					alertaFallback.classList.add('d-none');
+					validarBoton();
+					return;
+				}
+				
+				// Detectar si es CVU (solo números) o Alias (texto)
+				const esCvu = /^\d+$/.test(valor);
+				let url = '';
+				
+				if (esCvu) {
+					if (valor.length !== 22) {
+						alertaFallback.classList.remove('d-none');
+						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> La CVU debe tener 22 dígitos.";
+						validarBoton();
+						return;
+					}
+					url = `/transacciones/api/buscar-destinatario/?cvu=${valor}`;
+				} else {
+					url = `/transacciones/api/buscar-por-alias/?alias=${encodeURIComponent(valor)}`;
+				}
+				
+				try {
+					this.classList.add('is-loading');
+					
+					const res = await fetch(url);
+					const data = await res.json();
+					
+					if (!data.success) {
+						mostrarError(data.error || 'No se encontró el destinatario.');
+						return;
+					}
+					
+					if (data.data.origen === 'no_disponible') {
+						//-- Fallback manual
+						inputCuit.value = '';
+						inputNombre.value = '';
+						inputCbu.value = esCvu ? valor : ''; 
+						
+						inputCuit.readOnly = false;
+						inputNombre.readOnly = false;
+						
+						alertaFallback.classList.remove('d-none');
+						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> No pudimos validar la cuenta automáticamente. Por favor, ingrese el CUIT, el Nombre y el CVU/CBU manualmente.";
+						
+						validarBoton(); 
+						return;
+					}
+					
+					//-- Éxito
+					alertaFallback.classList.add('d-none');
+					inputCuit.readOnly = true;
+					inputNombre.readOnly = true;
+					
+					inputCuit.value = data.data.cuit || '';
+					inputNombre.value = data.data.nombre || '';
+					inputCbu.value = data.data.cvu || valor;
+					
+					// -- NUEVO: Intentar seleccionar en el combo si está en la agenda.
+					// Buscamos en el mapa de la agenda para ver si este CVU pertenece a un destinatario guardado.
+					const agendaMapFinal = {{ agenda_map_json|safe|default:"{}" }};
+					let encontradoEnAgenda = false;
+					
+					for (const [pk, item] of Object.entries(agendaMapFinal)) {
+						if (item.cvu_o_cbu === inputCbu.value) {
+							selectAgenda.value = pk;
+							encontradoEnAgenda = true;
+							break;
+						}
+					}
+					
+					if (!encontradoEnAgenda) {
+						selectAgenda.value = ""; // Si no está en agenda, nos aseguramos que el combo quede vacío
+					}
 					
 					validarBoton();
 					
