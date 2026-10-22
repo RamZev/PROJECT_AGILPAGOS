@@ -1,11 +1,9 @@
 # homemutual/apps/transacciones/models/transacciones_models.py
 from django.db import models
-from django.core.exceptions import ValidationError
 
 from apps.maestros.models.sg_catalogo_models import (
 	SgEstadoTransaccion,
 	SgConceptoTransaccion,
-	SgTipoOperacionAviso,
 	SgTipoImpuesto,
 )
 from apps.maestros.models.cuenta_cvu_models import CuentaCvu
