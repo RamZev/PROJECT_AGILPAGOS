@@ -121,10 +121,10 @@ class SocioForm(CrudGenericForm):
             'numero_tramite_documento': forms.TextInput(attrs={**formclasstext}),
             'cuit': forms.TextInput(attrs={**formclasstext}),
 
-            'email': forms.EmailInput(attrs={**formclasstext}),
+            'email': forms.EmailInput(attrs={**formclasstext, 'autocomplete': 'new-password'}),
             'caracteristica_pais': forms.TextInput(attrs={**formclasstext}),
-            'codigo_area': forms.TextInput(attrs={**formclasstext}),
-            'numero_telefono': forms.TextInput(attrs={**formclasstext}),
+            'codigo_area': forms.TextInput(attrs={**formclasstext, 'autocomplete': 'new-password'}),
+            'numero_telefono': forms.TextInput(attrs={**formclasstext, 'autocomplete': 'new-password'}),
 
             'id_pais_domicilio': forms.TextInput(attrs={**formclasstext, 'readonly': True}),
             'localidad': forms.TextInput(attrs={**formclasstext}),

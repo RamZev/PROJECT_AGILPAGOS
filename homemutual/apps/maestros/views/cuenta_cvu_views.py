@@ -155,29 +155,41 @@ class CuentaCvuCreateView(StaffRequiredMixin, MaestroCreateView):
         print("=" * 60)
         print()
 
-        # 5. Procesar la respuesta
+                # 5. Procesar la respuesta
         if resp.status_code == 200:
             data = resp.json()
-            # Actualizar la CuentaCvu
-            cuenta_cvu.cvu = data.get('cvu') or cuenta_cvu.cvu
-            cuenta_cvu.alias = data.get('alias') or cuenta_cvu.alias
-            cuenta_cvu.id_usuario_entidad_lineas_cuentas = (
-                data.get('idUsuarioEntidadLineasCuentas')
-                or cuenta_cvu.id_usuario_entidad_lineas_cuentas
-            )
+            
+            # --- EXTRAER VARIABLES (Soportando snake_case y camelCase) ---
+            id_usuario = data.get('id_usuario') or data.get('idUsuario')
+            id_linea_cuentas = data.get('id_usuario_entidad_lineas_cuentas') or data.get('idUsuarioEntidadLineasCuentas')
+            cvu = data.get('cvu')
+            alias = data.get('alias')
+
+            # 1. Actualizar la CuentaCvu
+            cuenta_cvu.cvu = cvu or cuenta_cvu.cvu
+            cuenta_cvu.alias = alias or cuenta_cvu.alias
+            cuenta_cvu.id_usuario_entidad_lineas_cuentas = id_linea_cuentas or cuenta_cvu.id_usuario_entidad_lineas_cuentas
             cuenta_cvu.save()
 
-            # Actualizar el Socio con el idUsuario
-            id_usuario = data.get('idUsuario')
-            if id_usuario and not cuenta_cvu.id_socio.id_usuario_agilpagos:
-                socio = cuenta_cvu.id_socio
-                socio.id_usuario_agilpagos = id_usuario
-                socio.save(update_fields=['id_usuario_agilpagos'])
+            # 2. Actualizar el Socio con el idUsuario
+            if id_usuario:
+                from apps.maestros.models.socio_models import Socio
+                
+                actualizados = Socio.objects.filter(pk=cuenta_cvu.id_socio_id).update(
+                    id_usuario_agilpagos=id_usuario
+                )
+                
+                if actualizados > 0:
+                    print(f"✅ DEBUG: ID Usuario {id_usuario} guardado en el Socio {cuenta_cvu.id_socio_id}")
+                else:
+                    print(f"❌ DEBUG: Error al guardar en el Socio {cuenta_cvu.id_socio_id}")
+            else:
+                print("⚠️ DEBUG: La API no devolvió el ID de usuario.")
 
             messages.success(
                 self.request,
                 f"✅ Alta en Agilpagos OK. "
-                f"CVU: {data.get('cvu') or '-'}, Alias: {data.get('alias') or '-'}, "
+                f"CVU: {cvu or '-'}, Alias: {alias or '-'}, "
                 f"ID Usuario: {id_usuario or '-'}"
             )
         else:
