@@ -15,3 +15,5 @@ wheels/
 .venv
 
 .env
+
+ai_context.txt

@@ -397,91 +397,7 @@
 				
 				validarImporte();
 			});
-			/*
-			// ============================================================
-			// EVENTO: BUSCAR DESTINATARIO (BLUR) - CVU O ALIAS
-			// ============================================================
-			inputBuscarCvu.addEventListener('blur', async function() {
-				let valor = this.value.trim();
-				const inputCuit = document.getElementById('id_cuit_credito');
-				const inputNombre = document.getElementById('id_nombre_credito');
-				const inputCbu = document.getElementById('id_cbu_credito');
-				const alertaFallback = document.getElementById('alerta-fallback');
-				
-				if (!valor) {
-					inputCuit.value = '';
-					inputNombre.value = '';
-					inputCbu.value = '';
-					inputCuit.readOnly = false;
-					inputNombre.readOnly = false;
-					alertaFallback.classList.add('d-none');
-					validarBoton();
-					return;
-				}
-				
-				// Detectar si es CVU (solo números) o Alias (texto)
-				const esCvu = /^\d+$/.test(valor);
-				let url = '';
-				
-				if (esCvu) {
-					if (valor.length !== 22) {
-						alertaFallback.classList.remove('d-none');
-						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> La CVU debe tener 22 dígitos.";
-						validarBoton();
-						return;
-					}
-					url = `/transacciones/api/buscar-destinatario/?cvu=${valor}`;
-				} else {
-					url = `/transacciones/api/buscar-por-alias/?alias=${encodeURIComponent(valor)}`;
-				}
-				
-				try {
-					// Mostrar indicador de carga (opcional)
-					this.classList.add('is-loading');
-					
-					const res = await fetch(url);
-					const data = await res.json();
-					
-					if (!data.success) {
-						mostrarError(data.error || 'No se encontró el destinatario.');
-						return;
-					}
-					
-					if (data.data.origen === 'no_disponible') {
-						//-- Fallback manual
-						inputCuit.value = '';
-						inputNombre.value = '';
-						inputCbu.value = esCvu ? valor : ''; 
-						
-						inputCuit.readOnly = false;
-						inputNombre.readOnly = false;
-						
-						alertaFallback.classList.remove('d-none');
-						alertaFallback.innerHTML = "<i class='bi bi-exclamation-triangle me-1'></i> No pudimos validar la cuenta automáticamente. Por favor, ingrese el CUIT, el Nombre y el CVU/CBU manualmente.";
-						
-						validarBoton(); 
-						return;
-					}
-					
-					//-- Éxito
-					alertaFallback.classList.add('d-none');
-					inputCuit.readOnly = true;
-					inputNombre.readOnly = true;
-					
-					inputCuit.value = data.data.cuit || '';
-					inputNombre.value = data.data.nombre || '';
-					inputCbu.value = data.data.cvu || valor;
-					
-					validarBoton();
-					
-				} catch (error) {
-					console.error(error);
-					mostrarError("Error de red al buscar el destinatario.");
-				} finally {
-					this.classList.remove('is-loading');
-				}
-			});
-			*/
+			
 			// ============================================================
 			// EVENTO: BUSCAR DESTINATARIO (BLUR) - CVU O ALIAS
 			// ============================================================
@@ -780,9 +696,10 @@
 					
 					// Si llegamos acá, la transferencia fue un éxito.
 					const estado = data.data.estadoDebito?.descripcion || 'Procesado';
-					const idCoelsa = data.data.idCoelsa ? ` (Ref: ${data.data.idCoelsa})` : '';
+					//const idCoelsa = data.data.idCoelsa ? ` (Ref: ${data.data.idCoelsa})` : '';
 					
-					let mensaje = `La transferencia fue procesada con estado: <strong>${estado}</strong>${idCoelsa}.`;
+					//let mensaje = `La transferencia fue procesada con estado: <strong>${estado}</strong>${idCoelsa}.`;
+					let mensaje = `La transferencia fue procesada con estado: <strong>${estado}</strong>.`;
 					
 					if (estado !== 'Procesado' && estado !== 'Informado Al Banco Con Error') {
 						mensaje += `<br><br><span class="text-warning"><i class="bi bi-exclamation-triangle"></i> El saldo quedará retenido hasta que la transacción se confirme.</span>`;

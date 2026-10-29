@@ -17,7 +17,7 @@ from entorno.constantes_base import TIPO_MOVIMIENTO_CHOICES
 # Tabla única donde se asientan todos los movimientos que afectan el saldo
 # de una CVU: CASH_OUT, CASH_IN, REVERSA, IMPUESTO, AJUSTE.
 #
-# El eje de agrupación de una transacción completa es id_transaccion_entidad
+# El eje de agrupación de una transacción completa es id_transaccion
 # (UUID v7 generado por la API Intermedia). Todos los movimientos derivados
 # de una misma solicitud comparten ese valor.
 # ============================================================================
@@ -27,7 +27,7 @@ class Movimiento(models.Model):
 	)
 	
 	#-- Eje de la transacción (UUID v7 generado por la API Intermedia).
-	id_transaccion_entidad = models.UUIDField(
+	id_transaccion = models.UUIDField(
 		db_index=True,
 		help_text="UUID v7 generado por la API Intermedia. Agrupa todos los "
 				"movimientos de una misma transacción.",
@@ -128,7 +128,7 @@ class Movimiento(models.Model):
 		verbose_name_plural = "Movimientos"
 		ordering = ["-fecha"]
 		indexes = [
-			models.Index(fields=["id_transaccion_entidad"], name="ix_mov_trx_entidad"),
+			models.Index(fields=["id_transaccion"], name="ix_mov_trx_entidad"),
 			models.Index(fields=["numero_cuenta_entidad"], name="ix_mov_nro_cta"),
 			models.Index(fields=["fecha"], name="ix_mov_fecha"),
 			models.Index(fields=["tipo_movimiento"], name="ix_mov_tipo"),
@@ -351,7 +351,7 @@ class MovimientoImpuesto(models.Model):
 	)
 	
 	#-- Eje de la transacción (mismo que el CashoutRequest).
-	id_transaccion_entidad = models.UUIDField(
+	id_transaccion = models.UUIDField(
 		db_index=True,
 		help_text="UUID v7 de la transacción originante (CashoutRequest).",
 	)
@@ -388,7 +388,7 @@ class MovimientoImpuesto(models.Model):
 			),
 		]
 		indexes = [
-			models.Index(fields=["id_transaccion_entidad"], name="ix_movimp_trx"),
+			models.Index(fields=["id_transaccion"], name="ix_movimp_trx"),
 		]
 	
 	def __str__(self):
