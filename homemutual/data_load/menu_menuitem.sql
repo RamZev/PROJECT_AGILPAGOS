@@ -6,7 +6,15 @@ INSERT INTO "menu_menuitem" VALUES (5,'Estado Civil','sg_estado_civil_list','','
 INSERT INTO "menu_menuitem" VALUES (6,'Condición Fiscal','sg_condicion_fiscal_list','','',0,3,3,NULL);
 INSERT INTO "menu_menuitem" VALUES (7,'Ocupaciones','sg_ocupacion_list','','',0,2,3,NULL);
 INSERT INTO "menu_menuitem" VALUES (8,'Motivos PEP','sg_motivo_pep_list','','',0,1,3,NULL);
-INSERT INTO "menu_menuitem" VALUES (9,'Esatdos de la Transacción','sg_estado_transaccion_list','','',0,0,3,NULL);
+INSERT INTO "menu_menuitem" VALUES (9,'Estados de la Transacción','sg_estado_transaccion_list','','',0,0,3,NULL);
 INSERT INTO "menu_menuitem" VALUES (10,'Socios','socio_list','','',0,2,1,NULL);
 INSERT INTO "menu_menuitem" VALUES (11,'Cuentas CVU','cuenta_cvu_list','','',0,3,1,NULL);
+INSERT INTO "menu_menuitem" VALUES (12,'Transferencias','transferencia_list','','',0,0,4,NULL);
+INSERT INTO "menu_menuitem" VALUES (13,'Conceptos de Transacciones','sg_concepto_transaccion_list','','',0,1,5,NULL);
+INSERT INTO "menu_menuitem" VALUES (14,'Tipos de Impuesto','sg_tipo_impuesto_list','','',0,2,5,NULL);
+INSERT INTO "menu_menuitem" VALUES (15,'Tipo de Operación Aviso','sg_tipo_operacion_aviso_list','','',0,3,5,NULL);
+INSERT INTO "menu_menuitem" VALUES (16,'Tipo Cuenta Mutual','sg_tipo_cuenta_mutual_list','','',0,4,5,NULL);
+INSERT INTO "menu_menuitem" VALUES (17,'Constantes Agilpagos','sg_constante_agilpagos_list','','',0,5,5,NULL);
+INSERT INTO "menu_menuitem" VALUES (18,'Ambiente Agilpagos','sg_ambiente_agilpagos_list','','',0,6,5,NULL);
+INSERT INTO "menu_menuitem" VALUES (19,'Consulta CVU por CUIT','consulta_cvu_por_cuit','','',0,0,2,NULL);
 COMMIT;

@@ -95,11 +95,22 @@ WSGI_APPLICATION = 'homemutual.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+# 		'NAME': path.join(BASE_DIR, 'data', 'homemutual.db'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': path.join(BASE_DIR, 'data', 'homemutual.db'),
-    }
+	'default': {
+		'ENGINE': getenv('DB_ENGINE'),
+		'NAME': getenv('DB_NAME'),
+		'USER': getenv('DB_USER'),
+		'PASSWORD': getenv('DB_PASSWORD'),
+		'HOST': getenv('DB_HOST'),
+		'PORT': getenv('DB_PORT'),
+	}
 }
 
 
