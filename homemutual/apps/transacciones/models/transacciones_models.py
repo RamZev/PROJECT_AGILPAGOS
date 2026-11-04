@@ -5,6 +5,7 @@ from apps.maestros.models.sg_catalogo_models import (
 	SgEstadoTransaccion,
 	SgConceptoTransaccion,
 	SgTipoImpuesto,
+	SgTipoOperacionAviso,
 )
 from apps.maestros.models.cuenta_cvu_models import CuentaCvu
 from apps.maestros.models.socio_models import Socio
@@ -117,7 +118,7 @@ class Movimiento(models.Model):
 	)
 	
 	observaciones = models.CharField(
-		max_length=255,
+		max_length=100,
 		blank=True,
 		default="",
 	)
@@ -215,11 +216,11 @@ class CashoutRequest(models.Model):
 	)
 	# Obligatorio
 	descripcion = models.CharField(
-		max_length=50
+		max_length=100
 	)
 	# Obligatorio
 	observaciones = models.CharField(
-		max_length=50,
+		max_length=100,
 		blank=True,
 		default="",
 	)
@@ -336,6 +337,175 @@ class CashoutResponse(models.Model):
 	
 	def __str__(self):
 		return f"CashoutResponse {self.id_transaccion_entidad}"
+
+
+# ============================================================================
+# CASHIN NOTIFICATION
+# ----------------------------------------------------------------------------
+# Notificación entrante de Agilpagos (crédito externo o reversa de crédito).
+#
+# Igual que CashoutRequest/CashoutResponse, el vínculo con la tabla
+# `movimiento` (y con `movimiento_impuesto`) NO es por FK directa, sino
+# por el `id_transaccion` (el ID del origen de la transacción).
+#
+# Una sola CashinNotification puede generar:
+#   - 1 Movimiento de tipo CASH_IN o REVERSA
+#   - 0, 1 o N Movimiento de tipo IMPUESTO (uno por impuesto)
+# Todos comparten el mismo `id_transaccion`.
+# ============================================================================
+class CashinNotification(models.Model):
+	id_cashin_notification = models.BigAutoField(
+		primary_key=True
+	)
+	#-- 1. Identificadores del payload.
+	id_transaccion = models.UUIDField(
+		db_index=True,
+		unique=True,   # ← una sola notificación por idTransaccion (idempotencia)
+		help_text="idTransaccion del payload. ID único de la transacción en Agilpagos.",
+	)
+	id_transaccion_anulada = models.UUIDField(
+		null=True,
+		blank=True,
+		db_index=True,
+		help_text="idTransaccionAnulada. Solo en reversas.",
+	)
+	id_transaccion_originante = models.UUIDField(
+		null=True,
+		blank=True,
+		help_text="idTransaccionOriginante. Solo en algunos casos.",
+	)
+	id_transaccion_entidad = models.UUIDField(
+		null=True,
+		blank=True,
+		help_text="idTransaccionEntidad. Solo si la transacción nace en la mutual.",
+	)
+	id_entidad = models.UUIDField(
+		help_text="idEntidad del payload.",
+	)
+	id_tipo_transaccion = models.SmallIntegerField(
+		help_text="idTipoTransaccion: 1=Débito 2=Crédito 3=Reversa débito 4=Reversa crédito.",
+	)
+	id_web_operacion = models.ForeignKey(
+		SgTipoOperacionAviso,
+		on_delete=models.PROTECT,
+		db_column="id_web_operacion",
+		help_text="idWebOperacion. Tipo de operación del aviso (Transferencias, QR).",
+	)
+	#-- 2. Importes y moneda.
+	importe = models.DecimalField(
+		max_digits=15,
+		decimal_places=2,
+		help_text="Importe original operado.",
+	)
+	total = models.DecimalField(
+		max_digits=15,
+		decimal_places=2,
+		help_text="Importe neto luego de impuestos aplicados.",
+	)
+	id_moneda = models.SmallIntegerField(
+		default=1,
+		help_text="idMoneda: 1 = Pesos Argentinos.",
+	)
+	#-- 3. Fechas.
+	fecha_operacion = models.DateTimeField(
+		help_text="fechaOperacion. Fecha en que se realizó la operación.",
+	)
+	fecha_contable = models.DateTimeField(
+		null=True,
+		blank=True,
+		help_text="fechaContable. Fecha contable bancaria.",
+	)
+	#-- 4. Cuenta destino (CVU).
+	numero_cuenta = models.CharField(
+		max_length=30,
+		db_index=True,
+		help_text="numeroCuenta. = numero_cuenta_entidad de la CVU destino.",
+	)
+	cvu = models.CharField(
+		max_length=22,
+		db_index=True,
+		help_text="CVU de la cuenta destino (donde se acredita el importe).",
+	)
+	cuenta_bloqueada = models.BooleanField(
+		default=False,
+		help_text="cuentaBloqueada del payload.",
+	)
+	id_coelsa = models.CharField(
+		max_length=60,
+		null=True,
+		blank=True,
+		db_index=True,
+		help_text="idCoelsa. Referencia interbancaria de la operación.",
+	)
+	#-- 5. Contraparte (banco/CVU origen).
+	cuenta_contraparte = models.CharField(
+		max_length=30,
+		null=True,
+		blank=True,
+		help_text="transaccionCuentaContraparte.cuentaContraparte.",
+	)
+	cuit_contraparte = models.BigIntegerField(
+		null=True,
+		blank=True,
+		help_text="transaccionCuentaContraparte.cuitContraparte.",
+	)
+	titular_contraparte = models.CharField(
+		max_length=100,
+		null=True,
+		blank=True,
+		help_text="transaccionCuentaContraparte.titularContraparte.",
+	)
+	#-- 6. Observaciones.
+	observaciones = models.CharField(
+		max_length=255,
+		null=True,
+		blank=True,
+		help_text="observaciones del payload.",
+	)
+	#-- 7. Payload completo (JSON) para trazabilidad total.
+	payload = models.JSONField(
+		help_text="Payload crudo completo tal cual llegó de Agilpagos.",
+	)
+	#-- 8. Metadata.
+	recibido_at = models.DateTimeField(
+		auto_now_add=True,
+		help_text="Momento en que la API Externa recibió la notificación.",
+	)
+	
+	class Meta:
+		db_table = "cashin_notification"
+		verbose_name = "Cashin Notification"
+		verbose_name_plural = "Cashin Notifications"
+		ordering = ["-recibido_at"]
+		indexes = [
+			models.Index(
+				fields=["id_transaccion"],
+				name="ix_cashin_notif_trx",
+			),
+			models.Index(
+				fields=["id_transaccion_anulada"],
+				name="ix_cashin_notif_trx_anulada",
+			),
+			models.Index(
+				fields=["id_coelsa"],
+				name="ix_cashin_notif_coelsa",
+			),
+			models.Index(
+				fields=["numero_cuenta"],
+				name="ix_cashin_notif_nro_cta",
+			),
+			models.Index(
+				fields=["recibido_at"],
+				name="ix_cashin_notif_fecha",
+			),
+		]
+	
+	def __str__(self):
+		return (
+			f"CashinNotification {self.id_transaccion} "
+			f"(tipo={self.id_tipo_transaccion}, "
+			f"importe=${self.importe}, total=${self.total})"
+		)
 
 
 # ============================================================================
