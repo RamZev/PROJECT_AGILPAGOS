@@ -4,6 +4,7 @@ from django.urls import path
 from .views.transferencia_views import (
 	TransferenciaListView,
 	TransferenciaCreateView,
+	api_movimientos_cvu,
 )
 from .api import views as api_views
 
@@ -11,6 +12,7 @@ from .api import views as api_views
 urlpatterns = [
 	path('transferencia/', TransferenciaListView.as_view(), name='transferencia_list'),
 	path('transferencia/nueva/', TransferenciaCreateView.as_view(), name='transferencia_create'),
+	path('api/movimientos/', api_movimientos_cvu, name='api_movimientos_cvu'),
 	
     #-- Endpoints JSON (proxy a la API Intermedia).
     path('api/cvus-propias/', api_views.api_cvus_propias, name='api_cvus_propias'),

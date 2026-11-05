@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Transferencias - Mis Cuentas{% endblock %}
+
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock %}
+
+{% block main %}
+	{% block sidebar %}
+		{% if user.is_authenticated %}
+			{% include 'sidebar.html' %}
+		{% endif %}
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid">
+					
+					<!-- SECCIÓN SUPERIOR: CVUs -->
+					<div class="card border-secondary mb-3 mt-2">
+						<div class="card-header bg-primary bg-opacity-25 text-dark d-flex justify-content-between p-1">
+							<h4>Mis Cuentas (CVUs)</h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-hover" id="tabla-cvus">
+									<thead class="table-primary">
+										<tr>
+											<th>CVU - Alias</th>
+											<th>Cta. Asociada</th>
+											<th class="text-end">Saldo</th>
+											<th class="text-end">Retenido</th>
+											<th class="text-end">Disponible</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-cvus">
+										<tr><td colspan="5" class="text-center">Cargando cuentas...</td></tr>
+									</tbody>
+									<tfoot class="table-secondary fw-bold">
+										<tr>
+											<td colspan="2" class="text-end">Saldos Totales:</td>
+											<td class="text-end" id="total-saldo">$0,00</td>
+											<td class="text-end" id="total-retenido">$0,00</td>
+											<td class="text-end" id="total-disponible">$0,00</td>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<!-- SECCIÓN INFERIOR: Movimientos -->
+					<div class="card border-secondary mb-3">
+						<div class="card-header bg-primary bg-opacity-25 text-dark p-1">
+							<h4>Movimientos de la Cuenta</h4>
+						</div>
+						<div class="card-body">
+							<!-- Filtros -->
+							<div class="row mb-3 align-items-end">
+								<div class="col-md-2">
+									<label class="form-label">Mes</label>
+									<select class="form-select" id="filtro-mes">
+										{% for m in meses %}
+											<option value="{{ m.0 }}" {% if m.0 == mes_actual %}selected{% endif %}>{{ m.1 }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-md-2">
+									<label class="form-label">Año</label>
+									<select class="form-select" id="filtro-anio">
+										{% for a in anios %}
+											<option value="{{ a }}" {% if a == anio_actual %}selected{% endif %}>{{ a }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="col-md-6">
+									<label class="form-label">Buscar</label>
+									<div class="input-group">
+										<input type="text" class="form-control" id="filtro-busqueda" placeholder="Buscar por tipo o descripción...">
+										<button class="btn btn-outline-secondary" type="button" id="btn-buscar">🔍</button>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<label class="form-label">CVU Seleccionada</label>
+									<input type="text" class="form-control" id="cvu-seleccionada" readonly value="">
+								</div>
+							</div>
+							
+							<!-- Tabla Movimientos -->
+							<div class="table-responsive">
+								<table class="table table-bordered table-striped table-hover" id="tabla-movimientos">
+									<thead class="table-primary">
+										<tr>
+											<th>Fecha</th>
+											<th>Tipo</th>
+											<th>Descripción</th>
+											<th class="text-end">Importe</th>
+											<th>Estado</th>
+										</tr>
+									</thead>
+									<tbody id="tbody-movimientos">
+										<tr><td colspan="5" class="text-center text-muted">Seleccione una CVU para ver sus movimientos</td></tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					
+					<!-- Botones Inferiores -->
+					<div class="d-flex gap-2 mb-4">
+						<a href="{% url 'transferencia_create' %}" class="btn btn-primary px-4">Nueva Transferencia</a>
+						<a href="{% url 'home' %}" class="btn btn-secondary px-4">Cerrar</a>
+					</div>
+					
+				</div>
+			</main>
+		</div>
+	{% endblock maincomponent %}
+{% endblock main %}
+
+{% block script %}
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		let cvusData = []; // Almacenar datos de CVUs
+		
+		// Formateador de moneda
+		const formatter = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' });
+		
+		// 1. Cargar CVUs desde la API Intermedia
+		async function cargarCvus() {
+			try {
+				const response = await fetch('/transacciones/api/cvus-propias/'); // Endpoint proxy que ya tienes
+				const res = await response.json();
+				
+				if (res.success && res.data) {
+					cvusData = res.data;
+					renderCvus(cvusData);
+				} else {
+					document.getElementById('tbody-cvus').innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error al cargar CVUs: ${res.error || 'Desconocido'}</td></tr>`;
+				}
+			} catch (error) {
+				console.error(error);
+				document.getElementById('tbody-cvus').innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error de red al cargar CVUs.</td></tr>`;
+			}
+		}
+		
+		// 2. Renderizar tabla de CVUs
+		function renderCvus(cvus) {
+			const tbody = document.getElementById('tbody-cvus');
+			tbody.innerHTML = '';
+			
+			let totalSaldo = 0;
+			let totalRetenido = 0;
+			let totalDisponible = 0;
+			
+			cvus.forEach(cvu => {
+				totalSaldo += parseFloat(cvu.saldo);
+				totalRetenido += parseFloat(cvu.saldo_retenido);
+				totalDisponible += parseFloat(cvu.saldo_disponible);
+				
+				const fila = document.createElement('tr');
+				fila.style.cursor = 'pointer';
+				// Al hacer clic, seleccionamos la CVU
+				fila.onclick = () => seleccionarCvu(cvu, fila);
+				
+				// Resaltar si es favorita
+				if (cvu.favorita) {
+					fila.classList.add('table-warning'); // O un color que prefieras
+				}
+				
+				fila.innerHTML = `
+					<td><strong>${cvu.cvu}</strong> - ${cvu.alias || 'Sin alias'}</td>
+					<td>${cvu.numero_cuenta_entidad}</td>
+					<td class="text-end">${formatter.format(cvu.saldo)}</td>
+					<td class="text-end">${formatter.format(cvu.saldo_retenido)}</td>
+					<td class="text-end fw-bold text-success">${formatter.format(cvu.saldo_disponible)}</td>
+				`;
+				tbody.appendChild(fila);
+			});
+			
+			// Actualizar totales
+			document.getElementById('total-saldo').innerText = formatter.format(totalSaldo);
+			document.getElementById('total-retenido').innerText = formatter.format(totalRetenido);
+			document.getElementById('total-disponible').innerText = formatter.format(totalDisponible);
+			
+			// Auto-seleccionar la primera CVU (la favorita)
+			if (cvus.length > 0) {
+				const primerFila = tbody.querySelector('tr');
+				seleccionarCvu(cvus[0], primerFila);
+			}
+		}
+		
+		// 3. Seleccionar CVU y cargar movimientos
+		let cvuActiva = null;
+		
+		function seleccionarCvu(cvu, fila) {
+			// Remover selección previa
+			document.querySelectorAll('#tbody-cvus tr').forEach(tr => tr.classList.remove('table-active'));
+			fila.classList.add('table-active');
+			
+			cvuActiva = cvu;
+			document.getElementById('cvu-seleccionada').value = cvu.cvu;
+			
+			cargarMovimientos();
+		}
+		
+		// 4. Cargar Movimientos (llamando a la API de Django)
+		async function cargarMovimientos() {
+			if (!cvuActiva) return;
+			
+			const mes = document.getElementById('filtro-mes').value;
+			const anio = document.getElementById('filtro-anio').value;
+			const busqueda = document.getElementById('filtro-busqueda').value;
+			
+			const tbody = document.getElementById('tbody-movimientos');
+			tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Cargando movimientos...</td></tr>`;
+			
+			try {
+				const url = `/transacciones/api/movimientos/?cvu=${cvuActiva.cvu}&mes=${mes}&anio=${anio}&busqueda=${encodeURIComponent(busqueda)}`;
+				const response = await fetch(url);
+				const res = await response.json();
+				
+				if (res.success) {
+					renderMovimientos(res.data);
+				} else {
+					tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error: ${res.error}</td></tr>`;
+				}
+			} catch (error) {
+				console.error(error);
+				tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Error de red.</td></tr>`;
+			}
+		}
+		
+		// 5. Renderizar Movimientos
+		function renderMovimientos(movs) {
+			const tbody = document.getElementById('tbody-movimientos');
+			tbody.innerHTML = '';
+			
+			if (movs.length === 0) {
+				tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No hay movimientos en este período.</td></tr>`;
+				return;
+			}
+			
+			movs.forEach(m => {
+				// Determinar color según tipo
+				let colorClass = '';
+				if (m.tipo === 'CASH_IN' || m.tipo === 'REVERSA') colorClass = 'text-success';
+				if (m.tipo === 'CASH_OUT' || m.tipo === 'IMPUESTO') colorClass = 'text-danger';
+				
+				const fila = document.createElement('tr');
+				fila.innerHTML = `
+					<td>${m.fecha}</td>
+					<td>${m.tipo}</td>
+					<td>${m.descripcion}</td>
+					<td class="text-end ${colorClass}">${formatter.format(m.importe)}</td>
+					<td><span class="badge bg-secondary">${m.estado}</span></td>
+				`;
+				tbody.appendChild(fila);
+			});
+		}
+		
+		// 6. Eventos de filtros
+		document.getElementById('filtro-mes').addEventListener('change', cargarMovimientos);
+		document.getElementById('filtro-anio').addEventListener('change', cargarMovimientos);
+		document.getElementById('btn-buscar').addEventListener('click', cargarMovimientos);
+		document.getElementById('filtro-busqueda').addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') cargarMovimientos();
+		});
+		
+		// INICIALIZAR
+		cargarCvus();
+	});
+</script>
+{% endblock script %}

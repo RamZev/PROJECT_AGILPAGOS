@@ -17,3 +17,8 @@ wheels/
 .env
 
 ai_context.txt
+#-- Excluir para contexto DeepSeek con codeslimmer:
+# data_load/
+# payloads/
+# scripts/
+# transacciones copy-Leo/
