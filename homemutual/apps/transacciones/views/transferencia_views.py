@@ -83,7 +83,7 @@ class TransferenciaListView(StaffRequiredMixin, View):
 		]
 		
 		anio_actual = datetime.now().year
-		anios = list(range(2023, anio_actual + 2))
+		anios = list(range(anio_actual-1, anio_actual+1))
 		
 		context = {
 			'meses': meses,
