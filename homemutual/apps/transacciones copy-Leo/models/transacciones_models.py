@@ -17,7 +17,7 @@ from entorno.constantes_base import TIPO_MOVIMIENTO_CHOICES
 # MOVIMIENTO
 # ----------------------------------------------------------------------------
 # Tabla única donde se asientan todos los movimientos que afectan el saldo
-# de una CVU: CASH_OUT, CASH_IN, REVERSA, IMPUESTO, AJUSTE.
+# de una CVU: DÉBITO, CRÉDITO, REVERSA, IMPUESTO, AJUSTE.
 #
 # El eje de agrupación de una transacción completa es id_transaccion_entidad
 # (UUID v7 generado por la API Intermedia). Todos los movimientos derivados
