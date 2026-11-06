@@ -247,8 +247,8 @@
 			movs.forEach(m => {
 				// Determinar color según tipo
 				let colorClass = '';
-				if (m.tipo === 'CASH_IN' || m.tipo === 'REVERSA') colorClass = 'text-success';
-				if (m.tipo === 'CASH_OUT' || m.tipo === 'IMPUESTO') colorClass = 'text-danger';
+				if (m.tipo === 'CRÉDITO' || m.tipo === 'REVERSA') colorClass = 'text-success';
+				if (m.tipo === 'DÉBITO' || m.tipo === 'IMPUESTO') colorClass = 'text-danger';
 				
 				const fila = document.createElement('tr');
 				fila.innerHTML = `
