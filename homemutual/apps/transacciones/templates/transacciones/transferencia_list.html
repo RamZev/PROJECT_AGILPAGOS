@@ -22,7 +22,7 @@
 					<!-- SECCIÓN SUPERIOR: CVUs -->
 					<div class="card border-secondary mb-3 mt-2">
 						<div class="card-header bg-primary bg-opacity-25 text-dark d-flex justify-content-between p-1">
-							<h4>Mis Cuentas (CVUs)</h4>
+							<h3>Mis Cuentas (CVUs)</h3>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
@@ -55,7 +55,7 @@
 					<!-- SECCIÓN INFERIOR: Movimientos -->
 					<div class="card border-secondary mb-3">
 						<div class="card-header bg-primary bg-opacity-25 text-dark p-1">
-							<h4>Movimientos de la Cuenta</h4>
+							<h3>Movimientos de la Cuenta</h3>
 						</div>
 						<div class="card-body">
 							<!-- Filtros -->
@@ -68,7 +68,7 @@
 										{% endfor %}
 									</select>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-1">
 									<label class="form-label">Año</label>
 									<select class="form-select" id="filtro-anio">
 										{% for a in anios %}
@@ -83,7 +83,7 @@
 										<button class="btn btn-outline-secondary" type="button" id="btn-buscar">🔍</button>
 									</div>
 								</div>
-								<div class="col-md-2">
+								<div class="col-md-3">
 									<label class="form-label">CVU Seleccionada</label>
 									<input type="text" class="form-control" id="cvu-seleccionada" readonly value="">
 								</div>
