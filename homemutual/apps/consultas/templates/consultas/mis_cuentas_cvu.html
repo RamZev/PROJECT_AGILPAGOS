@@ -1,0 +1,289 @@
+<!-- homemutual\apps\consultas\templates\consultas\mis_cuentas_cvu.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Block Title -->
+{% block title %}
+	Mis Cuentas - CVUs
+{% endblock title %}
+
+<!-- Block Header -->
+{% block header %}
+	{% include 'top_nav.html' %}
+{% endblock header %}
+
+<!-- Block Main -->
+{% block main %}
+	{% block sidebar %}
+		{% if user.is_authenticated %} 
+			{% include 'sidebar.html' %}
+		{% endif %} 
+	{% endblock sidebar %}
+	
+	{% block maincomponent %}
+		{% block principalcomponent %}
+			<div id="layoutSidenav_content">
+				<main>
+					<div class="container-fluid">
+						
+						<!-- Alertas de Django -->
+						{% if messages %}
+							<div class="mt-3">
+								{% for message in messages %}
+									<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+										{{ message }}
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+									</div>
+								{% endfor %}
+							</div>
+						{% endif %}
+						
+						<!-- Card Principal -->
+						<div class="card border-light mb-3 mt-2">
+							<div class="card-header text-white bg-primary opacity-75 d-flex justify-content-between align-items-center">
+								<h5 class="mb-0">Mis Cuentas - CVUs</h5>
+								<!-- Botón para volver al home desde el header del card -->
+								<a href="{% url 'home' %}" class="btn-close btn-close-white" aria-label="Close"></a>
+							</div>
+							
+							<div class="card-body bg-body-secondary">
+								
+								<!-- Tabla Superior -->
+								<div class="table-responsive mb-4">
+									<table class="table table-bordered table-hover bg-white" id="tabla-cvus" style="cursor: pointer;">
+										<thead class="table-primary">
+											<tr>
+												<th>CVU - Alias</th>
+												<th>Cta. Asociada</th>
+												<th>Favorita</th>
+												<th>Estado</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for c in cuentas %}
+											<tr data-id="{{ c.id_cuenta_cvu }}"
+												data-cvu="{{ c.cvu }}"
+												data-fecha-alta="{{ c.fecha_alta|date:'d/m/Y'|default:'' }}"
+												data-alias="{{ c.alias|default:'' }}"
+												data-alias-act="{{ c.alias_actualizado_at|date:'d/m/Y'|default:'' }}"
+												data-cta="{{ c.numero_cuenta_entidad }}"
+												data-fav="{{ c.favorita|yesno:'Sí,No' }}"
+												data-bloq-compliance="{{ c.bloqueada_compliance|yesno:'true,false' }}"
+												data-bloq-entidad="{{ c.bloqueada_entidad|yesno:'true,false' }}"
+												data-bloq-usuario="{{ c.bloqueada_usuario|yesno:'true,false' }}">
+												
+												<td>{{ c.cvu }} - {{ c.alias|default:"(Sin alias)" }}</td>
+												<td>{{ c.numero_cuenta_entidad }}</td>
+												<td>{% if c.favorita %}<i class="bi bi-star-fill text-warning"></i> Sí{% else %}No{% endif %}</td>
+												<td>
+													{% if c.bloqueada_compliance %}
+														<span class="badge bg-danger">Bloqueada por COMPLIANCE</span>
+													{% elif c.bloqueada_entidad %}
+														<span class="badge bg-warning text-dark">Bloqueada por Entidad</span>
+													{% elif c.bloqueada_usuario %}
+														<span class="badge bg-secondary">Bloqueada por Usuario</span>
+													{% elif c.fecha_baja %}
+														<span class="badge bg-dark">Cerrada</span>
+													{% else %}
+														<span class="badge bg-success">Activa</span>
+													{% endif %}
+												</td>
+											</tr>
+											{% empty %}
+											<tr>
+												<td colspan="4" class="text-center text-muted py-3">No tienes cuentas CVU registradas.</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								
+								<!-- Formulario Oculto para acciones -->
+								<form method="post" id="form-acciones" class="d-none">
+									{% csrf_token %}
+									<input type="hidden" name="id_cuenta_cvu" id="hidden-id-cuenta">
+									<input type="hidden" name="accion" id="hidden-accion">
+								</form>
+								
+								<!-- Panel Inferior de Detalle (Estilo similar a los acordeones de transferencia) -->
+								<div class="card shadow-sm border-secondary">
+									<div class="card-header bg-secondary-subtle">
+										<strong>Detalle de la Cuenta</strong>
+									</div>
+									<div class="card-body bg-white">
+										
+										<div class="row g-3 mb-4">
+											<div class="col-md-4">
+												<label class="form-label text-primary mb-0">Número CVU</label>
+												<input type="text" class="form-control" id="inp-cvu" readonly placeholder="Seleccione una cuenta de la tabla superior">
+											</div>
+											<div class="col-md-2">
+												<label class="form-label text-primary mb-0">Fecha Alta</label>
+												<input type="text" class="form-control" id="inp-fecha-alta" readonly>
+											</div>
+											<div class="col-md-4">
+												<label class="form-label text-primary mb-0">Alias</label>
+												<input type="text" class="form-control" id="inp-alias" readonly>
+											</div>
+											<div class="col-md-2">
+												<label class="form-label text-primary mb-0">Act. Alias</label>
+												<input type="text" class="form-control" id="inp-alias-act" readonly>
+											</div>
+											
+											<div class="col-md-4">
+												<label class="form-label text-primary mb-0">Cuenta Asociada</label>
+												<input type="text" class="form-control" id="inp-cta" readonly>
+											</div>
+											<div class="col-md-2">
+												<label class="form-label text-primary mb-0">Favorita</label>
+												<input type="text" class="form-control" id="inp-fav" readonly>
+											</div>
+											
+											<div class="col-md-6">
+												<label class="form-label text-primary mb-0">Estado</label>
+												<input type="text" class="form-control" id="inp-estado" readonly>
+											</div>
+										</div>
+										
+										<!-- Botones de Acción -->
+										<div class="d-flex gap-2">
+											<button type="button" class="btn btn-primary" id="btn-cambiar-alias" disabled>
+												<i class="bi bi-pencil-square me-1"></i> Cambiar Alias
+											</button>
+											<button type="button" class="btn btn-primary" id="btn-toggle-bloqueo" disabled>
+												<i class="bi bi-lock me-1"></i> Bloquear/Desbloquear
+											</button>
+											<a href="{% url 'home' %}" class="btn btn-secondary">
+												<i class="bi bi-x-circle me-1"></i> Cerrar/Volver
+											</a>
+										</div>
+										
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		{% endblock principalcomponent %}
+	{% endblock maincomponent %}
+{% endblock main %}
+
+<!-- ========================================== -->
+<!-- MODAL PARA CAMBIAR ALIAS                   -->
+<!-- ========================================== -->
+{% block modals %}
+	<!-- Modal Cambiar Alias (Bootstrap Modal) -->
+	<div class="modal fade" id="modalAlias" tabindex="-1" aria-labelledby="modalAliasLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form method="post" id="form-alias">
+					{% csrf_token %}
+					<input type="hidden" name="accion" value="cambiar_alias">
+					<input type="hidden" name="id_cuenta_cvu" id="alias-id-cuenta">
+					
+					<div class="modal-header bg-primary text-white">
+						<h5 class="modal-title" id="modalAliasLabel">Cambiar Alias</h5>
+						<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p class="small text-muted mb-3">Alias actual: <strong id="alias-actual-texto"></strong></p>
+						
+						<div class="mb-3">
+							<label class="form-label text-primary">Nuevo alias</label>
+							<input type="text" name="nuevo_alias" class="form-control" placeholder="Ej: juan.perez.mutual" required maxlength="20">
+							<div class="form-text">Máximo 20 caracteres. Letras, números, puntos y guiones.</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary">Confirmar Cambio</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock modals %}
+
+<!-- ========================================== -->
+<!-- SCRIPTS DE LA VISTA                        -->
+<!-- ========================================== -->
+{% block script %}
+	{{ block.super }}
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const filas = document.querySelectorAll("#tabla-cvus tbody tr[data-id]");
+			let cuentaSeleccionada = null;
+			
+			// Instancia del Modal de Bootstrap
+			const modalAliasElement = document.getElementById('modalAlias');
+			const modalAlias = new bootstrap.Modal(modalAliasElement);
+			
+			// -- Selección de fila.
+			filas.forEach(tr => {
+				tr.addEventListener("click", () => {
+					// Resaltar visualmente
+					filas.forEach(f => f.classList.remove("table-primary"));
+					tr.classList.add("table-primary");
+					cuentaSeleccionada = tr.dataset;
+					
+					// Poblar inputs readonly
+					document.getElementById("inp-cvu").value = tr.dataset.cvu;
+					document.getElementById("inp-fecha-alta").value = tr.dataset.fechaAlta;
+					document.getElementById("inp-alias").value = tr.dataset.alias || "(Sin alias)";
+					document.getElementById("inp-alias-act").value = tr.dataset.aliasAct;
+					document.getElementById("inp-cta").value = tr.dataset.cta;
+					document.getElementById("inp-fav").value = tr.dataset.fav;
+					
+					// Determinar estado
+					let estadoStr = "Activa";
+					if (tr.dataset.bloqCompliance === "true") estadoStr = "Bloqueada por COMPLIANCE";
+					else if (tr.dataset.bloqEntidad === "true") estadoStr = "Bloqueada por Entidad";
+					else if (tr.dataset.bloqUsuario === "true") estadoStr = "Bloqueada por Usuario";
+					document.getElementById("inp-estado").value = estadoStr;
+					
+					// Habilitar botones
+					document.getElementById("btn-cambiar-alias").disabled = false;
+					
+					// El botón de bloqueo se deshabilita si es bloqueo de compliance
+					const btnBloqueo = document.getElementById("btn-toggle-bloqueo");
+					if (tr.dataset.bloqCompliance === "true") {
+						btnBloqueo.disabled = true;
+						btnBloqueo.title = "No se puede modificar un bloqueo de Compliance";
+						btnBloqueo.innerHTML = '<i class="bi bi-lock-fill me-1"></i> Bloqueada por Compliance';
+					} else {
+						btnBloqueo.disabled = false;
+						btnBloqueo.title = "";
+						// Cambiar texto según el estado actual
+						if (tr.dataset.bloqUsuario === "true") {
+							btnBloqueo.innerHTML = '<i class="bi bi-unlock me-1"></i> Desbloquear Cuenta';
+						} else {
+							btnBloqueo.innerHTML = '<i class="bi bi-lock me-1"></i> Bloquear Cuenta';
+						}
+					}
+				});
+			});
+			
+			// -- Botón: Abrir modal de cambio de alias.
+			document.getElementById("btn-cambiar-alias").addEventListener("click", () => {
+				if (!cuentaSeleccionada) return;
+				document.getElementById("alias-id-cuenta").value = cuentaSeleccionada.id;
+				document.getElementById("alias-actual-texto").textContent = cuentaSeleccionada.alias || "(Sin alias)";
+				modalAlias.show();
+			});
+			
+			// -- Botón: Bloquear / Desbloquear.
+			document.getElementById("btn-toggle-bloqueo").addEventListener("click", () => {
+				if (!cuentaSeleccionada) return;
+				const accion = cuentaSeleccionada.bloqUsuario === "true" ? "desbloquear" : "bloquear";
+				
+				if (confirm(`¿Está seguro que desea ${accion} esta cuenta?`)) {
+					document.getElementById("hidden-id-cuenta").value = cuentaSeleccionada.id;
+					document.getElementById("hidden-accion").value = "toggle_bloqueo";
+					document.getElementById("form-acciones").submit();
+				}
+			});
+		});
+	</script>
+{% endblock script %}

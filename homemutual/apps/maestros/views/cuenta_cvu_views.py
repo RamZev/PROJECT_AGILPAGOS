@@ -205,6 +205,7 @@ class CuentaCvuCreateView(StaffRequiredMixin, MaestroCreateView):
 
         return response
 
+
 class CuentaCvuUpdateView(StaffRequiredMixin, MaestroUpdateView):
     model = ConfigViews.model
     list_view_name = ConfigViews.list_view_name

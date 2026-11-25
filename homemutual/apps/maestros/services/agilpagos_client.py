@@ -127,6 +127,7 @@ def get_credentials_from_session(request):
         )
     return username, password
 
+
 def get_token_for_session(request):
     """Devuelve un JWT válido para el usuario de la sesión."""
     username, password = get_credentials_from_session(request)
@@ -163,3 +164,19 @@ def agilpagos_post(request, path, json=None, timeout=None):
 
     with httpx.Client(timeout=timeout or settings.AGILPAGOS_TIMEOUT) as client:
         return client.post(url, headers=headers, json=json)
+
+
+def agilpagos_put(request, path, json=None, timeout=None):
+	"""Realiza un PUT a la API Intermedia con el token del usuario."""
+	token = get_token_for_session(request)
+	
+	url = f"{settings.AGILPAGOS_API_BASE.rstrip('/')}/{path.lstrip('/')}"
+	headers = {
+		"Accept": "application/json",
+		"Content-Type": "application/json",
+		"Authorization": f"Bearer {token}",
+	}
+	
+	with httpx.Client(timeout=timeout or settings.AGILPAGOS_TIMEOUT) as client:
+		return client.put(url, headers=headers, json=json)
+
