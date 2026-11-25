@@ -26,6 +26,7 @@ def calcular_digito_verificador(cuit_base):
 	else:
 		return 11 - resto
 
+
 def validar_cuit(cuit):
 	''' Función que verifica si el CUIT es válido (bien escrito). '''
 	cuit_str = str(cuit)
@@ -44,6 +45,7 @@ def validar_cuit(cuit):
 	#-- Validar el dígito verificador.
 	if digito_verificador != digito_calculado:
 		raise ValidationError("El CUIT no es válido.")
+
 
 #-- Función que busca un cliente por el id suministrado.
 def buscar_cliente_id(id):
@@ -78,6 +80,7 @@ def buscar_cuit_view(request):
 	else:
 		data = {'existe': False, 'error': 'CUIT no proporcionado.'}
 	return JsonResponse(data)
+
 
 #-- Vista que busca cliente por el id suministrado.
 def buscar_cliente_id_view(request):

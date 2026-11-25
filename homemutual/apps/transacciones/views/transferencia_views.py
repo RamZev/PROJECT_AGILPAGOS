@@ -134,6 +134,8 @@ class TransferenciaCreateView(StaffRequiredMixin, MaestroCreateView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		form = context['form']
+		
+		context['accion'] = "Crear nueva Transferencia"
 		context['tiene_cvus'] = getattr(form, '_tiene_cvus', False)
 		context['agenda_map_json'] = json.dumps(
 			getattr(form, '_mapa_agenda', {}),

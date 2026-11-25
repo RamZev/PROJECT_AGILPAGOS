@@ -51,7 +51,7 @@
 														{{ form.cvu_debito }}
 													</div>
 												</div>
-												
+												{% comment %}
 												<!-- Panel de datos de la CVU seleccionada -->
 												<div id="panel-cvu-info" class="row d-none bg-white p-3 rounded border mx-1">
 													<div class="col-md-3">
@@ -68,6 +68,23 @@
 													</div>
 													<div class="col-md-3">
 														<small class="text-muted d-block">Saldo Disponible</small>
+														<strong id="info_disponible" class="text-success fs-5">$0,00</strong>
+													</div>
+												</div>
+												{% endcomment %}
+												
+												<!-- Panel de datos de la CVU seleccionada -->
+												<div id="panel-cvu-info" class="row d-none bg-white p-3 rounded border mx-1">
+													<div class="col-md-4">
+														<small class="text-muted d-block">CVU</small>
+														<strong id="info_cvu">-</strong>
+													</div>
+													<div class="col-md-4">
+														<small class="text-muted d-block">Alias</small>
+														<strong id="info_alias">-</strong>
+													</div>
+													<div class="col-md-4">
+														<small class="text-muted d-block">Saldo Mutual</small>
 														<strong id="info_disponible" class="text-success fs-5">$0,00</strong>
 													</div>
 												</div>
@@ -390,9 +407,10 @@
 				}
 				
 				panel.classList.remove('d-none');
+				document.getElementById('info_cvu').innerText = info.cvu;
 				document.getElementById('info_alias').innerText = info.alias || 'Sin alias';
-				document.getElementById('info_saldo').innerText = formatearMoneda(info.saldo);
-				document.getElementById('info_retenido').innerText = formatearMoneda(info.saldo_retenido);
+				//document.getElementById('info_saldo').innerText = formatearMoneda(info.saldo);
+				//document.getElementById('info_retenido').innerText = formatearMoneda(info.saldo_retenido);
 				document.getElementById('info_disponible').innerText = formatearMoneda(info.saldo_disponible);
 				
 				validarImporte();
