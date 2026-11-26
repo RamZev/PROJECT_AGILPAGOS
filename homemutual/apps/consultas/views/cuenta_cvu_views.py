@@ -121,7 +121,7 @@ class MisCuentasCvuView(LoginRequiredMixin, View):
 		#-- Determinar la acción a realizar y el endpoint de la API Intermedia.
 		es_bloqueo = not cuenta.bloqueada_usuario
 		accion_str = "inactivar" if es_bloqueo else "activar"
-		endpoint = f"/onboarding/cvu/{accion_str}/{cuenta.cvu}"
+		endpoint = f"/onboarding/cvu/{accion_str}/{cuenta.cvu}?cuit={cuenta.id_socio.cuit}"
 		
 		try:
 			#-- Llamar a la API Intermedia.
