@@ -120,15 +120,14 @@ class MisCuentasCvuView(LoginRequiredMixin, View):
 		
 		#-- Determinar la acción a realizar y el endpoint de la API Intermedia.
 		es_bloqueo = not cuenta.bloqueada_usuario
-		accion_str = "Bloquear" if es_bloqueo else "Desbloquear"
-		endpoint = f"/onboarding/cvu/{'bloquear' if es_bloqueo else 'desbloquear'}/{cuenta.cvu}"
+		accion_str = "inactivar" if es_bloqueo else "activar"
+		endpoint = f"/onboarding/cvu/{accion_str}/{cuenta.cvu}"
 		
 		try:
 			#-- Llamar a la API Intermedia.
 			response = agilpagos_put(
 				request,
-				endpoint,
-				json={} #-- La API Intermedia no espera body, solo el path.
+				endpoint
 			)
 			
 			if response.status_code == 200:
@@ -136,8 +135,7 @@ class MisCuentasCvuView(LoginRequiredMixin, View):
 				cuenta.bloqueada_usuario = es_bloqueo
 				cuenta.save(update_fields=["bloqueada_usuario"])
 				
-				estado = "bloqueada" if es_bloqueo else "desbloqueada"
-				messages.success(request, f"Cuenta {estado} exitosamente.")
+				messages.success(request, f"Cuenta {accion_str[:-1]}da exitosamente.")
 			else:
 				try:
 					detalle = response.json().get("detail", response.text)
