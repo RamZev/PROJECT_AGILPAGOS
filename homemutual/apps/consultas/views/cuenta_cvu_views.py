@@ -118,8 +118,34 @@ class MisCuentasCvuView(LoginRequiredMixin, View):
 			messages.error(request, "No se puede desbloquear una cuenta bloqueada por Compliance.")
 			return
 		
-		cuenta.bloqueada_usuario = not cuenta.bloqueada_usuario
-		cuenta.save(update_fields=["bloqueada_usuario"])
+		#-- Determinar la acción a realizar y el endpoint de la API Intermedia.
+		es_bloqueo = not cuenta.bloqueada_usuario
+		accion_str = "Bloquear" if es_bloqueo else "Desbloquear"
+		endpoint = f"/onboarding/cvu/{'bloquear' if es_bloqueo else 'desbloquear'}/{cuenta.cvu}"
 		
-		estado = "bloqueada" if cuenta.bloqueada_usuario else "desbloqueada"
-		messages.success(request, f"Cuenta {estado} exitosamente.")
+		try:
+			#-- Llamar a la API Intermedia.
+			response = agilpagos_put(
+				request,
+				endpoint,
+				json={} #-- La API Intermedia no espera body, solo el path.
+			)
+			
+			if response.status_code == 200:
+				#-- Actualizar la BD local solo si Agilpagos respondió OK.
+				cuenta.bloqueada_usuario = es_bloqueo
+				cuenta.save(update_fields=["bloqueada_usuario"])
+				
+				estado = "bloqueada" if es_bloqueo else "desbloqueada"
+				messages.success(request, f"Cuenta {estado} exitosamente.")
+			else:
+				try:
+					detalle = response.json().get("detail", response.text)
+				except Exception:
+					detalle = response.text
+				logger.warning(f"Error de API Intermedia al {accion_str} CVU: {response.status_code} - {detalle}")
+				messages.error(request, f"Error al {accion_str.lower()} la cuenta: {detalle}")
+		
+		except Exception as e:
+			logger.error(f"Error de conexión al {accion_str} CVU: {e}", exc_info=True)
+			messages.error(request, "No se pudo conectar con el servicio de pagos. Intente más tarde.")
