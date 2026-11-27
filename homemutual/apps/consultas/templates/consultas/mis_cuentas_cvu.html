@@ -30,7 +30,8 @@
 						{% if messages %}
 							<div class="mt-3">
 								{% for message in messages %}
-									<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+									<!-- Mapeamos los tags de Django a las clases de Bootstrap -->
+									<div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
 										{{ message }}
 										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 									</div>
@@ -192,8 +193,8 @@
 						
 						<div class="mb-3">
 							<label class="form-label text-primary">Nuevo alias</label>
-							<input type="text" name="nuevo_alias" class="form-control" placeholder="Ej: juan.perez.mutual" required maxlength="20">
-							<div class="form-text">Máximo 20 caracteres. Letras, números, puntos y guiones.</div>
+							<input type="text" name="nuevo_alias" class="form-control" placeholder="Ej: juan.perez.mutual" required minlength="6" maxlength="20">
+							<div class="form-text">Mínimo 6 - Máximo 20 caracteres. Letras, números, puntos y guiones.</div>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -206,9 +207,6 @@
 	</div>
 {% endblock modals %}
 
-<!-- ========================================== -->
-<!-- SCRIPTS DE LA VISTA                        -->
-<!-- ========================================== -->
 {% block script %}
 	{{ block.super }}
 	<script>
@@ -219,14 +217,14 @@
 			const modalAliasElement = document.getElementById('modalAlias');
 			const modalAlias = new bootstrap.Modal(modalAliasElement);
 			
-			// -- Selección de fila.
+			//-- Selección de fila.
 			filas.forEach(tr => {
 				tr.addEventListener("click", () => {
 					filas.forEach(f => f.classList.remove("table-primary"));
 					tr.classList.add("table-primary");
 					cuentaSeleccionada = tr.dataset;
 					
-					// Poblar inputs readonly
+					//-- Poblar inputs readonly.
 					document.getElementById("inp-cvu").value = tr.dataset.cvu;
 					document.getElementById("inp-fecha-alta").value = tr.dataset.fechaAlta;
 					document.getElementById("inp-alias").value = tr.dataset.alias || "(Sin alias)";
@@ -240,7 +238,7 @@
 					else if (tr.dataset.bloqUsuario === "true") estadoStr = "Bloqueada por Usuario";
 					document.getElementById("inp-estado").value = estadoStr;
 					
-					// Habilitar botones
+					//-- Habilitar botones.
 					const btnAlias = document.getElementById("btn-cambiar-alias");
 					const btnBloqueo = document.getElementById("btn-toggle-bloqueo");
 					
@@ -262,7 +260,7 @@
 				});
 			});
 			
-			// -- Botón: Abrir modal de cambio de alias.
+			//-- Botón: Abrir modal de cambio de alias.
 			document.getElementById("btn-cambiar-alias").addEventListener("click", () => {
 				if (!cuentaSeleccionada) return;
 				document.getElementById("alias-id-cuenta").value = cuentaSeleccionada.id;
@@ -270,31 +268,31 @@
 				modalAlias.show();
 			});
 			
-			// -- Botón: Bloquear / Desbloquear (CON SPINNER)
+			//-- Botón: Bloquear / Desbloquear (CON SPINNER).
 			document.getElementById("btn-toggle-bloqueo").addEventListener("click", function() {
 				if (!cuentaSeleccionada) return;
 				const accion = cuentaSeleccionada.bloqUsuario === "true" ? "desbloquear" : "bloquear";
 				
 				if (confirm(`¿Está seguro que desea ${accion} esta cuenta?`)) {
-					// 1. Guardar el HTML original del botón para restaurarlo si falla o se cancela
+					//-- 1. Guardar el HTML original del botón para restaurarlo si falla o se cancela.
 					const originalHTML = this.innerHTML;
 					
-					// 2. Deshabilitar botones y mostrar spinner
+					//-- 2. Deshabilitar botones y mostrar spinner.
 					this.disabled = true;
 					this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
 					
-					// Deshabilitar también el otro botón para que no hagan doble clic
+					//-- Deshabilitar también el otro botón para que no hagan doble clic.
 					const btnAlias = document.getElementById("btn-cambiar-alias");
 					btnAlias.disabled = true;
 					
-					// 3. Enviar el formulario oculto
+					//-- 3. Enviar el formulario oculto.
 					document.getElementById("hidden-id-cuenta").value = cuentaSeleccionada.id;
 					document.getElementById("hidden-accion").value = "toggle_bloqueo";
 					document.getElementById("form-acciones").submit();
 				}
 			});
 			
-			// -- Botón submit del modal (también con spinner)
+			//-- Botón submit del modal (también con spinner).
 			document.getElementById("form-alias").addEventListener("submit", function() {
 				const btnSubmit = this.querySelector('button[type="submit"]');
 				if (btnSubmit) {

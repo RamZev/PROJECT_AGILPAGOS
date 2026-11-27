@@ -62,6 +62,9 @@ class MisCuentasCvuView(LoginRequiredMixin, View):
 		if not nuevo_alias:
 			messages.error(request, "El alias no puede estar vacío.")
 			return
+		if len(nuevo_alias) < 6:
+			messages.error(request, "El alias debe tener al menos 6 caracteres.")
+			return
 		if len(nuevo_alias) > 20:
 			messages.error(request, "El alias no puede superar los 20 caracteres.")
 			return
@@ -84,27 +87,45 @@ class MisCuentasCvuView(LoginRequiredMixin, View):
 			
 			if response.status_code == 200:
 				with transaction.atomic():
-					# -- Registrar en historial.
+					#-- Registrar en historial.
 					CvuAliasHistorial.objects.create(
 						id_cvu=cuenta,
 						alias_anterior=cuenta.alias,
 						alias_nuevo=nuevo_alias,
 						origen='MUTUAL',
 					)
-					# -- Actualizar la CVU. El .save() del modelo actualiza
-					# -- alias_actualizado_at automáticamente.
+					#-- Actualizar la CVU. El .save() del modelo actualiza
+					#-- alias_actualizado_at automáticamente.
 					cuenta.alias = nuevo_alias
 					cuenta.save()
 				
 				messages.success(request, f"Alias actualizado a '{nuevo_alias}' correctamente.")
 			else:
-				# -- API Intermedia devolvió error (400, 404, 502, etc.).
+				#-- Manejo mejorado de errores
 				try:
-					detalle = response.json().get("detail", response.text)
+					data = response.json()
+					if response.status_code == 422 and "detail" in data:
+						primer_error = data["detail"][0]
+						msg = primer_error.get("msg", "Error de validación.")
+						
+						#-- Traducir mensajes comunes de Pydantic.
+						if "String should have at least 6 characters" in msg:
+							msg = "El alias debe tener al menos 6 caracteres."
+						elif "String should have at most 20 characters" in msg:
+							msg = "El alias no puede superar los 20 caracteres."
+						else:
+							msg = msg.replace("Value error, ", "")
+						
+						messages.error(request, f"Alias inválido: {msg}")
+					else:
+						#-- Es un error de negocio de Agilpagos (400, 404, 502, etc.)
+						detalle = data.get("detail", "Error desconocido al procesar la solicitud.")
+						messages.error(request, f"Error al cambiar alias: {detalle}")
 				except Exception:
-					detalle = response.text
-				logger.warning(f"Error de API Intermedia al cambiar alias: {response.status_code} - {detalle}")
-				messages.error(request, f"Error al cambiar alias: {detalle}")
+					#-- Si la respuesta no es JSON (ej. un error 500 crudo).
+					messages.error(request, f"Error del servidor ({response.status_code}): {response.text}")
+					
+				logger.warning(f"Error de API Intermedia al cambiar alias: {response.status_code} - {response.text}")
 		
 		except Exception as e:
 			logger.error(f"Error de conexión al cambiar alias: {e}", exc_info=True)
